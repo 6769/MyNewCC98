@@ -52,11 +52,21 @@
         <activity
             android:name=".activity.PmActivity"
             android:label="PM"
-            android:theme="@style/Theme.Swipe.Back"></activity>
-        <activity android:name=".activity.PostWriteActivity" />
+            android:theme="@style/Theme.Swipe.Back">
+
+        </activity>
+        <activity
+            android:name=".activity.PostWriteActivity"
+            android:label="Editor">
+
+        </activity>
         <activity android:name=".activity.PostReadActivity" />
-        <activity android:name=".activity.UserProfileActivity"></activity>
-        <activity android:name=".activity.BoardViewActivity"></activity>
+        <activity android:name=".activity.UserProfileActivity">
+
+        </activity>
+        <activity android:name=".activity.BoardViewActivity">
+
+        </activity>
     </application>
 
 </manifest>
