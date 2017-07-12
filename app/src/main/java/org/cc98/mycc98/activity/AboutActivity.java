@@ -3,9 +3,10 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import android.view.View;
 
-import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
@@ -42,6 +43,7 @@ public class AboutActivity extends BaseSwipeBackActivity {
                 .create();
 
         setContentView(aboutPage);
-        //setDragEdge(SwipeBackLayout.DragEdge.LEFT);
+
     }
+
 }

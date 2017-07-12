@@ -2,13 +2,12 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
 
 import butterknife.BindView;
@@ -28,9 +27,8 @@ public class PmActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pm);
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
-        setDragEdge(SwipeBackLayout.DragEdge.LEFT);
+
 
     }
 }

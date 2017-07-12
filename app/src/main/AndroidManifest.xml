@@ -34,21 +34,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.cc98.mycc98.activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.AboutActivity"
-            android:label="About">
-
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="About"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.cc98.mycc98.activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.PmActivity"
-            android:theme="@style/AppThemeNoActBar"
-            android:label="PM">
-
+        <activity
+            android:name=".activity.SettingActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.cc98.mycc98.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.PmActivity"
+            android:label="PM"
+            android:theme="@style/Theme.Swipe.Back"></activity>
         <activity android:name=".activity.PostWriteActivity" />
         <activity android:name=".activity.PostReadActivity" />
-        <activity android:name=".activity.UserProfileActivity">
-
-        </activity>
+        <activity android:name=".activity.UserProfileActivity"></activity>
+        <activity android:name=".activity.BoardViewActivity"></activity>
     </application>
 
 </manifest>

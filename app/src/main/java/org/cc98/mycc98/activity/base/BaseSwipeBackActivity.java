@@ -2,10 +2,12 @@ package org.cc98.mycc98.activity.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.liuguangqiang.swipeback.SwipeBackActivity;
-import com.liuguangqiang.swipeback.SwipeBackLayout;
+
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.orhanobut.logger.Logger;
 
 import org.cc98.mycc98.ActivityCollector;
@@ -14,7 +16,7 @@ import org.cc98.mycc98.ActivityCollector;
  * Created by pip on 2017/7/12.
  */
 
-public class BaseSwipeBackActivity extends SwipeBackActivity {
+public class BaseSwipeBackActivity extends AppCompatActivity {
     public static String TAG="BaseSwipeBackActivity";
 
     public static void startActivity(Context context){
@@ -32,6 +34,7 @@ public class BaseSwipeBackActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         ActivityCollector.addActivity(this);
+        SwipeBackHelper.onCreate(this);
 
         Logger.t(this.getClass().getSimpleName()).d("onCreate");
 
@@ -41,6 +44,11 @@ public class BaseSwipeBackActivity extends SwipeBackActivity {
     protected void onStart() {
         super.onStart();
         Logger.t(this.getClass().getSimpleName()).d("onStart");
+    }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        SwipeBackHelper.onPostCreate(this);
     }
 
     @Override
@@ -64,7 +72,9 @@ public class BaseSwipeBackActivity extends SwipeBackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SwipeBackHelper.onDestroy(this);
         ActivityCollector.removeActivity(this);
+
         Logger.t(this.getClass().getSimpleName()).d("onDestroy");
     }
 
@@ -73,4 +83,6 @@ public class BaseSwipeBackActivity extends SwipeBackActivity {
         super.onRestart();
         Logger.t(this.getClass().getSimpleName()).d("onRestart");
     }
+
+
 }

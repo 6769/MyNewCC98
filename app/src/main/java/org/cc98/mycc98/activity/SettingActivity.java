@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.jude.swipbackhelper.SwipeBackHelper;
+
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.AppCompatPreferenceActivity;
 
@@ -24,16 +26,24 @@ public class SettingActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwipeBackHelper.onCreate(this);
         addPreferencesFromResource(R.xml.settings);
         //use activity is much easier for simple usages than fragments;
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            //default indicator is a return mark;
-        }
+
 
     }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        SwipeBackHelper.onPostCreate(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SwipeBackHelper.onDestroy(this);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -46,4 +56,5 @@ public class SettingActivity extends AppCompatPreferenceActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
