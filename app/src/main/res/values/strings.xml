@@ -19,4 +19,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="about_mycc98">This is new MyCC98,rewritten by Pip5</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

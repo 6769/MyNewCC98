@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/title_activity_settings"
+    android:summary="">
+
+
+    <PreferenceScreen
+        android:icon="@mipmap/ic_launcher_round"
+        android:summary="tap to change algo's parameters"
+        android:title="Algorithm Config">
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_preference_1"
+            android:title="Switch preference" />
+    </PreferenceScreen>
+
+
+    <PreferenceScreen
+        android:icon="@mipmap/ic_launcher_round"
+        android:summary="choose something to save"
+        android:title="File storage">
+
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_preference_logging_info"
+            android:summary=""
+            android:summaryOff="application debug info won't be saved"
+            android:summaryOn="application debug info will be saved"
+            android:title="Logging" />
+
+
+
+    </PreferenceScreen>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_preference_1"
+        android:title="Switch preference" />
+
+
+
+
+</PreferenceScreen>
+
+    <!--
+     对于该文件需要注意以下几点
+     第一：位置。该文件的位置是在res/xml/下的。
+     第二：格式，PreferenceScreen为根标签，ListPreference为子标签。PreferenceScreen可以看作是一个大的框架
+     第三：标签属性含义
+     android:key 唯一标识符，和android:id相类似，PreferenceManager可以以其为参数通过findPreference获取指定的preference
+     注意，这个android:key的值也是Preference文件里面的XML“键”名
+     android:title 大标题
+     android:summary 标题下面的小字（这个要作为选项卡才有）
+     android:entries 弹出的对话框中，列表显示的文本内容，注意哦，这里指定的是一个数组哦
+     android:entryValues 与android:entries相对应的值
+     android:defaultValue 当对应值不存在时的默认值
+     android:dialogTitle 弹出的对话框中的标题信息
+     更多的标签设置等你来发掘
+     -->

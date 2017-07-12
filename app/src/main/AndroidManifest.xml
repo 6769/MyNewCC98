@@ -8,11 +8,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -32,12 +27,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.cc98.mycc98.activity.MainActivity" />
+        </activity>
+        <activity android:name=".activity.AboutActivity"
+            android:label="About">
+
+        </activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.PmActivity"
+            android:theme="@style/AppThemeNoActBar"
+            android:label="PM">
+
+        </activity>
+        <activity android:name=".activity.PostWriteActivity" />
+        <activity android:name=".activity.PostReadActivity" />
+        <activity android:name=".activity.UserProfileActivity">
+
         </activity>
     </application>
 

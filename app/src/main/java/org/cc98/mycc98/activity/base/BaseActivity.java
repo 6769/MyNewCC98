@@ -1,4 +1,4 @@
-package org.cc98.mycc98.activity;
+package org.cc98.mycc98.activity.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public static void startActivity(Context context){
         throw new UnsupportedClassVersionError("Not Implemented Static Method");
-    };
+    }
 
     protected void mkToast(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
