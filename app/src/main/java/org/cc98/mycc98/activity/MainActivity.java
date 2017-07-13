@@ -3,9 +3,8 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
+import org.cc98.mycc98.adapter.MainFragmentAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +26,10 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.activity_main_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.activity_main_viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.activity_main_tabs)
+    TabLayout tabLayout;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
@@ -46,14 +50,15 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
     }
 
     @Override
@@ -100,7 +105,7 @@ public class MainActivity extends BaseActivity
             LoginActivity.startActivity(this);
 
         } else if (id == R.id.nav_slideshow) {
-            PostWriteActivity.startActivity(this);
+            EditActivity.startActivity(this);
 
         } else if (id == R.id.nav_manage) {
 
@@ -112,8 +117,9 @@ public class MainActivity extends BaseActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
+
+

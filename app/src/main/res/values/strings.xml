@@ -22,4 +22,7 @@
 
     <string name="about_mycc98">This is new MyCC98,rewritten by Pip5</string>
     <string name="title_activity_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

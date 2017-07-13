@@ -52,19 +52,19 @@
         <activity
             android:name=".activity.PmActivity"
             android:label="PM"
-            android:theme="@style/Theme.Swipe.Back">
-
-        </activity>
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
-            android:name=".activity.PostWriteActivity"
-            android:label="Editor">
-
-        </activity>
+            android:name=".activity.EditActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Editor" />
         <activity android:name=".activity.PostReadActivity" />
-        <activity android:name=".activity.UserProfileActivity">
-
-        </activity>
-        <activity android:name=".activity.BoardViewActivity">
+        <activity android:name=".activity.UserProfileActivity" />
+        <activity android:name=".activity.BoardViewActivity" />
+        <activity android:name=".activity.OpenlibsActivity" />
+        <activity
+            android:name=".activity.PreviewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Preview">
 
         </activity>
     </application>
