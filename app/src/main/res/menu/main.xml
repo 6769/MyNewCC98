@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:icon="@drawable/ic_textsms_white_24dp"
+        android:id="@+id/main_menu_text"
+        android:title="PM"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/main_menu_search"
+        android:title="Search"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

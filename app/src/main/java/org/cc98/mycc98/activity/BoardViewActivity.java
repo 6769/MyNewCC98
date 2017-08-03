@@ -13,4 +13,5 @@ public class BoardViewActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_view);
     }
+    //maybe never used;
 }

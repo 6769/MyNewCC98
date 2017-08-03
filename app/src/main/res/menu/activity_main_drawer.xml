@@ -15,21 +15,21 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_manage_setting"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Settings" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_about_page"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="About" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_pm"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="PM" />
         </menu>
     </item>
 

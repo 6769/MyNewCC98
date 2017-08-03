@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:gravity="left|top"
         android:padding="5dp"
-        android:text="Do you miss me?!" />
+        android:text="@string/moto_of_zju" />
 
 
 </LinearLayout>

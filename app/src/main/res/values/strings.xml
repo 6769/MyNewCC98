@@ -23,6 +23,9 @@
     <string name="about_mycc98">This is new MyCC98,rewritten by Pip5</string>
     <string name="title_activity_settings">Settings</string>
 
+    <string name="moto_of_zju">诸位在校，有两个问题要自己问问，\n第一，来浙大做什么? \n第二，将来毕业后要做一个什么样的人?</string>
+    <string name="preview_when_empty">不认真回答问题，老校长的棺材板要压不住啦~</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

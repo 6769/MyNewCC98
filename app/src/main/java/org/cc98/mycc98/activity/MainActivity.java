@@ -100,19 +100,20 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            AboutActivity.startActivity(this);
+
         } else if (id == R.id.nav_gallery) {
             LoginActivity.startActivity(this);
 
         } else if (id == R.id.nav_slideshow) {
             EditActivity.startActivity(this);
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_manage_setting) {
             SettingActivity.startActivity(this);
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about_page) {
+            AboutActivity.startActivity(this);
+
+        } else if (id == R.id.nav_pm) {
             PmActivity.startActivity(this);
 
         }

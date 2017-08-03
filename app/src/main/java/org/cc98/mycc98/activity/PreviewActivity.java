@@ -56,7 +56,8 @@ public class PreviewActivity extends BaseSwipeBackActivity {
         intent = getIntent();
         content = intent.getStringExtra(MARKDOWN_TEXT);
         if (content.isEmpty()) {
-            Snackbar.make(textView, "No text", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(textView, getString(R.string.preview_when_empty),
+                    Snackbar.LENGTH_LONG).show();
             return;
         }
         textView.setText(content);

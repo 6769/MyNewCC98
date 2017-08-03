@@ -52,7 +52,7 @@
         <activity
             android:name=".activity.PmActivity"
             android:label="PM"
-            android:theme="@style/Theme.Swipe.Back" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EditActivity"
             android:theme="@style/AppTheme.NoActionBar"
