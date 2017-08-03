@@ -14,7 +14,8 @@ import java.util.List;
 
 
 public class PostItemRecyclerViewAdapter
-        extends RecyclerView.Adapter<PostItemRecyclerViewAdapter.ViewHolder> {
+        extends RecyclerView.Adapter<PostItemRecyclerViewAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
@@ -29,6 +30,11 @@ public class PostItemRecyclerViewAdapter
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item_apost, parent, false);
         return new ViewHolder(view);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     @Override
@@ -64,7 +70,7 @@ public class PostItemRecyclerViewAdapter
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.posttitle);
         }
 
         @Override

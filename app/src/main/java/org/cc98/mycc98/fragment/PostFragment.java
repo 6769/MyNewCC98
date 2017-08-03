@@ -69,7 +69,10 @@ public class PostFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new PostItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            PostItemRecyclerViewAdapter adapter = new PostItemRecyclerViewAdapter(
+                    DummyContent.ITEMS, mListener);
+            recyclerView.setAdapter(adapter);
+
         }
         return view;
     }
