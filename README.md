@@ -6,6 +6,11 @@ The user triggers some observable,the RxJava's Observer start his execution and 
 
 `signal->process->presentation`
 
+major view parts:
+
+board view, post view, post content view;
+pm view, search view, user view;
+
 ## Modules
 
 ### network
@@ -21,4 +26,4 @@ Another choice:
 UBB code seems not easy to parse in textview so far, but markdown code seems has [RxMarkdown](https://github.com/yydcdut/RxMarkdown) to use.
 
 
-#Ends
+# Ends

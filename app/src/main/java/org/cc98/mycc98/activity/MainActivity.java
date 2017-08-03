@@ -2,6 +2,7 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,7 +16,10 @@ import android.view.MenuItem;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
-import org.cc98.mycc98.adapter.MainFragmentAdapter;
+import org.cc98.mycc98.adapter.MainFragmentPagerAdapter;
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,13 +37,12 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
-
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
 
-    public static void startActivity(Context context){
-        Intent intent= new Intent(context,MainActivity.class);
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 
@@ -58,7 +61,15 @@ public class MainActivity extends BaseActivity
 
 
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
+        Resources resources = getResources();
+        List<String> main_tab_name = Arrays.asList(
+                resources.getStringArray(R.array.activity_main_tab_name));
+        viewPager.setAdapter(new MainFragmentPagerAdapter(
+                getSupportFragmentManager(),
+                null,
+                main_tab_name));
+
+        //viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager()));
     }
 
     @Override
@@ -83,16 +94,25 @@ public class MainActivity extends BaseActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                SettingActivity.startActivity(this);
+                break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.main_menu_search:
+                break;
+
+            case R.id.main_menu_text:
+                break;
+            default:
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

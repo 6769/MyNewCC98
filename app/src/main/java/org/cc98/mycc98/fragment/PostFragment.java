@@ -23,9 +23,9 @@ import org.cc98.mycc98.fragment.dummy.DummyContent.DummyItem;
  */
 public class PostFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
+
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
+
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
@@ -36,7 +36,7 @@ public class PostFragment extends Fragment {
     public PostFragment() {
     }
 
-    // TODO: Customize parameter initialization
+
     @SuppressWarnings("unused")
     public static PostFragment newInstance(int columnCount) {
         PostFragment fragment = new PostFragment();
@@ -78,13 +78,6 @@ public class PostFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        /*if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }*/
     }
 
     @Override

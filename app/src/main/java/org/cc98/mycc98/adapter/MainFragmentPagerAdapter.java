@@ -13,20 +13,21 @@ import java.util.List;
  * Created by pip on 2017/7/13.
  */
 
-public class MainFragmentAdapter extends FragmentPagerAdapter {
+public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private List<String> mTitle;
     private List<Fragment> mFragments;
 
-    public MainFragmentAdapter(FragmentManager fm) {
+    public MainFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public MainFragmentAdapter(FragmentManager fm, List<Fragment> fragments, List<String> title) {
+    public MainFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments, List<String> title) {
         super(fm);
         mTitle = title;
         mFragments = fragments;
     }
+
 
     @Override
     public Fragment getItem(int position) {
