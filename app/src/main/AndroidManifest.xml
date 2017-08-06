@@ -60,7 +60,6 @@
         <activity android:name=".activity.PostReadActivity" />
         <activity android:name=".activity.UserProfileActivity" />
         <activity android:name=".activity.BoardViewActivity" />
-        <activity android:name=".activity.OpenlibsActivity" />
         <activity
             android:name=".activity.PreviewActivity"
             android:theme="@style/AppTheme.NoActionBar"

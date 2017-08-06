@@ -11,6 +11,7 @@ import org.cc98.mycc98.fragment.PostFragment.OnListFragmentInteractionListener;
 import org.cc98.mycc98.fragment.dummy.DummyContent.DummyItem;
 
 import java.util.List;
+import java.util.Random;
 
 
 public class PostItemRecyclerViewAdapter
@@ -28,7 +29,7 @@ public class PostItemRecyclerViewAdapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item_apost, parent, false);
+                .inflate(R.layout.recyclerlist_item_apost, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,6 +43,9 @@ public class PostItemRecyclerViewAdapter
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
+        holder.mUserName.setText("Pip5");
+        holder.mBoardName.setText("似水流年·暑假&军训2017");
+        holder.mTimetoRun.setText(String.valueOf(new Random().nextInt()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +68,7 @@ public class PostItemRecyclerViewAdapter
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mUserName, mTimetoRun, mBoardName;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
@@ -71,6 +76,9 @@ public class PostItemRecyclerViewAdapter
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.posttitle);
+            mUserName = (TextView) view.findViewById(R.id.recyclerlist_item_username);
+            mBoardName = (TextView) view.findViewById(R.id.boardname);
+            mTimetoRun = (TextView) view.findViewById(R.id.recyclerlist_item_timetorun);
         }
 
         @Override

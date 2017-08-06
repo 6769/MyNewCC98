@@ -17,7 +17,7 @@ import org.cc98.mycc98.ActivityCollector;
  */
 
 public class BaseSwipeBackActivity extends AppCompatActivity {
-    public static String TAG="BaseSwipeBackActivity";
+    public static final String TAG = "BaseSwipeBackActivity";
 
     public static void startActivity(Context context){
         throw new UnsupportedClassVersionError("Not Implemented Static Method");

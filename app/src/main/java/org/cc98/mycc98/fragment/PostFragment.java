@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.adapter.PostItemRecyclerViewAdapter;
+import org.cc98.mycc98.fragment.base.BaseFragment;
 import org.cc98.mycc98.fragment.dummy.DummyContent;
 import org.cc98.mycc98.fragment.dummy.DummyContent.DummyItem;
 
@@ -21,7 +22,7 @@ import org.cc98.mycc98.fragment.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PostFragment extends Fragment {
+public class PostFragment extends BaseFragment {
 
 
     private static final String ARG_COLUMN_COUNT = "column-count";

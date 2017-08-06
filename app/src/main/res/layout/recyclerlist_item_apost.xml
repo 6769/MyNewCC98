@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="2dp"
-    android:layout_marginEnd="2dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
     android:orientation="vertical"
-    app:cardCornerRadius="2dp">
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:id="@+id/id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
+                android:layout_margin="10dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="id" />
 
@@ -34,19 +34,21 @@
                 android:id="@+id/posttitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
+                android:layout_margin="10dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="content" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/card_list_bg"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/username"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/recyclerlist_item_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -54,13 +56,25 @@
                 tools:text="username" />
 
             <TextView
-                android:id="@+id/timetorun"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/boardname"
+                android:textSize="12sp"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:text="boardname" />
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/recyclerlist_item_timetorun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="timetorun" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 

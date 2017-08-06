@@ -47,7 +47,7 @@ public class EditActivity extends BaseSwipeBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //load config here
+        //load Config here
 
     }
 

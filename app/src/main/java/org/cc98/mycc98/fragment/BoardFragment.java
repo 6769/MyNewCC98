@@ -1,15 +1,19 @@
 package org.cc98.mycc98.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.adapter.BoardItemAdapter;
+import org.cc98.mycc98.fragment.base.BaseFragment;
 
-public class BoardFragment extends Fragment {
+public class BoardFragment extends BaseFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -53,7 +57,16 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_board, container, false);
+        View view = inflater.inflate(R.layout.fragment_board_list, container, false);
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            BoardItemAdapter adapter = new BoardItemAdapter();
+            recyclerView.setAdapter(adapter);
+        }
+
+        return view;
     }
 
 }
