@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.fragment.PostFragment.OnListFragmentInteractionListener;
@@ -50,6 +51,8 @@ public class PostItemRecyclerViewAdapter
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int pos=holder.getAdapterPosition();
+                Toast.makeText(v.getContext(),String.valueOf(pos),Toast.LENGTH_SHORT).show();
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.

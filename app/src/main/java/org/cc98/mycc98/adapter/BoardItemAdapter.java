@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.activity.ABoardViewActivity;
 
 import java.util.Random;
 
@@ -22,7 +24,9 @@ public class BoardItemAdapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerlist_item_aboard, parent, false);
-        return new ViewHolder(view);
+        final ViewHolder viewHolder=new ViewHolder(view);
+
+        return viewHolder;
     }
 
     @Override
@@ -32,7 +36,14 @@ public class BoardItemAdapter
         holder.mUserName.setText("Pip5");
         holder.mBoardName.setText("似水流年·暑假&军训2017");
         holder.mTimetoRun.setText(String.valueOf(new Random().nextInt()));
-
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos=holder.getAdapterPosition();
+                Toast.makeText(v.getContext(),String.valueOf(pos),Toast.LENGTH_SHORT).show();
+                ABoardViewActivity.startActivity(v.getContext());
+            }
+        });
     }
 
     @Override
@@ -44,7 +55,6 @@ public class BoardItemAdapter
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-
         public final TextView mUserName, mTimetoRun, mBoardName;
 
 
