@@ -23,7 +23,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void mkToast(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
-    protected void mkToast(String msg,boolean showMoreTime){
+    protected void mkToastL(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
     }
 

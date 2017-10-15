@@ -11,6 +11,9 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
+import win.pipi.api.network.CC98APIInterface;
+import win.pipi.api.network.CC98APIManager;
+
 
 /**
  * Created by pip on 2017/7/11.
@@ -18,9 +21,13 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 public class MainApplication extends Application {
     private static Context context;
+    private static CC98APIInterface apiInterface;
 
     public static Context getContext(){
         return context;
+    }
+    public static CC98APIInterface getApiInterface(){
+        return apiInterface;
     }
 
     @Override
@@ -28,6 +35,7 @@ public class MainApplication extends Application {
         super.onCreate();
 
         context=getApplicationContext();
+        apiInterface= CC98APIManager.createApiClient();
 
         //registerActivityLifecycleCallbacks(ActivityLifecycleHelper.build());
         initLogger();

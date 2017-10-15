@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -70,7 +71,7 @@ public class MainActivity extends BaseActivity
                 resources.getStringArray(R.array.activity_main_tab_name));
         List<Fragment> main_tab_frag = new ArrayList<>();
         main_tab_frag.add(new BoardFragment());
-        main_tab_frag.add(new PostFragment());
+        main_tab_frag.add(PostFragment.newInstance(PostFragment.PostType.HOT,0));
         main_tab_frag.add(new BoardFragment());
         main_tab_frag.add(new PostFragment());
         viewPager.setAdapter(new MainFragmentPagerAdapter(
@@ -123,7 +124,7 @@ public class MainActivity extends BaseActivity
 
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

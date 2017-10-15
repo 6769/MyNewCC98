@@ -50,6 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Title"
+                    android:textSize="20sp"
                     android:inputType="textMultiLine"
                     android:textColor="@color/text_dark" />
 
@@ -69,7 +70,7 @@
                 android:inputType="textMultiLine"
                 android:minHeight="80dp"
                 android:hint="@string/moto_of_zju"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/act_edit_guideline_btn"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"

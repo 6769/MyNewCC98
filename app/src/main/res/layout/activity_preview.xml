@@ -25,6 +25,7 @@
         android:layout_height="match_parent"
         android:gravity="left|top"
         android:padding="5dp"
+        android:textSize="17sp"
         android:text="@string/moto_of_zju" />
 
 

@@ -3,6 +3,7 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,8 +38,15 @@ public class EditActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_write);
         ButterKnife.bind(this);
+
+
+        toolbar.setTitle("EditorX");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
+        /*ActionBar tbar= getSupportActionBar();
+        if(tbar!=null){
+            tbar.setHomeButtonEnabled(true);
+        }*/
 
 
     }
