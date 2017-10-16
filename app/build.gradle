@@ -24,7 +24,7 @@ dependencies {
 
 
 
-
+    compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

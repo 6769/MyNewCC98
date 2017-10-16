@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCC98</string>
+    <string name="app_name">MyCC98+</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -30,4 +30,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toast_tips_ok">刷新完成</string>
     <string name="username_nobody">匿名</string>
+    <string name="pushtoloadmore_tips_loading">加载中</string>
 </resources>

@@ -41,10 +41,10 @@ public class AboutActivity extends BaseSwipeBackActivity {
                 .addItem(new Element().setTitle(GetPackageInfomation.getPackageVersionName(this)))
                 .addGroup("Connect with us")
                 .addEmail("5pipitk@gmail.com")
-                .addWebsite("http://github.com/6769")
+                .addWebsite("https://github.com/6769")
                 .addItem(getOpenLibsElements())
 
-                .addGitHub("medyo")
+                .addGitHub("6769")
                 //.addItem(getCopyRightsElement())
                 .create();
 

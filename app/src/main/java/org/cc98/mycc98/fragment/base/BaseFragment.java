@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import win.pipi.api.network.CC98APIInterface;
+
 /**
  * Created by pipi6 on 2017/8/4.
  */
 
 public class BaseFragment extends Fragment {
+
 
 
     @Override

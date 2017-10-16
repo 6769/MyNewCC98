@@ -9,7 +9,7 @@
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:orientation="vertical"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,27 +17,22 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
+        <RelativeLayout
+            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/hottopic_rankid"
+                android:id="@+id/newtopic_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textAppearance="?attr/textAppearanceListItem"
-                tools:text="id" />
-
-            <TextView
-                android:id="@+id/hottopic_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp"
+                android:textSize="17sp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="content" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:paddingLeft="10dp"
@@ -46,7 +41,7 @@
             android:background="@color/card_list_bg"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/hottopic_boardname"
+                android:id="@+id/newtopic_boardname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -57,12 +52,12 @@
                 tools:text="boardname" />
 
 
+
             <TextView
-                android:id="@+id/hottopic_username"
+                android:id="@+id/newtopic_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="username" />
@@ -70,13 +65,13 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_toLeftOf="@id/hottopic_username"
+                android:layout_toLeftOf="@id/newtopic_username"
                 android:layout_centerVertical="true"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
             <TextView
-                android:id="@+id/hottopic_createtime"
+                android:id="@+id/newtopic_createtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

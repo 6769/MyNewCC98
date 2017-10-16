@@ -9,6 +9,7 @@ import android.view.View;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
+import org.cc98.mycc98.fragment.HotPostFragment;
 import org.cc98.mycc98.fragment.PostFragment;
 
 public class ABoardViewActivity extends BaseSwipeBackActivity {
@@ -26,7 +27,7 @@ public class ABoardViewActivity extends BaseSwipeBackActivity {
 
         setContentView(R.layout.activity_board_view);
 
-        Fragment postFragment=new PostFragment();
+        Fragment postFragment=new HotPostFragment();
         FragmentTransaction transaction =  getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_board_view,postFragment);
         transaction.commit();

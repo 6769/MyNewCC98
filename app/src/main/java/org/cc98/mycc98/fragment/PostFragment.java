@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.fragment.base.BaseFragment;
 
@@ -60,12 +61,14 @@ public class PostFragment extends BaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Bundle args= getArguments();
+
+        iface= MainApplication.getApiInterface();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_postbase, container, false);
         mswipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_swipeLayout);
         mrecyclerView = (RecyclerView) view.findViewById(R.id.fragment_recyclerview);
 

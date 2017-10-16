@@ -38,7 +38,7 @@ public class HotPostFragment extends PostFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        iface= MainApplication.getApiInterface();
+
     }
 
     @Override
@@ -49,6 +49,7 @@ public class HotPostFragment extends PostFragment
         adapter=new HotTopicItemRecyclerViewAdapter(hotTopicInfoList,this);
 
         mrecyclerView.setAdapter(adapter);
+
 
         if (hotTopicInfoList.size()==0)
             onRefresh();
@@ -99,7 +100,7 @@ public class HotPostFragment extends PostFragment
                     public void onNext(ArrayList<HotTopicInfo> hotTopicInfos) {
                         adapter.notifyDataSetChanged();
                         mswipeRefreshLayout.setRefreshing(false);
-                        mkToast(getString(R.string.toast_tips_ok));
+                        //mkToast(getString(R.string.toast_tips_ok));
                     }
                 });
 
