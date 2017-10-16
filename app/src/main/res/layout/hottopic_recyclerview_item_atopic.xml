@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/id"
+                android:id="@+id/hottopic_rankid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -31,7 +31,7 @@
                 tools:text="id" />
 
             <TextView
-                android:id="@+id/posttitle"
+                android:id="@+id/hottopic_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -45,35 +45,37 @@
             android:layout_height="wrap_content"
             android:background="@color/card_list_bg"
             android:orientation="horizontal">
-
             <TextView
-                android:layout_alignParentLeft="true"
-                android:id="@+id/recyclerlist_item_username"
+                android:id="@+id/hottopic_boardname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:textAppearance="?attr/textAppearanceListItem"
+
+                tools:text="boardname" />
+
+            <TextView
+                android:id="@+id/hottopic_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="username" />
 
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/boardname"
-                android:textSize="12sp"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceListItem"
-                tools:text="boardname" />
+
 
             <TextView
-                android:layout_alignParentRight="true"
-                android:id="@+id/recyclerlist_item_timetorun"
+                android:id="@+id/hottopic_createtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
-                tools:text="timetorun" />
+                tools:text="createTime" />
         </RelativeLayout>
     </LinearLayout>
 

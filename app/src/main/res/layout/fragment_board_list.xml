@@ -9,4 +9,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="org.cc98.mycc98.fragment.BoardFragment"
-    tools:listitem="@layout/recyclerlist_item_apost" />
+    tools:listitem="@layout/hottopic_recyclerview_item_atopic" />

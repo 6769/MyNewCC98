@@ -9,40 +9,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.adapter.PostItemRecyclerViewAdapter;
 import org.cc98.mycc98.fragment.base.BaseFragment;
-import org.cc98.mycc98.fragment.dummy.DummyContent;
-import org.cc98.mycc98.fragment.dummy.DummyContent.DummyItem;
 
-import java.util.ArrayList;
-
-import rx.Observable;
-import rx.Subscriber;
-import win.pipi.api.data.HotTopicInfo;
 import win.pipi.api.network.CC98APIInterface;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnPostFragmentInteractionListener}
  * interface.
  */
-public class PostFragment extends BaseFragment {
+public class PostFragment extends BaseFragment
+        implements SwipeRefreshLayout.OnRefreshListener {
 
 
-    private static final String BOARDID = "boardid";
-    private static final String POSTYTYPEKEY="type";
+    protected static final String BOARDID = "boardid";
+    protected static final String POSTYTYPEKEY="type";
 
-    private int mBoardId;
-    private PostType mpostType;
-    private OnListFragmentInteractionListener mListener;
-    private SpecificCallFactory mCall;
+    protected int mBoardId;
+    protected PostType mpostType;
+    protected OnPostFragmentInteractionListener mListener;
 
-    SwipeRefreshLayout mswipeRefreshLayout;
-    RecyclerView mrecyclerView;
-    CC98APIInterface iface;
+
+    protected SwipeRefreshLayout mswipeRefreshLayout;
+    protected RecyclerView mrecyclerView;
+    protected CC98APIInterface iface;
 
 
     /**
@@ -55,55 +47,19 @@ public class PostFragment extends BaseFragment {
 
 
     @SuppressWarnings("unused")
-    public static PostFragment newInstance(PostType type,int boardId) {
+    public static PostFragment newInstance() {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
-
-        args.putSerializable(POSTYTYPEKEY,type);
-        args.putInt(BOARDID, boardId);
 
         fragment.setArguments(args);
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args= getArguments();
-
-        if (args != null) {
-            mBoardId = args.getInt(BOARDID);
-            mpostType=(PostType) args.getSerializable(POSTYTYPEKEY);
-            iface=MainApplication.getApiInterface();
-            switch (mpostType){
-                case HOT:
-                    mCall=new SpecificCallFactory() {
-                        @Override
-                        public Observable<?> getCall(int f,int t) {
-                            return iface.getTopicHot();
-                        }
-                    };
-
-                    break;
-                case BOARD:
-                    mCall=new SpecificCallFactory() {
-                        @Override
-                        public Observable<?> getCall(int f,int t) {
-                            return iface.getTopicBoard(mBoardId,f,t);
-                        }
-                    };
-                    break;
-                case NEW:
-                    mCall=new SpecificCallFactory() {
-                        @Override
-                        public Observable<?> getCall(int from, int to) {
-                            return iface.getTopicNew(from,to);
-                        }
-                    };
-                    break;
-                default:
-            }
-        }
+        //Bundle args= getArguments();
     }
 
     @Override
@@ -115,65 +71,23 @@ public class PostFragment extends BaseFragment {
 
         mswipeRefreshLayout.setColorSchemeColors(Color.BLUE,
                 Color.GREEN,
-                //Color.YELLOW,
+                Color.YELLOW,
                 Color.RED);
 
-        mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Toast.makeText(getContext(), "refresh", Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            Thread.sleep(3000);
+        mswipeRefreshLayout.setOnRefreshListener(this);
 
-                            Observable<ArrayList<HotTopicInfo>> call= MainApplication.getApiInterface().getTopicHot();
-
-                            call.subscribe(new Subscriber<ArrayList<HotTopicInfo>>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(final ArrayList<HotTopicInfo> hotTopicInfos) {
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            mkToastL(mpostType.toString());
-                                            mswipeRefreshLayout.setRefreshing(false);
-                                        }
-                                    });
-
-                                }
-                            });
-
-
-
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-
-                    }
-                }).start();
-
-            }
-        });
-
-        PostItemRecyclerViewAdapter adapter = new PostItemRecyclerViewAdapter(
+        /*HotTopicItemRecyclerViewAdapter adapter = new HotTopicItemRecyclerViewAdapter(
                 DummyContent.ITEMS, mListener);
-        mrecyclerView.setAdapter(adapter);
+        mrecyclerView.setAdapter(adapter);*/
 
 
         return view;
     }
 
+    @Override
+    public void onRefresh() {
+        throw new UnsupportedOperationException("needed to override!");
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -196,9 +110,9 @@ public class PostFragment extends BaseFragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+    public interface OnPostFragmentInteractionListener {
+
+        void onListFragmentInteraction(int i);
     }
 
     public enum PostType{
