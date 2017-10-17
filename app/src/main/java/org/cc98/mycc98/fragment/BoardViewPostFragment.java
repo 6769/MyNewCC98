@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.cc98.mycc98.adapter.NewTopicRecyclerViewAdapter;
+import org.cc98.mycc98.adapter.NormalTopicRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class BoardViewPostFragment extends NewPostFragment {
 
     @Override
     protected void initAdapter() {
-        //adapter=new NewTopicRecyclerViewAdapter(topicInfoList,this);
+        adapter=new NormalTopicRecyclerViewAdapter(topicInfoList,this);
     }
 
     @Override
@@ -53,12 +54,6 @@ public class BoardViewPostFragment extends NewPostFragment {
         return iface.getTopicBoard(bid, from, to);
     }
 
-
-
-    @Override
-    public void onLoadMore(boolean isSilence) {
-
-    }
 
 
 
