@@ -12,8 +12,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.cc98.mycc98.ActivityCollector;
-
 
 /**
  * A {@link PreferenceActivity} which implements and proxies the necessary calls

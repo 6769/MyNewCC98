@@ -1,4 +1,4 @@
-package org.cc98.mycc98;
+package org.cc98.mycc98.activity.base;
 
 import android.app.Activity;
 

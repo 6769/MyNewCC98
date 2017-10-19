@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.fragment.PostFragment;
+import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment;
 
 import java.util.List;
 
@@ -24,11 +24,11 @@ public class NewTopicRecyclerViewAdapter extends RecyclerView.Adapter<NewTopicRe
 implements View.OnClickListener{
 
     private final List<? extends TopicInfo> mValues;
-    private final PostFragment.OnPostFragmentInteractionListener mListener;
+    private final BaseSwipeRefreshFragment.OnPostFragmentInteractionListener mListener;
 
 
     public NewTopicRecyclerViewAdapter(List<? extends TopicInfo> m,
-                                       PostFragment.OnPostFragmentInteractionListener ml) {
+                                       BaseSwipeRefreshFragment.OnPostFragmentInteractionListener ml) {
         mValues = m;
         mListener = ml;
 

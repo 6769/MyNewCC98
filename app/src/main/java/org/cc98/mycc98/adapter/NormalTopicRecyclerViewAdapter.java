@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.fragment.PostFragment;
+import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment;
 
 import java.util.List;
 
@@ -23,11 +23,11 @@ public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalT
 
 
     private final List<? extends TopicInfo> mValues;
-    private final PostFragment.OnPostFragmentInteractionListener mListener;
+    private final BaseSwipeRefreshFragment.OnPostFragmentInteractionListener mListener;
 
 
     public NormalTopicRecyclerViewAdapter(List<? extends TopicInfo> mValues,
-                                          PostFragment.OnPostFragmentInteractionListener mListener) {
+                                          BaseSwipeRefreshFragment.OnPostFragmentInteractionListener mListener) {
         this.mValues = mValues;
         this.mListener = mListener;
     }

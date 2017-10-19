@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 
-import org.cc98.mycc98.ActivityCollector;
-
 /**
  * Created by pip on 2017/7/11.
  */

@@ -4,9 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.cc98.mycc98.fragment.BoardFragment;
-import org.cc98.mycc98.fragment.PostFragment;
-
 import java.util.List;
 
 /**
@@ -31,10 +28,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (null == mFragments)
-            return new PostFragment();
-        else
-            return mFragments.get(position);
+        return mFragments.get(position);
     }
 
     @Override

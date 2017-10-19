@@ -21,9 +21,8 @@ import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.adapter.MainFragmentPagerAdapter;
 import org.cc98.mycc98.fragment.BoardFragment;
 import org.cc98.mycc98.fragment.BoardViewPostFragment;
-import org.cc98.mycc98.fragment.HotPostFragment;
-import org.cc98.mycc98.fragment.NewPostFragment;
-import org.cc98.mycc98.fragment.PostFragment;
+import org.cc98.mycc98.fragment.HotTopicsFragment;
+import org.cc98.mycc98.fragment.NewTopicsFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,9 +73,9 @@ public class MainActivity extends BaseActivity
                 resources.getStringArray(R.array.activity_main_tab_name));
         List<Fragment> main_tab_frag = new ArrayList<>();
         main_tab_frag.add(BoardViewPostFragment.newInstance(100));
-        main_tab_frag.add(new HotPostFragment());
+        main_tab_frag.add(new HotTopicsFragment());
         main_tab_frag.add(new BoardFragment());
-        main_tab_frag.add(new NewPostFragment());
+        main_tab_frag.add(NewTopicsFragment.newInstance());
         viewPager.setAdapter(new MainFragmentPagerAdapter(
                 getSupportFragmentManager(),
                 main_tab_frag,

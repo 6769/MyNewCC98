@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.fragment.PostFragment.OnPostFragmentInteractionListener;
+import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment.OnPostFragmentInteractionListener;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import win.pipi.api.data.HotTopicInfo;
-import win.pipi.api.data.TopicInfoInterface;
 
 
 public class HotTopicItemRecyclerViewAdapter

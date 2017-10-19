@@ -1,4 +1,4 @@
-package org.cc98.mycc98.fragment;
+package org.cc98.mycc98.fragment.base;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +13,10 @@ import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.fragment.base.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observer;
 import win.pipi.api.network.CC98APIInterface;
 
 /**
@@ -20,8 +24,10 @@ import win.pipi.api.network.CC98APIInterface;
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnPostFragmentInteractionListener}
  * interface.
+ *
+ * When try to apply more feature,see: http://www.easydone.cn/2015/10/26/
  */
-public class PostFragment extends BaseFragment
+public abstract class BaseSwipeRefreshFragment<T> extends BaseFragment
         implements SwipeRefreshLayout.OnRefreshListener {
 
 
@@ -29,31 +35,23 @@ public class PostFragment extends BaseFragment
     protected static final String POSTYTYPEKEY="type";
 
     protected int mBoardId;
-    protected PostType mpostType;
+
     protected OnPostFragmentInteractionListener mListener;
 
+    protected List<T> mLists=new ArrayList<T>();
+    protected RecyclerView.Adapter adapter;
 
     protected SwipeRefreshLayout mswipeRefreshLayout;
     protected RecyclerView mrecyclerView;
     protected CC98APIInterface iface;
+    protected Observer<ArrayList<T>> refreshObserver;
 
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PostFragment() {
-    }
-
-
-
-    @SuppressWarnings("unused")
-    public static PostFragment newInstance() {
-        PostFragment fragment = new PostFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
+    public BaseSwipeRefreshFragment() {
     }
 
 
@@ -63,6 +61,24 @@ public class PostFragment extends BaseFragment
         //Bundle args= getArguments();
 
         iface= MainApplication.getApiInterface();
+        refreshObserver =new Observer<ArrayList<T>>() {
+            @Override
+            public void onCompleted() {
+                mswipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mswipeRefreshLayout.setRefreshing(false);
+                mkToast(e.toString());
+            }
+
+            @Override
+            public void onNext(ArrayList<T> ts) {
+                adapter.notifyDataSetChanged();
+                mswipeRefreshLayout.setRefreshing(false);
+            }
+        };
     }
 
     @Override
@@ -76,21 +92,22 @@ public class PostFragment extends BaseFragment
                 Color.GREEN,
                 Color.YELLOW,
                 Color.RED);
-
         mswipeRefreshLayout.setOnRefreshListener(this);
 
-        /*HotTopicItemRecyclerViewAdapter adapter = new HotTopicItemRecyclerViewAdapter(
-                DummyContent.ITEMS, mListener);
-        mrecyclerView.setAdapter(adapter);*/
-
+        initUI();
+        mrecyclerView.setAdapter(adapter);
+        if(mLists.size()==0){
+            onRefresh();
+        }
 
         return view;
     }
 
-    @Override
-    public void onRefresh() {
-        throw new UnsupportedOperationException("needed to override!");
-    }
+
+    protected abstract void initUI();
+
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -118,7 +135,5 @@ public class PostFragment extends BaseFragment
         void onListFragmentInteraction(int i);
     }
 
-    public enum PostType{
-        HOT,NEW,BOARD
-    }
+
 }

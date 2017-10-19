@@ -3,14 +3,11 @@ package org.cc98.mycc98.activity.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.orhanobut.logger.Logger;
-
-import org.cc98.mycc98.ActivityCollector;
 
 /**
  * Created by pip on 2017/7/12.
