@@ -83,7 +83,7 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo> 
     protected void updatePages(int from, int to, final boolean clearold) {
         Observable<ArrayList<TopicInfo>> call = genNewCall(boardId, from, to);
         call.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+
                 .observeOn(Schedulers.io())
                 .doOnNext(new Action1<List<TopicInfo>>() {
                     @Override

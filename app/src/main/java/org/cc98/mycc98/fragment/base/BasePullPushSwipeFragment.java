@@ -79,7 +79,7 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
                 adapter.notifyDataSetChanged();
                 xRefreshView.stopRefresh();
                 xRefreshView.stopLoadMore();
-                mkToast(getString(R.string.toast_tips_ok));
+                //mkToast(getString(R.string.toast_tips_ok));
             }
         };
     }

@@ -42,11 +42,6 @@ public class EditActivity extends BaseSwipeBackActivity {
 
         toolbar.setTitle("EditorX");
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setHomeButtonEnabled(true);
-        /*ActionBar tbar= getSupportActionBar();
-        if(tbar!=null){
-            tbar.setHomeButtonEnabled(true);
-        }*/
 
 
     }

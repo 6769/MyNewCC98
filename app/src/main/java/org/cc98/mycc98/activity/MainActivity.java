@@ -20,6 +20,7 @@ import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.adapter.MainFragmentPagerAdapter;
 import org.cc98.mycc98.fragment.BoardFragment;
+import org.cc98.mycc98.fragment.BoardMapFragment;
 import org.cc98.mycc98.fragment.BoardViewPostFragment;
 import org.cc98.mycc98.fragment.HotTopicsFragment;
 import org.cc98.mycc98.fragment.NewTopicsFragment;
@@ -74,8 +75,11 @@ public class MainActivity extends BaseActivity
         List<Fragment> main_tab_frag = new ArrayList<>();
         main_tab_frag.add(BoardViewPostFragment.newInstance(100));
         main_tab_frag.add(new HotTopicsFragment());
-        main_tab_frag.add(new BoardFragment());
+        main_tab_frag.add(new BoardMapFragment());
         main_tab_frag.add(NewTopicsFragment.newInstance());
+
+        viewPager.setOffscreenPageLimit(main_tab_frag.size());
+        //make sure not to reload views repeatably
         viewPager.setAdapter(new MainFragmentPagerAdapter(
                 getSupportFragmentManager(),
                 main_tab_frag,
