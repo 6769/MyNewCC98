@@ -66,22 +66,13 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
         updatePages(currentlen + 1, currentlen + 20, true);
     }
 
-    @Override
+    /*@Override
     public void onLoadMore(boolean isSilence) {
         int currentlen = mList.size();
         updatePages(currentlen + 1, currentlen + 20, false);
 
-    }
+    }*/
 
-    @Override
-    public void onRelease(float direction) {
-
-    }
-
-    @Override
-    public void onHeaderMove(double headerMovePercent, int offsetY) {
-
-    }
 
     @Override
     public void onListFragmentInteraction(int i) {
