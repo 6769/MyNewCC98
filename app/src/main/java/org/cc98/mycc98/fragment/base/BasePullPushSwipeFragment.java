@@ -2,9 +2,9 @@ package org.cc98.mycc98.fragment.base;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +15,12 @@ import com.orhanobut.logger.Logger;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.adapter.NewTopicRecyclerViewAdapter;
-import org.cc98.mycc98.fragment.base.BaseFragment;
-import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import win.pipi.api.data.TopicInfo;
 import win.pipi.api.network.CC98APIInterface;
 
 /**
@@ -48,6 +41,7 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
     protected RecyclerView mrecyclerView;
     protected XRefreshView xRefreshView;
     protected RecyclerView.Adapter adapter;
+    protected FloatingActionButton floatingActionButton;
     protected Observer<List<T>> listSubscriber;
     protected List<T> mList = new ArrayList<>();
 
@@ -88,9 +82,10 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_newtopicview, container, false);
+        View view = inflater.inflate(R.layout.fragment_normaltopicview, container, false);
         mrecyclerView = (RecyclerView) view.findViewById(R.id.fragment_recyclerview_newtopic);
         xRefreshView = (XRefreshView) view.findViewById(R.id.fragment_newpost_xrefresh_container);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fragment_writenewtopic_floatingActionButton);
 
 
         xRefreshView.setPinnedTime(800);
@@ -101,9 +96,27 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
         xRefreshView.enableRecyclerViewPullUp(true);
         xRefreshView.enablePullUpWhenLoadCompleted(true);
         xRefreshView.setXRefreshViewListener(this);
+        xRefreshView.setOnRecyclerViewScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy <= 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
+                    floatingActionButton.show();
+                }
+                if (dy >= 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+                    floatingActionButton.hide();
+                }
+            }
+        });
 
 
-        initAdapter();
+        initUI();
+
         mrecyclerView.setAdapter(adapter);
         if(mList.size()==0){
             onRefresh();
@@ -113,22 +126,8 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
     }
 
 
-    protected abstract void initAdapter();
+    protected abstract void initUI();
 
-    /*@Override
-    public void onLoadMore(boolean isSilence) {
-
-        mkToast("loadmore");
-
-
-
-    }
-
-    @Override
-    public void onRefresh() {
-
-        updatePages(1, 20, true);
-    }*/
 
     @Override
     public void onRefresh(boolean isPullDown) {

@@ -26,7 +26,7 @@ public class NewTopicsFragment extends BoardViewPostFragment {
     }
 
     @Override
-    protected void initAdapter() {
+    protected void initUI() {
         adapter=new NewTopicRecyclerViewAdapter(mList,this);
     }
 

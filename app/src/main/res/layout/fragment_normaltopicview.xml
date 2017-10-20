@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <com.andview.refreshview.XRefreshView
         android:id="@+id/fragment_newpost_xrefresh_container"
@@ -25,6 +23,18 @@
             tools:listitem="@layout/newtopic_recyclerview_item_atopic"/>
     </com.andview.refreshview.XRefreshView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_writenewtopic_floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="15dp"
+        android:clickable="true"
+        app:fabSize="normal"
 
 
-</LinearLayout>
+        app:rippleColor="@color/login_unsel_btn"
+        app:srcCompat="@drawable/ic_search_white_36dp" />
+
+
+</android.support.design.widget.CoordinatorLayout>

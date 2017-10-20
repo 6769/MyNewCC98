@@ -1,6 +1,7 @@
 package org.cc98.mycc98.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.adapter.NormalTopicRecyclerViewAdapter;
@@ -19,7 +20,8 @@ import win.pipi.api.data.TopicInfo;
  * Created by pipi6 on 2017/10/17.
  */
 
-public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo> {
+public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
+        implements View.OnClickListener {
     public BoardViewPostFragment() {
     }
 
@@ -43,8 +45,14 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo> 
 
 
     @Override
-    protected void initAdapter() {
+    protected void initUI() {
         adapter = new NormalTopicRecyclerViewAdapter(mList, this);
+        floatingActionButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        mkToast(v.toString());
     }
 
     @Override
