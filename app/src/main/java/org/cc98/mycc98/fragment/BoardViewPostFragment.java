@@ -52,7 +52,7 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
 
     @Override
     public void onClick(View v) {
-        mkToast(v.toString());
+        mkToast("Try to write~");
     }
 
     @Override

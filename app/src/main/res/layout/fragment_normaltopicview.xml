@@ -32,7 +32,7 @@
         android:clickable="true"
         app:fabSize="normal"
 
-
+        app:layout_behavior="org.cc98.mycc98.behavior.ScrollAwareFABBehaviorDefault"
         app:rippleColor="@color/login_unsel_btn"
         app:srcCompat="@drawable/ic_search_white_36dp" />
 
