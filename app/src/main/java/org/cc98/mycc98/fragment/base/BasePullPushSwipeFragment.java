@@ -96,30 +96,15 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
         xRefreshView.enableRecyclerViewPullUp(true);
         xRefreshView.enablePullUpWhenLoadCompleted(true);
         xRefreshView.setXRefreshViewListener(this);
-        xRefreshView.setOnRecyclerViewScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy <= 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
-                    floatingActionButton.show();
-                }
-                if (dy >= 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
-                    floatingActionButton.hide();
-                }
-            }
-        });
 
 
         initUI();
 
         mrecyclerView.setAdapter(adapter);
         if(mList.size()==0){
-            onRefresh();
+            xRefreshView.startRefresh();
+            //onRefresh();
         }
 
         return view;
@@ -128,6 +113,15 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
 
     protected abstract void initUI();
 
+    @Override
+    public void onHeaderMove(double headerMovePercent, int offsetY) {
+
+    }
+
+    @Override
+    public void onRelease(float direction) {
+
+    }
 
     @Override
     public void onRefresh(boolean isPullDown) {

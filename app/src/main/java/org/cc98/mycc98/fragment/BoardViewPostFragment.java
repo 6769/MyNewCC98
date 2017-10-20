@@ -60,18 +60,19 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
         return iface.getTopicBoard(bid, from, to);
     }
 
+
     @Override
     public void onRefresh() {
         int currentlen = 0;
         updatePages(currentlen + 1, currentlen + 20, true);
     }
 
-    /*@Override
+    @Override
     public void onLoadMore(boolean isSilence) {
         int currentlen = mList.size();
         updatePages(currentlen + 1, currentlen + 20, false);
 
-    }*/
+    }
 
 
     @Override
