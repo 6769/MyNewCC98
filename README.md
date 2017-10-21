@@ -25,5 +25,13 @@ The WebView is last technology choice to preserent the posts and replys. But the
 Another choice:
 UBB code seems not easy to parse in textview so far, but markdown code seems has [RxMarkdown](https://github.com/yydcdut/RxMarkdown) to use.
 
+#### UserProfile
+WebView to hold json info, local render it;
+
+#### PMView/Reply
+similar to topic view,their render system are the same;
+
+#### TopicView
+Must WebView,last to do;
 
 # Ends

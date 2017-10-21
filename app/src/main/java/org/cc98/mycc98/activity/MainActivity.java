@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            UserProfileActivity.startActivity(this, 517471);
 
         } else if (id == R.id.nav_gallery) {
             LoginActivity.startActivity(this);

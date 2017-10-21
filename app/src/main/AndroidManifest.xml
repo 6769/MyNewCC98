@@ -58,7 +58,9 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="Editor" />
         <activity android:name=".activity.PostReadActivity" />
-        <activity android:name=".activity.UserProfileActivity" />
+        <activity
+            android:name=".activity.UserProfileActivity"
+            android:theme="@style/Theme.MyDialog" />
         <activity android:name=".activity.ABoardViewActivity" />
         <activity
             android:name=".activity.PreviewActivity"

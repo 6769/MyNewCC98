@@ -23,6 +23,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
 
+    compile 'com.hubspot.jinjava:jinjava:2.0.11-java7'
+    compile 'com.just.agentweb:agentweb:2.0.1'
     compile 'com.diegodobelo.expandingview:expanding-view:0.9.4'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
     compile 'com.android.support:appcompat-v7:25.2.0'
