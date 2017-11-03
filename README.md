@@ -16,6 +16,9 @@ pm view, search view, user view;
 ### network
 use Retrofit to handle http requests, and the interface api.cc98.org should be easiser than html regex paser.
 
+#### Authentication OAth
+in todo list...
+
 ### activity
 just reference to old version
 
@@ -33,5 +36,12 @@ similar to topic view,their render system are the same;
 
 #### TopicView
 Must WebView,last to do;
+
+## Utilities
+Try to include some handy toolkits:
+- Share Topic to Another App.
+- PhotoView Save to SDCard.
+- Topic to ScreenShot.
+- Funny emotion stickers.
 
 # Ends

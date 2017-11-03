@@ -26,6 +26,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import win.pipi.api.data.BoardInfo;
 import win.pipi.api.data.TopicInfo;
@@ -119,10 +120,20 @@ public class BoardMapFragment extends BaseFragment
     @Override
     public void onRefresh() {
         Observable<ArrayList<BoardInfo>> call=iface.getBoardRoot();
+
         call.subscribeOn(Schedulers.io())
                 .doOnNext(mRxAction1)
+                .flatMap(new Func1<ArrayList<BoardInfo>, Observable<ArrayList<BoardInfo>>>() {
+                    @Override
+                    public Observable<ArrayList<BoardInfo>> call(ArrayList<BoardInfo> boardInfos) {
+                        //build new requests
+                        
+
+                        return null;
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(topBoardObserver);
+                ;//.subscribe(topBoardObserver);
 
     }
 
