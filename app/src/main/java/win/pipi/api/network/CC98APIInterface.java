@@ -1,6 +1,5 @@
 package win.pipi.api.network;
 
-import retrofit2.Call;
 import retrofit2.http.*;
 import rx.Observable;
 import win.pipi.api.data.*;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 
 public interface CC98APIInterface {
 
-    String BASE_URL ="https://api.cc98.org/";
+    public final String BASE_URL = "https://api-v2.cc98.org/";
 
     @GET("Topic/Hot")
     Observable<ArrayList<HotTopicInfo>> getTopicHot();
@@ -28,7 +27,7 @@ public interface CC98APIInterface {
 
     @GET("Topic/New")
     Observable<ArrayList<TopicInfo>> getTopicNew(@Query("from") Integer from,
-                                              @Query("to")Integer to);
+                                                 @Query("size") Integer size);
 
     @GET("Topic/Board/{boardId}")
     Observable<ArrayList<TopicInfo>> getTopicBoard(@Path("boardId") Integer boardId,
@@ -74,8 +73,8 @@ public interface CC98APIInterface {
     @GET("Board/Root")
     Observable<ArrayList<BoardInfo>> getBoardRoot();
 
-    @GET("Board/{boardId}/Subs")
-    Observable<ArrayList<BoardInfo>> getBoardSubs(@Path("boardId")Integer id);
+    @GET("Board/{boardId}/Sub")
+    Observable<ArrayList<BoardInfo>> getBoardSub(@Path("boardId") Integer id);
 
     @GET("Board/{id}")
     Observable<ArrayList<BoardInfo>> getBoardId(@Path("id")Integer id);

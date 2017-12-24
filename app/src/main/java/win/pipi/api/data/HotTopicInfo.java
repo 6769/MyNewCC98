@@ -1,6 +1,6 @@
 package win.pipi.api.data;
 
-public class HotTopicInfo implements TopicInfoInterface{
+public class HotTopicInfo implements TopicInfoInterface {
 
     /**
      * title : sample string 1
@@ -23,6 +23,16 @@ public class HotTopicInfo implements TopicInfoInterface{
     private int participantCount;
     private String authorName;
     private String createTime;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    private int type;
 
     public String getTitle() {
         return title;

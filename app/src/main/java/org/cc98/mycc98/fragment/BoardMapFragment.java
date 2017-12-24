@@ -29,7 +29,6 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import win.pipi.api.data.BoardInfo;
-import win.pipi.api.data.TopicInfo;
 import win.pipi.api.network.CC98APIInterface;
 
 /**
@@ -138,7 +137,7 @@ public class BoardMapFragment extends BaseFragment
     }
 
     protected void OnRefreshSubBoards(int topBoardId, final ExpandingItem topitem){
-        Observable<ArrayList<BoardInfo>> call=iface.getBoardSubs(topBoardId);
+        Observable<ArrayList<BoardInfo>> call = iface.getBoardSub(topBoardId);
         call.subscribeOn(Schedulers.io())
                 .doOnNext(mRxAction1)
                 .observeOn(AndroidSchedulers.mainThread())
