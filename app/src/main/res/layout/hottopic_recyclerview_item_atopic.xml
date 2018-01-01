@@ -61,16 +61,19 @@
                 android:id="@+id/hottopic_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@id/hottopic_boardname"
+                android:layout_marginStart="40dp"
+                android:layout_centerVertical="true"
 
-                android:layout_margin="5dp"
+
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="username" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_toLeftOf="@id/hottopic_username"
+                android:layout_toRightOf="@id/hottopic_boardname"
+                android:layout_marginStart="18dp"
                 android:layout_centerVertical="true"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_account_circle_black_24dp" />
@@ -81,7 +84,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
+                android:layout_centerVertical="true"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="12sp"
                 tools:text="createTime" />
         </RelativeLayout>
     </LinearLayout>

@@ -48,7 +48,7 @@ implements View.OnClickListener{
         holder.newtopicTitle.setText(topicInfo.getTitle());
         holder.newtopicUsername.setText(topicInfo.getAuthorName());
         holder.newtopicBoardname.setText(topicInfo.getBoardId()+"");
-        holder.newtopicCreatetime.setText(topicInfo.getCreateTime());
+        holder.newtopicCreatetime.setText(topicInfo.getTime());
 
         holder.mview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +57,7 @@ implements View.OnClickListener{
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(pos);
+                    mListener.onListFragmentInteraction(pos, 0);
                 }
             }
         });

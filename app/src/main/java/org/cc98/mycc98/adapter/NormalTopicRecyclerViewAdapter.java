@@ -49,7 +49,7 @@ public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalT
         TopicInfo topicInfo = mValues.get(position);
 
         holder.topicTitle.setText(topicInfo.getTitle());
-        holder.topicCreatetime.setText(topicInfo.getCreateTime());
+        holder.topicCreatetime.setText(topicInfo.getTime().substring(0, 16));
         holder.topicUsername.setText(topicInfo.getAuthorName());
         //holder.topicBoardname.setText(topicInfo.getBoardId()+"");
         holder.topicHitcnt.setText(topicInfo.getReplyCount()+"/"+topicInfo.getHitCount());
@@ -62,7 +62,7 @@ public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalT
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(pos);
+                    mListener.onListFragmentInteraction(pos, 0);
                 }
             }
         });

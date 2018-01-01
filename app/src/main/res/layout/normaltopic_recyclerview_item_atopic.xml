@@ -33,14 +33,6 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="content" />
 
-            <TextView
-                android:id="@+id/topic_hitcnt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                tools:text="hitcnt" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -73,12 +65,24 @@
                 tools:text="username" />
 
             <TextView
+                android:id="@+id/topic_hitcnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                tools:text="hitcnt" />
+
+            <TextView
                 android:id="@+id/topic_createtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="14sp"
                 tools:text="createTime" />
         </RelativeLayout>
     </LinearLayout>

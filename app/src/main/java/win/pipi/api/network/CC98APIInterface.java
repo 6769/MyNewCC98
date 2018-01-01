@@ -5,6 +5,7 @@ import rx.Observable;
 import win.pipi.api.data.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CC98APIInterface {
 
@@ -25,14 +26,14 @@ public interface CC98APIInterface {
     @GET("Topic/New")
     Observable<ArrayList<TopicInfo>> getTopicNewRaw(@Header("range") String paging);
 
-    @GET("Topic/New")
+    @GET("topic/new")
     Observable<ArrayList<TopicInfo>> getTopicNew(@Query("from") Integer from,
                                                  @Query("size") Integer size);
 
-    @GET("Topic/Board/{boardId}")
+    @GET("board/{boardId}/topic")
     Observable<ArrayList<TopicInfo>> getTopicBoard(@Path("boardId") Integer boardId,
-                                             @Query("from") Integer from,
-                                             @Query("to")Integer to);
+                                                   @Query("from") Integer from,
+                                                   @Query("size") Integer size);
 
 
     @GET("Post/Topic/{topicId}")
@@ -56,8 +57,6 @@ public interface CC98APIInterface {
                                         @Body NewPostInfo newPostInfo
                                               );
 
-
-
     @GET("User/{id}")
     Observable<UserInfo>              getUserInfoViaId(@Path("id")Integer id);
 
@@ -68,17 +67,17 @@ public interface CC98APIInterface {
     Observable<UserInfo>              getMe();
 
 
-
+    @GET("Board/All")
+    Observable<ArrayList<GroupBoardInfo>> getBoardAll();
 
     @GET("Board/Root")
-    Observable<ArrayList<BoardInfo>> getBoardRoot();
+    Observable<ArrayList<RootBoardInfo>> getBoardRoot();
 
     @GET("Board/{boardId}/Sub")
     Observable<ArrayList<BoardInfo>> getBoardSub(@Path("boardId") Integer id);
 
     @GET("Board/{id}")
     Observable<ArrayList<BoardInfo>> getBoardId(@Path("id")Integer id);
-
 
 
     @GET ("Message?userName={userName}&filter={filter}")

@@ -57,7 +57,7 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
 
     @Override
     protected Observable<ArrayList<TopicInfo>> genNewCall(int bid, int from, int to) {
-        return iface.getTopicBoard(bid, from, to);
+        return iface.getTopicBoard(bid, from, to - from);
     }
 
 
@@ -76,7 +76,7 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
 
 
     @Override
-    public void onListFragmentInteraction(int i) {
+    public void onListFragmentInteraction(int i, int type) {
 
     }
 
@@ -95,7 +95,7 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
                         for (TopicInfo i : normalTopicInfos) {
                             String name = i.getAuthorName();
                             if (name == null || name.isEmpty())
-                                i.setAuthorName(getString(R.string.username_nobody));
+                                i.setUserName(getString(R.string.username_nobody));
                             mList.add(i);
                         }
                     }

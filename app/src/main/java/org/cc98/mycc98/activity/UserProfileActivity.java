@@ -17,14 +17,19 @@ import com.just.library.AgentWeb;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 
+import java.util.Locale;
+
 public class UserProfileActivity extends BaseActivity {
 
     public static final String USER_ID = "userid";
     public static final String UTF_8 = "utf-8";
 
     private static final String JS_CALL = "nativejava";
+    /*
     private static final String localHtmlFile = "file:///android_asset/webTemplate/userInfo/userInfo.html";
     private static final String debugAddr = "http://192.168.123.119:8000/";
+    */
+    private static final String useridurl = "http://www.cc98.org/user/id/%d";
 
 
     protected int userId;
@@ -52,6 +57,7 @@ public class UserProfileActivity extends BaseActivity {
         Bundle bundle = intent.getExtras();
         userId = bundle.getInt(USER_ID);
 
+        String url = String.format(Locale.ENGLISH, useridurl, userId);
         setContentView(R.layout.activity_user_profile);
         mLinearLayout = (LinearLayout) findViewById(R.id.activity_webview_location);
 
@@ -63,7 +69,7 @@ public class UserProfileActivity extends BaseActivity {
                 .setReceivedTitleCallback(null) //设置 Web 页面的 title 回调
                 .createAgentWeb()  //
                 .ready()
-                .go(localHtmlFile);
+                .go(url);
         webView = agentWeb.getWebCreator().get();
         webView.addJavascriptInterface(new JavascriptIntact(), JS_CALL);
 

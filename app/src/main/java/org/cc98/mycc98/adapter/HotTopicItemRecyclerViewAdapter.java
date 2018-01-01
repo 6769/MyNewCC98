@@ -25,6 +25,7 @@ public class HotTopicItemRecyclerViewAdapter
     private final List<? extends HotTopicInfo> mValues;
     private final OnPostFragmentInteractionListener mListener;
 
+
     public HotTopicItemRecyclerViewAdapter(List<? extends HotTopicInfo> items, OnPostFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -40,29 +41,38 @@ public class HotTopicItemRecyclerViewAdapter
     @Override
     public void onClick(View v) {
 
+
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+
         HotTopicInfo aTopicInfo = mValues.get(position);
         //holder.mItem = aTopicInfo;
         holder.hottopicRankid.setText(String.valueOf(position+1));
 
         String username=aTopicInfo.getAuthorName();
         holder.hottopicUsername.setText(username);
-        holder.hottopicCreatetime.setText(aTopicInfo.getCreateTime());
+        holder.hottopicCreatetime.setText(aTopicInfo.getCreateTime().substring(0, 16));
         holder.hottopicTitle.setText(aTopicInfo.getTitle());
         holder.hottopicBoardname.setText(aTopicInfo.getBoardName());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.hottopicUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(pos);
-                }
+                mListener.onListFragmentInteraction(position, 2);
+            }
+        });
+        holder.hottopicBoardname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onListFragmentInteraction(position, 1);
+            }
+        });
+        holder.hottopicTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onListFragmentInteraction(position, 0);
             }
         });
     }

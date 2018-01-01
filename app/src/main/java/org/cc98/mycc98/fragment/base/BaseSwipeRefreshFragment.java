@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +131,7 @@ public abstract class BaseSwipeRefreshFragment<T> extends BaseFragment
      */
     public interface OnPostFragmentInteractionListener {
 
-        void onListFragmentInteraction(int i);
+        void onListFragmentInteraction(int i, int type);
     }
 
 

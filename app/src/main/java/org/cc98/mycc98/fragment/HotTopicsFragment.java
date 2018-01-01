@@ -28,7 +28,6 @@ public class HotTopicsFragment extends BaseSwipeRefreshFragment<HotTopicInfo>
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +36,7 @@ public class HotTopicsFragment extends BaseSwipeRefreshFragment<HotTopicInfo>
 
     @Override
     protected void initUI() {
-        adapter=new HotTopicItemRecyclerViewAdapter(mLists,this);
+        adapter = new HotTopicItemRecyclerViewAdapter(mLists, this);
         mrecyclerView.setAdapter(adapter);
     }
 
@@ -57,11 +56,11 @@ public class HotTopicsFragment extends BaseSwipeRefreshFragment<HotTopicInfo>
                     @Override
                     public void call(ArrayList<HotTopicInfo> hotTopicInfos) {
                         mLists.clear();
-                        for(HotTopicInfo i:hotTopicInfos){
-                            if (i.getReplyCount()==0)
+                        for (HotTopicInfo i : hotTopicInfos) {
+                            if (i.getReplyCount() == 0)
                                 continue;
-                            String name=i.getAuthorName();
-                            if(name==null ||name.isEmpty())
+                            String name = i.getAuthorName();
+                            if (name == null || name.isEmpty())
                                 i.setAuthorName(getString(R.string.username_nobody));
 
                             mLists.add(i);
@@ -73,10 +72,21 @@ public class HotTopicsFragment extends BaseSwipeRefreshFragment<HotTopicInfo>
     }
 
 
-
     @Override
-    public void onListFragmentInteraction(int i) {
-        mkToast(mLists.get(i).getTitle());
+    public void onListFragmentInteraction(int i, int type) {
+        switch (type) {
+            case 0://title
+                int id = mLists.get(i).getId();
+                mkToast(String.valueOf(id));
+                break;
+            case 1://boardname
+                mkToast(mLists.get(i).getBoardName());
+                break;
+            case 2://user
+                String username = mLists.get(i).getAuthorName();
+                mkToast(username);
+                break;
+        }
 
     }
 

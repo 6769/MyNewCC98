@@ -1,10 +1,12 @@
 package win.pipi.api.data;
 
 /**
- * Created by pipi6 on 2017/12/22.
+ * Created by pipi6 on 2017/12/27.
+ * Unused here;
  */
 
 public class RootBoardInfo {
+
 
     /**
      * id : 763

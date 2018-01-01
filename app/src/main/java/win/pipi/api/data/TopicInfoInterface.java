@@ -6,7 +6,7 @@ public interface TopicInfoInterface {
     public int getId();
     public int getBoardId();
     public String getAuthorName();
-    public String getCreateTime();
+
     public int getReplyCount();
     public int getHitCount();
 }

@@ -2,53 +2,62 @@ package win.pipi.api.data;
 
 public class TopicInfo implements TopicInfoInterface {
 
+
     /**
-     * title : 欢迎来到 CC98
-     * hitCount : 9898
-     * id : 9898
-     * boardId : 98
-     * bestState : 2
-     * topState : 4
-     * replyCount : 98
-     * isVote : false
+     * id : 4744646
+     * boardId : 68
+     * title : 【学习天地水楼1.0】
+     * time : 2017-12-22T23:21:27.843+08:00
+     * userId : 530704
+     * userName : 格林匹施
      * isAnonymous : false
-     * authorName : CC98
-     * authorId : 98
-     * isLocked : false
-     * createTime : 1998-09-08T00:00:00
-     * lastPostInfo : {"userName":"CC98","contentSummary":"欢迎来到 CC98。My CC98, My Home。","time":"1998-09-08T00:00:00"}
+     * disableHot : true
+     * lastPostTime : 2017-12-31T19:33:27
+     * state : 0
+     * type : 0
+     * replyCount : 65
+     * hitCount : 656
+     * totalVoteUserCount : 0
+     * lastPostUser : 格林匹施
+     * lastPostContent : 在家跨年
+     * topState : 0
+     * bestState : 0
+     * isVote : false
+     * isPosterOnly : false
+     * allowedViewerState : 0
+     * dislikeCount : 0
+     * likeCount : 0
+     * highlightInfo : null
+     * tag1 : 85
+     * tag2 : 0
      */
 
-    private String title;
-    private int hitCount;
     private int id;
     private int boardId;
-    private int bestState;
-    private int topState;
-    private int replyCount;
-    private boolean isVote;
+    private String title;
+    private String time;
+    private int userId;
+    private String userName;
     private boolean isAnonymous;
-    private String authorName;
-    private int authorId;
-    private boolean isLocked;
-    private String createTime;
-    private LastPostInfoBean lastPostInfo;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getHitCount() {
-        return hitCount;
-    }
-
-    public void setHitCount(int hitCount) {
-        this.hitCount = hitCount;
-    }
+    private boolean disableHot;
+    private String lastPostTime;
+    private int state;
+    private int type;
+    private int replyCount;
+    private int hitCount;
+    private int totalVoteUserCount;
+    private String lastPostUser;
+    private String lastPostContent;
+    private int topState;
+    private int bestState;
+    private boolean isVote;
+    private boolean isPosterOnly;
+    private int allowedViewerState;
+    private int dislikeCount;
+    private int likeCount;
+    private Object highlightInfo;
+    private int tag1;
+    private int tag2;
 
     public int getId() {
         return id;
@@ -66,36 +75,40 @@ public class TopicInfo implements TopicInfoInterface {
         this.boardId = boardId;
     }
 
-    public int getBestState() {
-        return bestState;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBestState(int bestState) {
-        this.bestState = bestState;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getTopState() {
-        return topState;
+    public String getTime() {
+        return time;
     }
 
-    public void setTopState(int topState) {
-        this.topState = topState;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public int getReplyCount() {
-        return replyCount;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setReplyCount(int replyCount) {
-        this.replyCount = replyCount;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public boolean isIsVote() {
-        return isVote;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setIsVote(boolean isVote) {
-        this.isVote = isVote;
+    public String getAuthorName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public boolean isIsAnonymous() {
@@ -106,79 +119,155 @@ public class TopicInfo implements TopicInfoInterface {
         this.isAnonymous = isAnonymous;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public boolean isDisableHot() {
+        return disableHot;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setDisableHot(boolean disableHot) {
+        this.disableHot = disableHot;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public String getLastPostTime() {
+        return lastPostTime;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setLastPostTime(String lastPostTime) {
+        this.lastPostTime = lastPostTime;
     }
 
-    public boolean isIsLocked() {
-        return isLocked;
+    public int getState() {
+        return state;
     }
 
-    public void setIsLocked(boolean isLocked) {
-        this.isLocked = isLocked;
+    public void setState(int state) {
+        this.state = state;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public int getType() {
+        return type;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public LastPostInfoBean getLastPostInfo() {
-        return lastPostInfo;
+    public int getReplyCount() {
+        return replyCount;
     }
 
-    public void setLastPostInfo(LastPostInfoBean lastPostInfo) {
-        this.lastPostInfo = lastPostInfo;
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
     }
 
-    public static class LastPostInfoBean {
-        /**
-         * userName : CC98
-         * contentSummary : 欢迎来到 CC98。My CC98, My Home。
-         * time : 1998-09-08T00:00:00
-         */
+    public int getHitCount() {
+        return hitCount;
+    }
 
-        private String userName;
-        private String contentSummary;
-        private String time;
+    public void setHitCount(int hitCount) {
+        this.hitCount = hitCount;
+    }
 
-        public String getUserName() {
-            return userName;
-        }
+    public int getTotalVoteUserCount() {
+        return totalVoteUserCount;
+    }
 
-        public void setUserName(String userName) {
-            this.userName = userName;
-        }
+    public void setTotalVoteUserCount(int totalVoteUserCount) {
+        this.totalVoteUserCount = totalVoteUserCount;
+    }
 
-        public String getContentSummary() {
-            return contentSummary;
-        }
+    public String getLastPostUser() {
+        return lastPostUser;
+    }
 
-        public void setContentSummary(String contentSummary) {
-            this.contentSummary = contentSummary;
-        }
+    public void setLastPostUser(String lastPostUser) {
+        this.lastPostUser = lastPostUser;
+    }
 
-        public String getTime() {
-            return time;
-        }
+    public String getLastPostContent() {
+        return lastPostContent;
+    }
 
-        public void setTime(String time) {
-            this.time = time;
-        }
+    public void setLastPostContent(String lastPostContent) {
+        this.lastPostContent = lastPostContent;
+    }
+
+    public int getTopState() {
+        return topState;
+    }
+
+    public void setTopState(int topState) {
+        this.topState = topState;
+    }
+
+    public int getBestState() {
+        return bestState;
+    }
+
+    public void setBestState(int bestState) {
+        this.bestState = bestState;
+    }
+
+    public boolean isIsVote() {
+        return isVote;
+    }
+
+    public void setIsVote(boolean isVote) {
+        this.isVote = isVote;
+    }
+
+    public boolean isIsPosterOnly() {
+        return isPosterOnly;
+    }
+
+    public void setIsPosterOnly(boolean isPosterOnly) {
+        this.isPosterOnly = isPosterOnly;
+    }
+
+    public int getAllowedViewerState() {
+        return allowedViewerState;
+    }
+
+    public void setAllowedViewerState(int allowedViewerState) {
+        this.allowedViewerState = allowedViewerState;
+    }
+
+    public int getDislikeCount() {
+        return dislikeCount;
+    }
+
+    public void setDislikeCount(int dislikeCount) {
+        this.dislikeCount = dislikeCount;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Object getHighlightInfo() {
+        return highlightInfo;
+    }
+
+    public void setHighlightInfo(Object highlightInfo) {
+        this.highlightInfo = highlightInfo;
+    }
+
+    public int getTag1() {
+        return tag1;
+    }
+
+    public void setTag1(int tag1) {
+        this.tag1 = tag1;
+    }
+
+    public int getTag2() {
+        return tag2;
+    }
+
+    public void setTag2(int tag2) {
+        this.tag2 = tag2;
     }
 }

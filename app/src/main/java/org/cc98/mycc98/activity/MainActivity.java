@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity
         List<String> main_tab_name = Arrays.asList(
                 resources.getStringArray(R.array.activity_main_tab_name));
         List<Fragment> main_tab_frag = new ArrayList<>();
-        main_tab_frag.add(BoardViewPostFragment.newInstance(100));
+        main_tab_frag.add(BoardViewPostFragment.newInstance(152));
         main_tab_frag.add(new HotTopicsFragment());
         main_tab_frag.add(new BoardMapFragment());
         main_tab_frag.add(NewTopicsFragment.newInstance());
@@ -84,8 +84,6 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager(),
                 main_tab_frag,
                 main_tab_name));
-
-        //viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager()));
     }
 
     @Override
