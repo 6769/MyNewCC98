@@ -29,6 +29,8 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import win.pipi.api.data.BoardInfo;
+import win.pipi.api.data.GroupBoardInfo;
+import win.pipi.api.data.RootBoardInfo;
 import win.pipi.api.network.CC98APIInterface;
 
 /**
@@ -44,8 +46,7 @@ public class BoardMapFragment extends BaseFragment
     protected SwipeRefreshLayout mswipeRefreshLayout;
     protected ExpandingList mExpandlist;
     protected CC98APIInterface iface;
-    private Observer<List<BoardInfo>> topBoardObserver,subBoardObserver;
-    private Action1<List<BoardInfo>> mRxAction1;
+    private Observer<List<GroupBoardInfo>> topBoardObserver;
 
     public BoardMapFragment() {
     }
@@ -54,7 +55,7 @@ public class BoardMapFragment extends BaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         iface = MainApplication.getApiInterface();
-        topBoardObserver=new Observer<List<BoardInfo>>() {
+        topBoardObserver = new Observer<List<GroupBoardInfo>>() {
             @Override
             public void onCompleted() {
 
@@ -67,30 +68,15 @@ public class BoardMapFragment extends BaseFragment
             }
 
             @Override
-            public void onNext(List<BoardInfo> boardInfos) {
+            public void onNext(List<GroupBoardInfo> boardInfos) {
                 mExpandlist.removeAllViews();
-                for(BoardInfo i:boardInfos){
+                for (GroupBoardInfo i : boardInfos) {
                     configureTopItem(i);
                 }
                 mswipeRefreshLayout.setRefreshing(false);
             }
         };
-        mRxAction1=new Action1<List<BoardInfo>>() {
-            @Override
-            public void call(List<BoardInfo> boardInfos) {
-                mLists=boardInfos;
-                Collections.sort(mLists, new Comparator<BoardInfo>() {
-                    @Override
-                    public int compare(BoardInfo o1, BoardInfo o2) {
-                        int cnt1=o1.getTodayPostCount();
-                        int cnt2=o2.getTodayPostCount();
-                        if (cnt1>cnt2)     return -1;
-                        else if (cnt1==cnt2) return 0;
-                        else return 1;
-                    }
-                });
-            }
-        };
+
 
     }
 
@@ -118,59 +104,21 @@ public class BoardMapFragment extends BaseFragment
 
     @Override
     public void onRefresh() {
-        Observable<ArrayList<BoardInfo>> call=iface.getBoardRoot();
-
+        Observable<ArrayList<GroupBoardInfo>> call = iface.getBoardAll();
         call.subscribeOn(Schedulers.io())
-                .doOnNext(mRxAction1)
-                .flatMap(new Func1<ArrayList<BoardInfo>, Observable<ArrayList<BoardInfo>>>() {
-                    @Override
-                    public Observable<ArrayList<BoardInfo>> call(ArrayList<BoardInfo> boardInfos) {
-                        //build new requests
-                        
-
-                        return null;
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
-                ;//.subscribe(topBoardObserver);
+                .subscribe(topBoardObserver);
 
     }
 
-    protected void OnRefreshSubBoards(int topBoardId, final ExpandingItem topitem){
-        Observable<ArrayList<BoardInfo>> call = iface.getBoardSub(topBoardId);
-        call.subscribeOn(Schedulers.io())
-                .doOnNext(mRxAction1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ArrayList<BoardInfo>>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ArrayList<BoardInfo> boardInfos) {
-                        int size=boardInfos.size();
-                        for (int i = 0; i <size ; i++) {
-                            View view= topitem.getSubItemView(i);
-                            configureSubItem(view,boardInfos.get(i));
-                        }
-                    }
-                });
-
-    }
-
-    protected void configureTopItem(BoardInfo boardInfo) {
+    protected void configureTopItem(GroupBoardInfo boardInfo) {
         //Let's create an item with R.layout.expanding_layout
         ExpandingItem expandingItem = mExpandlist.createNewItem(R.layout.expandinglist_topitem_layout);
 
         //If item creation is successful, let's configure it
         if (expandingItem != null) {
-            expandingItem.setIndicatorColorRes(R.color.white);
+            expandingItem.setIndicatorColorRes(R.color.card_grey);
             expandingItem.setIndicatorIconRes(R.drawable.ic_menu_gallery);
             //It is possible to get any view inside the inflated layout. Let's set the text in the item
             TextView topboardName=(TextView) expandingItem.findViewById(R.id.expandinglist_item_top_boardname);
@@ -178,11 +126,17 @@ public class BoardMapFragment extends BaseFragment
 
             //We can create items in batch.
 
-            expandingItem.createSubItems(boardInfo.getChildBoardCount());
-            OnRefreshSubBoards(boardInfo.getRootId(),expandingItem);
+            List<GroupBoardInfo.BoardsBean> subboards = boardInfo.getBoards();
+            expandingItem.createSubItems(subboards.size());
+            for (int i = 0; i < expandingItem.getSubItemsCount(); i++) {
+                configureSubItem(expandingItem.getSubItemView(i), subboards.get(i));
+            }
+
+
         }
     }
-    private void configureSubItem(View view, final BoardInfo boardInfo) {
+
+    private void configureSubItem(View view, final GroupBoardInfo.BoardsBean boardInfo) {
         TextView subboardName=(TextView) view.findViewById(R.id.sub_title);
         subboardName.setText(boardInfo.getName());
         view.setOnClickListener(new View.OnClickListener() {
