@@ -31,4 +31,7 @@
     <string name="toast_tips_ok">刷新完成</string>
     <string name="username_nobody">匿名</string>
     <string name="pushtoloadmore_tips_loading">加载中</string>
+    <string name="default_board_name">默认版面</string>
+    <string name="default_board_id">184</string>
+    <string name="default_board_prefix">版面:</string>
 </resources>

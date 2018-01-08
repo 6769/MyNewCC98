@@ -15,7 +15,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="67dp"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackgroundBorderless">
+
     <TextView
         android:id="@+id/expandinglist_item_top_boardname"
         android:layout_width="wrap_content"
@@ -23,8 +26,8 @@
         android:layout_centerVertical="true"
 
         android:gravity="center_vertical|start"
-        tools:text="hello"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        tools:text="hello" />
 
     <ImageView
         android:id="@+id/add_more_sub_items"
@@ -37,15 +40,4 @@
         android:layout_marginRight="16dp"
         app:srcCompat="@drawable/about_icon_github" />
 
-    <ImageView
-        android:id="@+id/remove_item"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@id/add_more_sub_items"
-        android:layout_toStartOf="@id/add_more_sub_items"
-        android:padding="12dp"
-        app:srcCompat="@drawable/about_icon_twitter" />
 </RelativeLayout>

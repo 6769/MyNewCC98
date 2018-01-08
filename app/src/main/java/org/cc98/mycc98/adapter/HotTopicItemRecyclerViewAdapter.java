@@ -69,7 +69,8 @@ public class HotTopicItemRecyclerViewAdapter
                 mListener.onListFragmentInteraction(position, 1);
             }
         });
-        holder.hottopicTitle.setOnClickListener(new View.OnClickListener() {
+
+        holder.hottopicContainerIDTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onListFragmentInteraction(position, 0);
@@ -95,6 +96,8 @@ public class HotTopicItemRecyclerViewAdapter
         TextView hottopicUsername;
         @BindView(R.id.hottopic_createtime)
         TextView hottopicCreatetime;
+        @BindView(R.id.hottopic_container_id_title)
+        View hottopicContainerIDTitle;
 
 
         View mView;

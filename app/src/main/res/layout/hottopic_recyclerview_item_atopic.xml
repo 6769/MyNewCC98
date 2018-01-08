@@ -18,8 +18,11 @@
 
 
         <LinearLayout
+            android:id="@+id/hottopic_container_id_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
 
             <TextView
@@ -32,6 +35,7 @@
 
             <TextView
                 android:id="@+id/hottopic_title"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -44,7 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/card_list_bg"
+
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/hottopic_boardname"
                 android:layout_width="wrap_content"
@@ -52,8 +58,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:textAppearance="?attr/textAppearanceListItem"
-
                 tools:text="boardname" />
 
 
@@ -64,7 +70,7 @@
                 android:layout_toRightOf="@id/hottopic_boardname"
                 android:layout_marginStart="40dp"
                 android:layout_centerVertical="true"
-
+                android:background="?android:attr/selectableItemBackgroundBorderless"
 
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="username" />

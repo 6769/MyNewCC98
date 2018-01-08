@@ -10,7 +10,6 @@
         android:id="@+id/fragment_newpost_xrefresh_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <android.support.v7.widget.RecyclerView
@@ -20,6 +19,15 @@
 
             app:layoutManager="LinearLayoutManager"
             android:scrollbars="vertical"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbarFadeDuration="3600"
+
+            app:fastScrollEnabled="true"
+            app:fastScrollHorizontalThumbDrawable="@drawable/recyclerview_fastscroll_bar_thumb_block"
+            app:fastScrollHorizontalTrackDrawable="@drawable/recyclerview_fastscroll_bar_background"
+            app:fastScrollVerticalThumbDrawable="@drawable/recyclerview_fastscroll_bar_thumb_block"
+            app:fastScrollVerticalTrackDrawable="@drawable/recyclerview_fastscroll_bar_background"
+
             tools:listitem="@layout/newtopic_recyclerview_item_atopic"/>
     </com.andview.refreshview.XRefreshView>
 
@@ -34,7 +42,7 @@
 
         app:layout_behavior="org.cc98.mycc98.behavior.ScrollAwareFABBehaviorDefault"
         app:rippleColor="@color/login_unsel_btn"
-        app:srcCompat="@drawable/ic_search_white_36dp" />
+        app:srcCompat="@drawable/ic_create_white_24dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

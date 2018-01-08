@@ -45,7 +45,7 @@ public class MainApplication extends Application {
     private void initLogger(){
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(true)  // (Optional) Whether to show thread info or not. Default true
-                //.methodCount(3)         // (Optional) How many method line to show. Default 2
+                //.methodCount(3)         // (Optional) How many method scroll_bar_bg_line to show. Default 2
                 //.methodOffset(5)        // (Optional) Hides internal method calls up to offset. Default 5
                 //.logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
                 .tag("My98")   // (Optional) Global tag for every log. Default PRETTY_LOGGER

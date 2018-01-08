@@ -19,7 +19,8 @@ import win.pipi.api.data.TopicInfo;
  * Created by pipi6 on 2017/10/17.
  */
 
-public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalTopicRecyclerViewAdapter.ViewHolder> {
+public class NormalTopicRecyclerViewAdapter
+        extends RecyclerView.Adapter<NormalTopicRecyclerViewAdapter.ViewHolder> {
 
 
     private final List<? extends TopicInfo> mValues;
@@ -45,7 +46,7 @@ public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalT
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         TopicInfo topicInfo = mValues.get(position);
 
         holder.topicTitle.setText(topicInfo.getTitle());
@@ -55,14 +56,21 @@ public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalT
         holder.topicHitcnt.setText(topicInfo.getReplyCount()+"/"+topicInfo.getHitCount());
 
 
-        holder.mview.setOnClickListener(new View.OnClickListener() {
+        holder.topicUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
+                if (null!=mListener)
+                    mListener.onListFragmentInteraction(position,2);
+            }
+        });
+        holder.topicContainerTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(pos, 0);
+                    mListener.onListFragmentInteraction(position, 0);
                 }
             }
         });
@@ -81,6 +89,8 @@ public class NormalTopicRecyclerViewAdapter extends RecyclerView.Adapter<NormalT
         TextView topicUsername;
         @BindView(R.id.topic_createtime)
         TextView topicCreatetime;
+        @BindView(R.id.topic_container_title)
+        View topicContainerTitle;
 
         View mview;
 

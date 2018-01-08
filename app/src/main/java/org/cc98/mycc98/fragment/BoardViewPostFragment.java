@@ -77,6 +77,14 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
 
     @Override
     public void onListFragmentInteraction(int i, int type) {
+        switch (type){
+            case 0:
+                mkToast(mList.get(i).getTitle());
+                break;
+            case 1:break;
+            case 2:
+                mkToast(mList.get(i).getUserName());break;
+        }
 
     }
 

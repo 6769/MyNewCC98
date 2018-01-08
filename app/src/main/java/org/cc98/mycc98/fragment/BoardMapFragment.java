@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.diegodobelo.expandingview.ExpandingItem;
@@ -45,6 +46,8 @@ public class BoardMapFragment extends BaseFragment
     protected List<BoardInfo> mLists = new ArrayList<>();
     protected SwipeRefreshLayout mswipeRefreshLayout;
     protected ExpandingList mExpandlist;
+    protected ImageView mImageview;
+
     protected CC98APIInterface iface;
     private Observer<List<GroupBoardInfo>> topBoardObserver;
 
@@ -69,11 +72,14 @@ public class BoardMapFragment extends BaseFragment
 
             @Override
             public void onNext(List<GroupBoardInfo> boardInfos) {
+
                 mExpandlist.removeAllViews();
                 for (GroupBoardInfo i : boardInfos) {
                     configureTopItem(i);
                 }
+
                 mswipeRefreshLayout.setRefreshing(false);
+
             }
         };
 
@@ -87,6 +93,7 @@ public class BoardMapFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_boardexpanse_list, container, false);
         mswipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_swipeLayout);
         mExpandlist = (ExpandingList) view.findViewById(R.id.fragment_boardview_expanding_list_main);
+        //mImageview=view.findViewById(R.id.fragment_boardview_expanding_list_cover);
 
         mswipeRefreshLayout.setColorSchemeColors(Color.BLUE,
                 Color.GREEN,
@@ -104,6 +111,7 @@ public class BoardMapFragment extends BaseFragment
 
     @Override
     public void onRefresh() {
+
         Observable<ArrayList<GroupBoardInfo>> call = iface.getBoardAll();
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -127,8 +135,10 @@ public class BoardMapFragment extends BaseFragment
             //We can create items in batch.
 
             List<GroupBoardInfo.BoardsBean> subboards = boardInfo.getBoards();
-            expandingItem.createSubItems(subboards.size());
-            for (int i = 0; i < expandingItem.getSubItemsCount(); i++) {
+
+            int count=subboards.size();
+            expandingItem.createSubItems(count);
+            for (int i = 0; i < count; i++) {
                 configureSubItem(expandingItem.getSubItemView(i), subboards.get(i));
             }
 
@@ -142,7 +152,7 @@ public class BoardMapFragment extends BaseFragment
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ABoardViewActivity.startActivity(getContext(),boardInfo.getId());
+                ABoardViewActivity.startActivity(getContext(),boardInfo.getId(),boardInfo.getName());
             }
         });
 

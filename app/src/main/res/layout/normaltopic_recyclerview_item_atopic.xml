@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+http://m.blog.csdn.net/jdsjlzx/article/details/50615077
+water wave effect;
+-->
+
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="10dp"
     android:orientation="vertical"
     app:cardCornerRadius="2dp">
 
@@ -17,39 +22,40 @@
         android:orientation="vertical">
 
 
-        <RelativeLayout
-            android:paddingLeft="10dp"
+        <LinearLayout
+            android:id="@+id/topic_container_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
 
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/topic_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="5dp"
-                android:textSize="17sp"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="17sp"
                 tools:text="content" />
 
-        </RelativeLayout>
+        </LinearLayout>
+
+
 
         <RelativeLayout
-            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/card_list_bg"
-            android:orientation="horizontal">
-
-
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
 
 
             <ImageView
-                android:layout_alignParentLeft="true"
                 android:id="@+id/topic_icon_user"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_account_circle_black_24dp" />
@@ -59,8 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@id/topic_icon_user"
                 android:layout_margin="5dp"
+                android:layout_toRightOf="@id/topic_icon_user"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="username" />
 
@@ -69,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_margin="5dp"
                 tools:text="hitcnt" />
 

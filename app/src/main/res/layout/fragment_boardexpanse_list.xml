@@ -10,8 +10,11 @@
     android:layout_height="match_parent">
 
     <com.diegodobelo.expandingview.ExpandingList
-        android:id="@+id/fragment_boardview_expanding_list_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            android:id="@+id/fragment_boardview_expanding_list_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+
 
 </android.support.v4.widget.SwipeRefreshLayout>
