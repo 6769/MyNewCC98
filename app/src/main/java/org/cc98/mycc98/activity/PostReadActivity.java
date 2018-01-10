@@ -2,23 +2,43 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.webkit.JavascriptInterface;
 
+import com.google.gson.Gson;
+
+import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.activity.base.BaseActivity;
+import org.cc98.mycc98.activity.base.BaseWebViewActivity;
 
-public class PostReadActivity extends BaseActivity {
-    
-    public static final String TOPIC_ID="TOPIC_ID";
-    
-    //外部实现的
-    public static interface getPostInfo{
-        String getPostInfo(int id,int start,int size);
-        //json string provided;
-    }
-    
-    
-    //app调用看贴入口
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
+import win.pipi.api.data.PostContent;
+import win.pipi.api.data.TopicInfo;
+import win.pipi.api.network.CC98APIInterface;
+
+public class PostReadActivity extends BaseWebViewActivity {
+
+    public static final String TOPIC_ID = "TOPIC_ID";
+    private static final String BRIDGE_TOKEN = "nativeface";
+    private int topicId;
+
+    private TopicInfo topicInfosave;
+
+    private CC98APIInterface cc98APIInterface;
+    private Resources resources;
+    private List<PostContent> postContentSave;
+    private Gson gsonhandler = new Gson();
+
+
     public static void startActivity(Context context, int topicID) {
         Intent intent = new Intent(context, PostReadActivity.class);
         Bundle bundle = new Bundle();
@@ -31,8 +51,106 @@ public class PostReadActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_read);
-        
-        
-        
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        resources = getResources();
+        topicId = bundle.getInt(TOPIC_ID,
+                resources.getInteger(R.integer.default_bug_report_topicid));
+        postContentSave = new ArrayList<>();
+
+        cc98APIInterface = MainApplication.getApiInterface();
+
+        mLinearLayout = findViewById(R.id.activity_post_read_webviewcontainer);
+        initWebView(getString(R.string.postview_local_template));
+        webView.addJavascriptInterface(new JavascriptApi(), BRIDGE_TOKEN);
+
+        requestsNeedsData(0,10);
+
+    }
+
+    protected void requestsNeedsData(int start, int size) {
+
+        Observable<TopicInfo> getTopicinfo = cc98APIInterface.getTopicInfo(topicId);
+        Observable<ArrayList<PostContent>> getTopicPosts = cc98APIInterface
+                .getTopicPost(topicId, start, size);
+
+        Observable<TopicAndPosts> level1Requests = Observable.zip(getTopicinfo, getTopicPosts,
+                new Func2<TopicInfo, ArrayList<PostContent>, TopicAndPosts>() {
+                    @Override
+                    public TopicAndPosts call(TopicInfo topicInfo, ArrayList<PostContent> postContents) {
+                        return new TopicAndPosts(topicInfo, postContents);
+                    }
+                });
+        level1Requests.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<TopicAndPosts>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        loge(e, "Zipped Requests Error");
+
+                    }
+
+                    @Override
+                    public void onNext(TopicAndPosts topicAndPosts) {
+                        if (topicAndPosts.isTopicValid())
+                            topicInfosave = topicAndPosts.getTopicInfo();
+                        if (topicAndPosts.isPostsValid())
+                            postContentSave = topicAndPosts.getPostContents();
+                        webView.reload();
+
+                    }
+                });
+
+
+    }
+
+
+    public static class TopicAndPosts {
+        TopicInfo topicInfo;
+        List<PostContent> postContents;
+
+        public TopicAndPosts(TopicInfo topicInfo, List<PostContent> postContents) {
+            this.topicInfo = topicInfo;
+            this.postContents = postContents;
+        }
+
+        public TopicInfo getTopicInfo() {
+            return topicInfo;
+        }
+
+        public List<PostContent> getPostContents() {
+            return postContents;
+        }
+
+        public boolean isTopicValid() {
+            return topicInfo != null;
+        }
+
+        public boolean isPostsValid() {
+            return postContents.size() > 0;
+        }
+    }
+
+    public class JavascriptApi {
+        @JavascriptInterface
+        public void showToast(String toast) {
+            mkToast(toast);
+        }
+
+        @JavascriptInterface
+        public String getTopicInfo() {
+            return gsonhandler.toJson(topicInfosave);
+        }
+
+        @JavascriptInterface
+        public String getPostsInfo() {
+            return gsonhandler.toJson(postContentSave);
+        }
+
     }
 }

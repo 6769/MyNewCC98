@@ -18,9 +18,12 @@
 
 
         <RelativeLayout
+            android:id="@+id/newtopic_container_title"
             android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
 
             <TextView
@@ -44,37 +47,41 @@
                 android:id="@+id/newtopic_boardname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:paddingEnd="30dp"
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
-
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 tools:text="boardname" />
 
-
-
-            <TextView
-                android:id="@+id/newtopic_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:textAppearance="?attr/textAppearanceListItem"
-                tools:text="username" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_toLeftOf="@id/newtopic_username"
+                android:layout_toStartOf="@id/newtopic_username"
                 android:layout_centerVertical="true"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
             <TextView
+                android:id="@+id/newtopic_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/newtopic_boardname"
+                android:layout_margin="5dp"
+
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                tools:text="username" />
+
+
+
+            <TextView
                 android:id="@+id/newtopic_createtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_margin="5dp"
                 android:textAppearance="?attr/textAppearanceListItem"
                 tools:text="createTime" />

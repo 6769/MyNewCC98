@@ -69,4 +69,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onRestart();
         Logger.t(this.getClass().getSimpleName()).d("onRestart");
     }
+    protected void loge(Throwable e,String msg){
+        Logger.t(this.getClass().getSimpleName()).e(e,msg);
+    }
 }

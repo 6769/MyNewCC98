@@ -26,6 +26,8 @@
     <string name="moto_of_zju">诸位在校，有两个问题要自己问问，\n第一，来浙大做什么? \n第二，将来毕业后要做一个什么样的人?</string>
     <string name="preview_when_empty">不认真回答问题，老校长的棺材板要压不住啦~</string>
 
+    <string name="postview_local_template">file:///android_asset/postview/post.html</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toast_tips_ok">刷新完成</string>
@@ -34,4 +36,8 @@
     <string name="default_board_name">默认版面</string>
     <string name="default_board_id">184</string>
     <string name="default_board_prefix">版面:</string>
+    <string name="default_posts_hasover">没有新的啦</string>
+    <string name="pref_userlogin_storage">customer_payed</string>
+    <string name="pref_username">username</string>
+    <string name="pref_password">password</string>
 </resources>

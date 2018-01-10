@@ -8,6 +8,6 @@
 /captures
 .externalNativeBuild
 .idea/
-
+/library
 
 tempo-2.0/examples/

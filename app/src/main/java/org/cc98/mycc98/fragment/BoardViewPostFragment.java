@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.activity.PostReadActivity;
 import org.cc98.mycc98.adapter.NormalTopicRecyclerViewAdapter;
 import org.cc98.mycc98.fragment.base.BasePullPushSwipeFragment;
 
@@ -79,11 +80,16 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
     public void onListFragmentInteraction(int i, int type) {
         switch (type){
             case 0:
-                mkToast(mList.get(i).getTitle());
+                int topicid=mList.get(i).getId();
+                PostReadActivity.startActivity(getContext(),topicid);
+                // mkToast(mList.get(i).getTitle());
                 break;
-            case 1:break;
+            case 1:
+                mkToast(mList.get(i).getBoardId()+"");
+                break;
             case 2:
-                mkToast(mList.get(i).getUserName());break;
+                mkToast(mList.get(i).getUserName());
+                break;
         }
 
     }

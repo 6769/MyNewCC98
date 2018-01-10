@@ -6,13 +6,5 @@ package org.cc98.mycc98;
 
 public class Config {
 
-    private static String userToken = "";
 
-    public static void setUserToken(String m) {
-        userToken = m;
-    }
-
-    public static String getUserToken() {
-        return userToken;
-    }
 }

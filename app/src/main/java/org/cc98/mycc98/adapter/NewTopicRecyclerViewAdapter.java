@@ -43,21 +43,36 @@ implements View.OnClickListener{
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         TopicInfo topicInfo=mValues.get(position);
         holder.newtopicTitle.setText(topicInfo.getTitle());
         holder.newtopicUsername.setText(topicInfo.getAuthorName());
         holder.newtopicBoardname.setText(topicInfo.getBoardId()+"");
-        holder.newtopicCreatetime.setText(topicInfo.getTime());
+        holder.newtopicCreatetime.setText(topicInfo.getTime().substring(0,16));
 
-        holder.mview.setOnClickListener(new View.OnClickListener() {
+        holder.newtopicBoardname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(pos, 0);
+                if(null!=mListener){
+                    mListener.onListFragmentInteraction(position,1);
+                }
+            }
+        });
+
+        holder.container_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=mListener){
+                    mListener.onListFragmentInteraction(position,0);
+                }
+            }
+        });
+
+        holder.newtopicUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=mListener){
+                    mListener.onListFragmentInteraction(position,2);
                 }
             }
         });
@@ -86,6 +101,8 @@ implements View.OnClickListener{
         @BindView(R.id.newtopic_createtime)
         TextView newtopicCreatetime;
 
+        @BindView(R.id.newtopic_container_title)
+        View container_title;
 
         View mview;
 

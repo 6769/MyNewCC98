@@ -1,6 +1,7 @@
 package org.cc98.mycc98.activity;
 
 import android.app.ActionBar;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -44,7 +45,9 @@ public class ABoardViewActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        boardId = bundle.getInt(BOARD_KEY, Integer.valueOf(getString(R.string.default_board_id)));
+        Resources resources=getResources();
+
+        boardId = bundle.getInt(BOARD_KEY, resources.getInteger(R.integer.default_board_helppart));
         boardName = bundle.getString(BOARD_NAME, getString(R.string.default_board_name));
         PREFIX_BOARD = getString(R.string.default_board_prefix);
         setContentView(R.layout.activity_board_view);

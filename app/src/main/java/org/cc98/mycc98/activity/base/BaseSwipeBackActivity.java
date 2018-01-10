@@ -81,5 +81,9 @@ public class BaseSwipeBackActivity extends AppCompatActivity {
         Logger.t(this.getClass().getSimpleName()).d("onRestart");
     }
 
+    protected void loge(Throwable e,String msg){
+        Logger.t(this.getClass().getSimpleName()).e(e,msg);
+    }
+
 
 }

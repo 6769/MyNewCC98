@@ -43,8 +43,6 @@
         android:title="Switch preference" />
 
 
-
-
 </PreferenceScreen>
 
     <!--

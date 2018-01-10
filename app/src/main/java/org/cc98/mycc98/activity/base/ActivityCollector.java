@@ -27,4 +27,11 @@ public class ActivityCollector {
             }
         }
     }
+    public static void justKeepLast(){
+        int len=activities.size();
+
+        for(int i=0;i<len-1;i++){
+            activities.get(i).finish();
+        }
+    }
 }
