@@ -31,6 +31,11 @@ public class MainApplication extends Application {
     }
 
     private static LoginCC98 loginCC98instance;
+
+    public static CC98APIManager getCc98APIManager() {
+        return cc98APIManager;
+    }
+
     private static CC98APIManager cc98APIManager;
 
     public static Context getContext(){

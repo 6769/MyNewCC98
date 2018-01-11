@@ -11,8 +11,6 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.just.library.AgentWeb;
-
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;

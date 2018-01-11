@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebViewClient;
 
 import com.google.gson.Gson;
 
@@ -12,17 +14,22 @@ import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseWebViewActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
+import win.pipi.api.data.BasicUserInfo;
 import win.pipi.api.data.PostContent;
 import win.pipi.api.data.TopicInfo;
+import win.pipi.api.data.UserInfo;
 import win.pipi.api.network.CC98APIInterface;
 
 public class PostReadActivity extends BaseWebViewActivity {
@@ -32,11 +39,13 @@ public class PostReadActivity extends BaseWebViewActivity {
     private int topicId;
 
     private TopicInfo topicInfosave;
+    private int currentPageBlock;
 
     private CC98APIInterface cc98APIInterface;
     private Resources resources;
     private List<PostContent> postContentSave;
-    private Gson gsonhandler = new Gson();
+    private List<BasicUserInfo>    userInfos;
+    private Gson gsonHandler = new Gson();
 
 
     public static void startActivity(Context context, int topicID) {
@@ -57,18 +66,30 @@ public class PostReadActivity extends BaseWebViewActivity {
         topicId = bundle.getInt(TOPIC_ID,
                 resources.getInteger(R.integer.default_bug_report_topicid));
         postContentSave = new ArrayList<>();
-
         cc98APIInterface = MainApplication.getApiInterface();
 
         mLinearLayout = findViewById(R.id.activity_post_read_webviewcontainer);
-        initWebView(getString(R.string.postview_local_template));
-        webView.addJavascriptInterface(new JavascriptApi(), BRIDGE_TOKEN);
 
-        requestsNeedsData(0,10);
+        String url=getString(R.string.postview_remote_template)+topicId;
+        webView=findViewById(R.id.activity_post_read_webview);
+
+        //initWebView(getString(R.string.postview_local_template));
+        configWebSettings(webView.getSettings());
+
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.addJavascriptInterface(new JavascriptApi(), BRIDGE_TOKEN);
+        webView.loadUrl(url);
 
     }
 
-    protected void requestsNeedsData(int start, int size) {
+    protected void onRefresh(){
+
+
+    }
+
+    protected void requestsNeedsData(final int start,final int size) {
+
 
         Observable<TopicInfo> getTopicinfo = cc98APIInterface.getTopicInfo(topicId);
         Observable<ArrayList<PostContent>> getTopicPosts = cc98APIInterface
@@ -86,7 +107,7 @@ public class PostReadActivity extends BaseWebViewActivity {
                 .subscribe(new Subscriber<TopicAndPosts>() {
                     @Override
                     public void onCompleted() {
-
+                        currentPageBlock=start/10;
                     }
 
                     @Override
@@ -136,20 +157,62 @@ public class PostReadActivity extends BaseWebViewActivity {
         }
     }
 
-    public class JavascriptApi {
+    protected class JavascriptApi {
         @JavascriptInterface
         public void showToast(String toast) {
             mkToast(toast);
         }
 
         @JavascriptInterface
-        public String getTopicInfo() {
-            return gsonhandler.toJson(topicInfosave);
+        public int getTopicId(){
+            return topicId;
         }
 
         @JavascriptInterface
-        public String getPostsInfo() {
-            return gsonhandler.toJson(postContentSave);
+        public String getTopicInfo() {
+            return gsonHandler.toJson(topicInfosave);
+
+        }
+
+        @JavascriptInterface
+        public String getUserInfos(){
+
+            return gsonHandler.toJson(userInfos);
+
+        }
+
+
+        @JavascriptInterface
+        public String getUserToken(){
+            return MainApplication.getCc98APIManager().getHttpHeaderToken();
+        }
+
+        @JavascriptInterface
+        public String getPostsInfo(int block) {
+            try{
+                Response<TopicInfo> response0=cc98APIInterface.getTopicInfoCall(topicId).execute();
+                topicInfosave= response0.body();
+
+                Response<ArrayList<PostContent>> response=cc98APIInterface.getTopicPostCall(topicId,block*10,10).execute();
+                postContentSave=response.body();
+
+                /*Map<String,Integer> idsmap=new TreeMap<>();
+                for(PostContent i:postContentSave){
+                    idsmap.put("id",i.getUserId());
+                    // key is covered...
+                }
+                Response<ArrayList<BasicUserInfo>> response1=cc98APIInterface.getBasicUserInfos(idsmap).execute();
+                userInfos=response1.body();*/
+
+
+
+
+                return gsonHandler.toJson(postContentSave);
+            }catch (IOException e){
+                return null;
+            }
+
+
         }
 
     }

@@ -72,4 +72,8 @@ public class BaseActivity extends AppCompatActivity {
     protected void loge(Throwable e,String msg){
         Logger.t(this.getClass().getSimpleName()).e(e,msg);
     }
+
+    protected void logi(String msg){
+        Logger.t(this.getClass().getSimpleName()).i(msg);
+    }
 }

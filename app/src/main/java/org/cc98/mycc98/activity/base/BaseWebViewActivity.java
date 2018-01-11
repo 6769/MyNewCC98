@@ -1,15 +1,38 @@
 package org.cc98.mycc98.activity.base;
 
+import android.annotation.TargetApi;
+import android.net.Uri;
 import android.view.KeyEvent;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.just.library.AgentWeb;
+
+import com.just.agentweb.AgentWeb;
 import com.orhanobut.logger.Logger;
 
+import org.cc98.mycc98.MainApplication;
+import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.UserProfileActivity;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
+import okhttp3.Response;
+import win.pipi.api.network.CC98APIInterface;
+import win.pipi.api.network.CC98APIManager;
 
 /**
  * Created by pipi6 on 2018/1/9.
@@ -17,13 +40,14 @@ import org.cc98.mycc98.activity.UserProfileActivity;
 
 public class BaseWebViewActivity extends BaseActivity {
     public static final String UTF_8 = "utf-8";
+    public static final String MEMI_TYPE="application/json";
     protected String urlToLoad;
 
     protected String callBridge;
     protected AgentWeb agentWeb;
     protected WebView webView;
     protected LinearLayout mLinearLayout;
-
+    private OkHttpClient client=new OkHttpClient();
 
     protected void initWebView(String url) {
         urlToLoad = url;
@@ -37,8 +61,10 @@ public class BaseWebViewActivity extends BaseActivity {
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
                 //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
                 .useDefaultIndicator()// 使用默认进度条
+
                 .defaultProgressBarColor() // 使用默认进度条颜色
                 .setReceivedTitleCallback(null) //设置 Web 页面的 title 回调
+                //.setWebViewClient(new ApiGrantedWebViewClient())
                 .createAgentWeb()  //
                 .ready()
                 .go(urlToLoad);
@@ -47,8 +73,45 @@ public class BaseWebViewActivity extends BaseActivity {
 
 
         configWebSettings(agentWeb.getAgentWebSettings().getWebSettings());
+
     }
 
+    public class ApiGrantedWebViewClient extends WebViewClient {
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, final WebResourceRequest request) {
+            Uri uri=request.getUrl();
+            String url=uri.getHost();
+            final String API_HOST=getString(R.string.api_cc98_host_part);
+            if (url.contains(API_HOST)){
+                //logi("hook token "+uri.toString());
+                CC98APIManager apiManager=MainApplication.getCc98APIManager();
+                try {
+
+
+
+                    Request.Builder requestBuilder = new Request.Builder().url(uri.toString());
+                    Request request1=requestBuilder
+                            .addHeader(apiManager.AUTH_PARA_HEADER,apiManager.getHttpHeaderToken())
+                            .removeHeader("referer")
+                            .build();
+                    Call call=client.newCall(request1);
+                    Response response=call.execute();
+                    String datahook=response.body().string();
+                    InputStream responseInputStream = new ByteArrayInputStream(datahook.getBytes());
+
+
+                    return new WebResourceResponse(MEMI_TYPE,UTF_8 , responseInputStream);
+                }  catch (IOException e) {
+                    //return null to tell WebView we failed to fetch it WebView should try again.
+                    return null;
+                }  catch (Exception e){
+                    return null;
+                }
+            }
+            else return null;
+            //fuck call here,super finally get a null;
+        }
+    }
 
 
     protected WebSettings configWebSettings(WebSettings webSettings) {
@@ -82,6 +145,7 @@ public class BaseWebViewActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
+        if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onPause();
         super.onPause();
 
@@ -89,12 +153,14 @@ public class BaseWebViewActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
+        if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onResume();
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
+        if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onDestroy();
         super.onDestroy();
     }

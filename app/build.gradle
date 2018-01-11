@@ -26,7 +26,7 @@ dependencies {
 
     compile project(':library:apicc98')
     //compile 'com.hubspot.jinjava:jinjava:2.0.11-java7'
-    compile 'com.just.agentweb:agentweb:2.0.1'
+    compile 'com.just.agentweb:agentweb:3.0.0'
     compile 'com.diegodobelo.expandingview:expanding-view:0.9.4'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
     compile 'com.android.support:appcompat-v7:26.0.2'

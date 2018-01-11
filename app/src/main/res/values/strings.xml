@@ -27,6 +27,14 @@
     <string name="preview_when_empty">不认真回答问题，老校长的棺材板要压不住啦~</string>
 
     <string name="postview_local_template">file:///android_asset/postview/post.html</string>
+    <string name="postview_remote_template">http://192.168.123.119:3000/index.html?id=</string>
+
+    <string name="pref_myzone_label">主页自定义版块</string>
+    <string name="pref_myzone_label_summary">版块编号</string>
+    <string name="pref_myzone_sharekey">pref_myzone_sharekey</string>
+    <string name="api_cc98_host_part">api-v2.cc98.org</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
