@@ -39,6 +39,9 @@
     <string name="searchview_result_title">搜索结果: </string>
     <string name="searchview_excessive_keys">少一点关键词吧</string>
 
+    <string name="user_profile_id_url">http://www.cc98.org/user/id/%d</string>
+    <string name="user_profile_name_url">http://www.cc98.org/user/name/%s</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

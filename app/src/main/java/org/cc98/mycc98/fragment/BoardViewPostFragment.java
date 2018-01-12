@@ -5,6 +5,7 @@ import android.view.View;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.PostReadActivity;
+import org.cc98.mycc98.activity.UserProfileActivity;
 import org.cc98.mycc98.adapter.NormalTopicRecyclerViewAdapter;
 import org.cc98.mycc98.fragment.base.BasePullPushSwipeFragment;
 
@@ -88,7 +89,11 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
                 mkToast(mList.get(i).getBoardId()+"");
                 break;
             case 2:
-                mkToast(mList.get(i).getUserName());
+                int userid=mList.get(i).getUserId();
+                String username=mList.get(i).getUserName();
+                if (!username.equals(getString(R.string.username_nobody))){
+                    UserProfileActivity.startActivity(this.getContext(), userid);
+                }
                 break;
         }
 

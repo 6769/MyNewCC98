@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.PostReadActivity;
+import org.cc98.mycc98.activity.UserProfileActivity;
 import org.cc98.mycc98.adapter.HotTopicItemRecyclerViewAdapter;
 import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment;
 
@@ -85,7 +86,7 @@ public class HotTopicsFragment extends BaseSwipeRefreshFragment<HotTopicInfo>
                 break;
             case 2://user
                 String username = mLists.get(i).getAuthorName();
-                mkToast(username);
+                UserProfileActivity.startActivity(getContext(),0,username);
                 break;
         }
 
