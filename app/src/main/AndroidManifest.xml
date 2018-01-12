@@ -55,19 +55,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EditActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Editor" />
+            android:label="Editor"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.PostReadActivity" />
         <activity
             android:name=".activity.UserProfileActivity"
             android:theme="@style/Theme.MyDialog" />
-        <activity android:name=".activity.ABoardViewActivity" />
+        <activity android:name=".activity.ABoardViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.PreviewActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Preview">
-
-        </activity>
+            android:label="Preview"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.SearchViewActivity"></activity>
     </application>
 
 </manifest>

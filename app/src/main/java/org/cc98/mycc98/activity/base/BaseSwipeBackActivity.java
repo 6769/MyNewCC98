@@ -20,7 +20,7 @@ public class BaseSwipeBackActivity extends AppCompatActivity {
         throw new UnsupportedClassVersionError("Not Implemented Static Method");
     }
 
-    protected void mkToast(String msg){
+    public void mkToast(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
     protected void mkToast(String msg,boolean showMoreTime){

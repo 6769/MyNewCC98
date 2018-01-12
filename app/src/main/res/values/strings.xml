@@ -34,6 +34,10 @@
     <string name="pref_myzone_sharekey">pref_myzone_sharekey</string>
     <string name="api_cc98_host_part">api-v2.cc98.org</string>
 
+    <string name="searchview_board_hint">版面搜索</string>
+    <string name="searchview_global_hint">全站搜索</string>
+    <string name="searchview_result_title">搜索结果: </string>
+    <string name="searchview_excessive_keys">少一点关键词吧</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

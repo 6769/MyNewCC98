@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
@@ -99,6 +100,13 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        SearchView searchView=(SearchView) menu.findItem(R.id.main_menu_search).getActionView();
+        if (searchView != null) {
+            searchView.setQueryHint(getString(R.string.searchview_global_hint));
+            searchView.setOnQueryTextListener(new SearchViewActivity.SearchViewKeywordsListener(this,0));
+        }
+
         return true;
     }
 

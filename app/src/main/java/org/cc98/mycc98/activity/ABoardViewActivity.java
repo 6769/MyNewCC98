@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
@@ -17,6 +19,7 @@ import org.cc98.mycc98.fragment.BoardViewPostFragment;
 import org.cc98.mycc98.fragment.HotTopicsFragment;
 
 public class ABoardViewActivity extends BaseSwipeBackActivity {
+
     //list of boards's subposts
     public static final String BOARD_KEY = "Board";
     public static final String BOARD_NAME = "Boardname";
@@ -69,6 +72,13 @@ public class ABoardViewActivity extends BaseSwipeBackActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_board_view, menu);
+
+        SearchView searchView=(SearchView) menu.findItem(R.id.menu_boardview_search).getActionView();
+        if (searchView != null) {
+            searchView.setQueryHint(getString(R.string.searchview_board_hint));
+            searchView.setOnQueryTextListener(new SearchViewActivity.SearchViewKeywordsListener(this,boardId));
+        }
+
         return true;
     }
 

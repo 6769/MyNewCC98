@@ -64,8 +64,8 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
             public void onError(Throwable e) {
                 xRefreshView.stopRefresh();
                 xRefreshView.stopLoadMore();
-                mkToast(e.toString());
-                Logger.e(e, "error???");
+                //mkToast(e.toString());
+                Logger.e(e, "error");
             }
 
             @Override
