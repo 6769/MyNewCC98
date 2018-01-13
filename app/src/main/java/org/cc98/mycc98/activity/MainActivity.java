@@ -1,6 +1,7 @@
 package org.cc98.mycc98.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,15 +13,18 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.adapter.MainFragmentPagerAdapter;
-import org.cc98.mycc98.fragment.BoardFragment;
 import org.cc98.mycc98.fragment.BoardMapFragment;
 import org.cc98.mycc98.fragment.BoardViewPostFragment;
 import org.cc98.mycc98.fragment.HotTopicsFragment;
@@ -49,6 +53,10 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+
+    private AlertDialog alert;
+    private AlertDialog.Builder alertbuilder;
+    private EditText editText;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -85,6 +93,36 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager(),
                 main_tab_frag,
                 main_tab_name));
+
+
+        editText = new EditText(this);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        alertbuilder=new AlertDialog.Builder(this);
+        alert=alertbuilder.setTitle(R.string.main_activity_gotopic_title)
+                .setMessage(R.string.main_activity_gotopic_msg)
+                .setView(editText)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logi("gotopic Canceled");
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String userInput=editText.getText().toString().trim();
+                        try{
+                            int topicId= Integer.valueOf(userInput);
+                            PostReadActivity.startActivity(MainActivity.this,topicId);
+                        }catch (Exception e){
+                            loge(e,"input Error");
+                        }
+
+                    }
+                }).create();
+
+
     }
 
     @Override
@@ -155,8 +193,9 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_about_page) {
             AboutActivity.startActivity(this);
 
-        } else if (id == R.id.nav_pm) {
-            PmActivity.startActivity(this);
+        } else if (id == R.id.nav_gotopic) {
+            alert.show();
+
 
         }
 

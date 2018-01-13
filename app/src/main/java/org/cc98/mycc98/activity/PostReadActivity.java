@@ -1,9 +1,17 @@
 package org.cc98.mycc98.activity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
@@ -13,6 +21,7 @@ import com.google.gson.Gson;
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseWebViewActivity;
+import org.cc98.mycc98.webview.ObservableWebView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,14 +41,19 @@ import win.pipi.api.data.TopicInfo;
 import win.pipi.api.data.UserInfo;
 import win.pipi.api.network.CC98APIInterface;
 
-public class PostReadActivity extends BaseWebViewActivity {
+public class PostReadActivity extends BaseWebViewActivity implements View.OnClickListener {
 
     public static final String TOPIC_ID = "TOPIC_ID";
+    public static final String TOPIC_TITLE="TOPIC_TITLE";
     private static final String BRIDGE_TOKEN = "nativeface";
     private int topicId;
 
     private TopicInfo topicInfosave;
     private int currentPageBlock;
+
+    private ObservableWebView webView;
+    private FloatingActionButton fab;
+    private ActionBar actionBar;
 
     private CC98APIInterface cc98APIInterface;
     private Resources resources;
@@ -68,28 +82,80 @@ public class PostReadActivity extends BaseWebViewActivity {
         postContentSave = new ArrayList<>();
         cc98APIInterface = MainApplication.getApiInterface();
 
-        mLinearLayout = findViewById(R.id.activity_post_read_webviewcontainer);
 
         String url=getString(R.string.postview_remote_template)+topicId;
-        webView=findViewById(R.id.activity_post_read_webview);
+        actionBar=getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        //initWebView(getString(R.string.postview_local_template));
+        webView=findViewById(R.id.activity_post_read_webview);
+        fab=findViewById(R.id.activity_post_read_reply_btn);
+        fab.setOnClickListener(this);
+
+        webView.setOnScrollChangedCallback(new ScrollChangeLisner());
+
         configWebSettings(webView.getSettings());
 
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
         webView.addJavascriptInterface(new JavascriptApi(), BRIDGE_TOKEN);
         webView.loadUrl(url);
+        requestsNeedsData(0);
 
     }
 
-    protected void onRefresh(){
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_posts_read,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                //WARNING:android.R.id   =.=
+                finish();
+                break;
+            case R.id.menu_postread_share:
+                break;
+            case R.id.menu_postread_setting:
+                break;
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
-    protected void requestsNeedsData(final int start,final int size) {
+    @Override
+    public void onClick(View v) {
+        logi("reply topic:"+topicId);
+        EditActivity.startActivity(this,topicId,"");
+    }
 
+    protected class ScrollChangeLisner implements ObservableWebView.OnScrollChangedCallback {
+
+        //not implemented view action as we wanted.
+
+        @Override
+        public void onScroll(int dx, int dy) {
+            if (dy>0){
+                fab.hide();
+            }
+            if (dy<-5){
+                fab.show();
+            }
+
+        }
+    }
+
+    @Deprecated
+    protected void requestsNeedsData(final int start) {
+        final int size=10;
 
         Observable<TopicInfo> getTopicinfo = cc98APIInterface.getTopicInfo(topicId);
         Observable<ArrayList<PostContent>> getTopicPosts = cc98APIInterface
@@ -119,10 +185,14 @@ public class PostReadActivity extends BaseWebViewActivity {
                     @Override
                     public void onNext(TopicAndPosts topicAndPosts) {
                         if (topicAndPosts.isTopicValid())
+
+                        {
                             topicInfosave = topicAndPosts.getTopicInfo();
+                            PostReadActivity.this.setTitle(topicInfosave.getTitle());
+                        }
                         if (topicAndPosts.isPostsValid())
                             postContentSave = topicAndPosts.getPostContents();
-                        webView.reload();
+
 
                     }
                 });
@@ -131,6 +201,7 @@ public class PostReadActivity extends BaseWebViewActivity {
     }
 
 
+    @Deprecated
     public static class TopicAndPosts {
         TopicInfo topicInfo;
         List<PostContent> postContents;
@@ -169,16 +240,20 @@ public class PostReadActivity extends BaseWebViewActivity {
         }
 
         @JavascriptInterface
-        public String getTopicInfo() {
-            return gsonHandler.toJson(topicInfosave);
-
+        public void replyHasRefers(String username,String contentRefer){
+            logi(username+contentRefer);
+            EditActivity.startActivity(PostReadActivity.this,topicId,username+" "+contentRefer);
         }
 
         @JavascriptInterface
-        public String getUserInfos(){
-
-            return gsonHandler.toJson(userInfos);
-
+        public void userMessageSend(int userId){
+            mkToast("userId"+userId);
+        }
+        @JavascriptInterface
+        public void userProfileView(int userId){
+            if (userId>0){
+                UserProfileActivity.startActivity(PostReadActivity.this, userId);
+            }
         }
 
 
@@ -187,33 +262,10 @@ public class PostReadActivity extends BaseWebViewActivity {
             return MainApplication.getCc98APIManager().getHttpHeaderToken();
         }
 
-        @JavascriptInterface
-        public String getPostsInfo(int block) {
-            try{
-                Response<TopicInfo> response0=cc98APIInterface.getTopicInfoCall(topicId).execute();
-                topicInfosave= response0.body();
-
-                Response<ArrayList<PostContent>> response=cc98APIInterface.getTopicPostCall(topicId,block*10,10).execute();
-                postContentSave=response.body();
-
-                /*Map<String,Integer> idsmap=new TreeMap<>();
-                for(PostContent i:postContentSave){
-                    idsmap.put("id",i.getUserId());
-                    // key is covered...
-                }
-                Response<ArrayList<BasicUserInfo>> response1=cc98APIInterface.getBasicUserInfos(idsmap).execute();
-                userInfos=response1.body();*/
 
 
 
 
-                return gsonHandler.toJson(postContentSave);
-            }catch (IOException e){
-                return null;
-            }
-
-
-        }
 
     }
 }

@@ -9,19 +9,51 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
+import org.cc98.mycc98.config.ForumConfig;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import win.pipi.api.data.NewPostInfo;
+import win.pipi.api.network.CC98APIInterface;
 
 public class EditActivity extends BaseSwipeBackActivity {
+    public static final String TOPIC_ID = "TOPIC_ID";
+    public static final String POST_REFFER = "POST_REFFER";
+    public static final String TARGET_USER = "TARGET_USER";
+    public static final String BOARD_ID = "BOARD_ID";
 
     public static void startActivity(Context context) {
+        startActivity(context, 0, 0, null);
+    }
+
+    public static void startActivity(Context context, int tid, String quote) {
+        startActivity(context, 0, tid, quote);
+    }
+
+    public static void startActivity(Context context, int bid) {
+        startActivity(context, bid, 0, null);
+    }
+
+    public static void startActivity(Context context, int bid, int tid, String quoted) {
         Intent intent = new Intent(context, EditActivity.class);
+        Bundle bundle = new Bundle();
+        if (quoted != null)
+            bundle.putString(POST_REFFER, quoted);
+        bundle.putInt(TOPIC_ID, tid);
+        bundle.putInt(BOARD_ID, bid);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
+
+    private POSTTYPE postType;
 
 
     @BindView(R.id.act_edit_content)
@@ -33,15 +65,59 @@ public class EditActivity extends BaseSwipeBackActivity {
     @BindView(R.id.act_edit_toolbar)
     Toolbar toolbar;
 
+    private int bid, tid;
+    private String quoted;
+    private Observer<String> postObserver = new Observer<String>() {
+        @Override
+        public void onCompleted() {
+            mkToast(getString(R.string.editor_reply_topic_success));
+            finish();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+            mkToast(e.toString());
+        }
+
+        @Override
+        public void onNext(String s) {
+            logi(s);
+
+        }
+    };
+    private CC98APIInterface iface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_write);
         ButterKnife.bind(this);
 
+        iface = MainApplication.getApiInterface();
+        Bundle bundle = getIntent().getExtras();
+        bid = bundle.getInt(BOARD_ID);
+        tid = bundle.getInt(TOPIC_ID);
+        quoted = bundle.getString(POST_REFFER, "");
+        String title;
 
-        toolbar.setTitle("EditorX");
+        if (bid > 0) {
+            title = getString(R.string.editor_newtopic_title) + ForumConfig.getBoardNameViaId(bid);
+            postType = POSTTYPE.NEWTOPIC;
+        } else {
+
+            postType = POSTTYPE.REPLY;
+            editTitle.setMaxLines(0);
+            editTitle.setFocusable(false);
+            editContent.setFocusable(true);
+            title = getString(R.string.editor_reply_topic);
+        }
+
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+        if (postType == POSTTYPE.REPLY && !quoted.isEmpty()) {
+            editContent.setText(quoted);
+        }
 
 
     }
@@ -70,4 +146,31 @@ public class EditActivity extends BaseSwipeBackActivity {
         PreviewActivity.startActivity(this, userinput);
 
     }
+
+    @OnClick(R.id.act_edit_ibtn_send)
+    protected void sendOutPosts(View view) {
+        String inputtitle = editTitle.getText().toString().trim();
+        String inputcontent = editContent.getText().toString().trim();
+        int contentType = 0;
+        NewPostInfo newPostInfo;
+        Observable<String> call = null;
+        if (postType == POSTTYPE.NEWTOPIC) {
+            newPostInfo = new NewPostInfo(inputtitle, inputcontent, contentType);
+            call = iface.postTopicBoard(bid, newPostInfo);
+        }
+        if (postType == POSTTYPE.REPLY) {
+            newPostInfo = new NewPostInfo("", inputcontent, contentType);
+            call = iface.postReplyTopic(tid, newPostInfo);
+        }
+
+        if (call != null)
+            call.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(postObserver);
+
+    }
+}
+
+enum POSTTYPE {
+    NEWTOPIC, REPLY
 }

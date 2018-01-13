@@ -38,7 +38,7 @@ import win.pipi.api.network.CC98APIManager;
  * Created by pipi6 on 2018/1/9.
  */
 
-public class BaseWebViewActivity extends BaseActivity {
+public class BaseWebViewActivity extends BaseSwipeBackActivity {
     public static final String UTF_8 = "utf-8";
     public static final String MEMI_TYPE="application/json";
     protected String urlToLoad;
@@ -135,7 +135,7 @@ public class BaseWebViewActivity extends BaseActivity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView!=null && webView.canGoBack()) {
             webView.goBack();
             return true;
         }

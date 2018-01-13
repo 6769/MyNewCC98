@@ -42,6 +42,13 @@
     <string name="user_profile_id_url">http://www.cc98.org/user/id/%d</string>
     <string name="user_profile_name_url">http://www.cc98.org/user/name/%s</string>
 
+    <string name="menu_post_topic_share">分享</string>
+    <string name="editor_newtopic_title">新话题: </string>
+    <string name="editor_reply_topic">回复主题</string>
+    <string name="editor_reply_topic_success">发帖成功</string>
+    <string name="main_activity_gotopic_title">访问指定帖子</string>
+    <string name="main_activity_gotopic_msg">帖子编号ID</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

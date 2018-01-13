@@ -7,25 +7,19 @@
     android:orientation="vertical"
     tools:context="org.cc98.mycc98.activity.PostReadActivity">
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-
-        <LinearLayout
-            android:id="@+id/activity_post_read_webviewcontainer"
+        <org.cc98.mycc98.webview.ObservableWebView
+            android:id="@+id/activity_post_read_webview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <WebView
-                android:id="@+id/activity_post_read_webview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_height="match_parent">
 
-            </WebView>
+        </org.cc98.mycc98.webview.ObservableWebView>
 
-        </LinearLayout>
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/activity_post_read_reply_btn"
             android:layout_width="wrap_content"
@@ -36,7 +30,7 @@
             app:fabSize="normal"
             app:rippleColor="@color/login_unsel_btn"
             app:srcCompat="@drawable/ic_create_white_24dp" />
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 
 </LinearLayout>

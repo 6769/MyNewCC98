@@ -16,6 +16,7 @@ import com.diegodobelo.expandingview.ExpandingList;
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.ABoardViewActivity;
+import org.cc98.mycc98.config.ForumConfig;
 import org.cc98.mycc98.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class BoardMapFragment extends BaseFragment
         SwipeRefreshLayout.OnRefreshListener,
         View.OnClickListener{
 
-    protected List<BoardInfo> mLists = new ArrayList<>();
+    protected List<GroupBoardInfo> mLists = new ArrayList<>();
     protected SwipeRefreshLayout mswipeRefreshLayout;
     protected ExpandingList mExpandlist;
     protected ImageView mImageview;
@@ -61,7 +62,7 @@ public class BoardMapFragment extends BaseFragment
         topBoardObserver = new Observer<List<GroupBoardInfo>>() {
             @Override
             public void onCompleted() {
-
+                ForumConfig.setBoardMap(mLists);
             }
 
             @Override
@@ -77,6 +78,7 @@ public class BoardMapFragment extends BaseFragment
                 for (GroupBoardInfo i : boardInfos) {
                     configureTopItem(i);
                 }
+                mLists=boardInfos;
 
                 mswipeRefreshLayout.setRefreshing(false);
 

@@ -1,6 +1,6 @@
 package org.cc98.mycc98.activity;
 
-import android.app.ActionBar;
+
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -55,7 +56,7 @@ public class ABoardViewActivity extends BaseSwipeBackActivity {
         PREFIX_BOARD = getString(R.string.default_board_prefix);
         setContentView(R.layout.activity_board_view);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 

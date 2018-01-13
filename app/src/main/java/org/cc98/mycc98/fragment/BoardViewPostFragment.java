@@ -1,12 +1,16 @@
 package org.cc98.mycc98.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.activity.ABoardViewActivity;
+import org.cc98.mycc98.activity.EditActivity;
 import org.cc98.mycc98.activity.PostReadActivity;
 import org.cc98.mycc98.activity.UserProfileActivity;
 import org.cc98.mycc98.adapter.NormalTopicRecyclerViewAdapter;
+import org.cc98.mycc98.config.ForumConfig;
 import org.cc98.mycc98.fragment.base.BasePullPushSwipeFragment;
 
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ import win.pipi.api.data.TopicInfo;
 
 public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
         implements View.OnClickListener {
+    private static final String TAG= "BoardViewPostFragment" ;
     public BoardViewPostFragment() {
     }
 
@@ -54,7 +59,8 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
 
     @Override
     public void onClick(View v) {
-        mkToast("Try to write~");
+        Log.i(TAG, "onClick: newTopic to"+boardId);
+        EditActivity.startActivity(this.getContext(), boardId);
     }
 
     @Override
@@ -66,13 +72,13 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
     @Override
     public void onRefresh() {
         int currentlen = 0;
-        updatePages(currentlen + 1, currentlen + 20, true);
+        updatePages(currentlen , currentlen + 20, true);
     }
 
     @Override
     public void onLoadMore(boolean isSilence) {
         int currentlen = mList.size();
-        updatePages(currentlen + 1, currentlen + 20, false);
+        updatePages(currentlen , currentlen + 20, false);
 
     }
 
@@ -86,7 +92,10 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
                 // mkToast(mList.get(i).getTitle());
                 break;
             case 1:
-                mkToast(mList.get(i).getBoardId()+"");
+                int bid=mList.get(i).getBoardId();
+
+                //mkToast(+"");
+                ABoardViewActivity.startActivity(this.getContext(),bid, ForumConfig.getBoardNameViaId(bid));
                 break;
             case 2:
                 int userid=mList.get(i).getUserId();
@@ -102,7 +111,6 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
     protected void updatePages(int from, int to, final boolean clearold) {
         Observable<ArrayList<TopicInfo>> call = genNewCall(boardId, from, to);
         call.subscribeOn(Schedulers.io())
-
                 .observeOn(Schedulers.io())
                 .doOnNext(new Action1<List<TopicInfo>>() {
                     @Override

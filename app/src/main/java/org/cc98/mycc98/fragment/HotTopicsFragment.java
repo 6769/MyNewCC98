@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.activity.ABoardViewActivity;
 import org.cc98.mycc98.activity.PostReadActivity;
 import org.cc98.mycc98.activity.UserProfileActivity;
 import org.cc98.mycc98.adapter.HotTopicItemRecyclerViewAdapter;
+import org.cc98.mycc98.config.ForumConfig;
 import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment;
 
 import java.util.ArrayList;
@@ -79,14 +81,18 @@ public class HotTopicsFragment extends BaseSwipeRefreshFragment<HotTopicInfo>
         switch (type) {
             case 0://title
                 int id = mLists.get(i).getId();
-                PostReadActivity.startActivity(getContext(),id);
+                PostReadActivity.startActivity(getContext(), id);
                 break;
             case 1://boardname
-                mkToast(mLists.get(i).getBoardName());
+                String bname = mLists.get(i).getBoardName();
+
+                int bid = ForumConfig.getBoardIdViaName(bname);
+                if (bid > 0)
+                    ABoardViewActivity.startActivity(this.getContext(), bid, bname);
                 break;
             case 2://user
                 String username = mLists.get(i).getAuthorName();
-                UserProfileActivity.startActivity(getContext(),0,username);
+                UserProfileActivity.startActivity(getContext(), 0, username);
                 break;
         }
 

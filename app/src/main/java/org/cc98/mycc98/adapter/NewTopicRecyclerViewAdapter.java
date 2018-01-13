@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.config.ForumConfig;
 import org.cc98.mycc98.fragment.base.BaseSwipeRefreshFragment;
 
 import java.util.List;
@@ -47,7 +48,11 @@ implements View.OnClickListener{
         TopicInfo topicInfo=mValues.get(position);
         holder.newtopicTitle.setText(topicInfo.getTitle());
         holder.newtopicUsername.setText(topicInfo.getAuthorName());
-        holder.newtopicBoardname.setText(topicInfo.getBoardId()+"");
+        String bname=ForumConfig.getBoardNameViaId(topicInfo.getBoardId());
+        if(bname==null){
+            bname=topicInfo.getBoardId()+"";
+        }
+        holder.newtopicBoardname.setText(bname);
         holder.newtopicCreatetime.setText(topicInfo.getTime().substring(0,16));
 
         holder.newtopicBoardname.setOnClickListener(new View.OnClickListener() {
