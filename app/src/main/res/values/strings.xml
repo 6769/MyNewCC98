@@ -26,7 +26,7 @@
     <string name="moto_of_zju">诸位在校，有两个问题要自己问问，\n第一，来浙大做什么? \n第二，将来毕业后要做一个什么样的人?</string>
     <string name="preview_when_empty">不认真回答问题，老校长的棺材板要压不住啦~</string>
 
-    <string name="postview_local_template">file:///android_asset/postview/post.html</string>
+    <string name="postview_local_template">file:///android_asset/postread/index.html?id=</string>
     <string name="postview_remote_template">http://192.168.123.119:3000/index.html?id=</string>
 
     <string name="pref_myzone_label">主页自定义版块</string>

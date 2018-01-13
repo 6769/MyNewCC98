@@ -33,7 +33,7 @@ public class NewTopicsFragment extends BoardViewPostFragment {
 
     @Override
     protected Observable<ArrayList<TopicInfo>> genNewCall(int bid, int from, int to) {
-        Observable<ArrayList<TopicInfo>> call = iface.getTopicNew(from, to - from + 1);
+        Observable<ArrayList<TopicInfo>> call = iface.getTopicNew(from, to - from);
         return call;
     }
 }

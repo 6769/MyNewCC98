@@ -7,25 +7,45 @@ android {
         applicationId "org.cc98.mycc98"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode getSelfDefinedVersion("code")
+        versionName getSelfDefinedVersion("name")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resConfigs "en","zh"
     }
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
 
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                //这里修改apk文件名
+                def fileName = "mycc98+_${defaultConfig.versionName}."+getGitBranch()+".apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+configurations {
+    all {
+        exclude module: 'httpclient'
+        exclude module: 'commons-logging'
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library:apicc98')
-    //compile 'com.hubspot.jinjava:jinjava:2.0.11-java7'
     compile 'com.just.agentweb:agentweb:3.0.0'
     compile 'com.diegodobelo.expandingview:expanding-view:0.9.4'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
@@ -48,6 +68,34 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.0.2'
     compile 'com.android.support:cardview-v7:26.0.2'
     compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
+    //compile 'com.github.bumptech.glide:glide:3.8.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+}
+
+
+
+def getSelfDefinedVersion(type) {
+    int aa = 0
+    int bb = 1
+
+    Process process = "git rev-list --count HEAD".execute()
+    process.waitFor()
+    int cccc = process.getText().toInteger()
+
+    if ("code".equals(type)) {
+        aa * 10000 + bb * 100 + cccc
+        //main version code
+    } else if ("name".equals(type)) {
+        String today = new Date().format("yyMMdd")
+        process = "git describe --always".execute()
+        process.waitFor()
+        String sha1 = process.getText().trim()
+        "$aa.$bb.$cccc.$today.$sha1"
+    }
+}
+def getGitBranch(){
+    Process process="git symbolic-ref --short HEAD".execute()
+    process.waitFor()
+    String brachname=process.getText().trim()
+    brachname
 }

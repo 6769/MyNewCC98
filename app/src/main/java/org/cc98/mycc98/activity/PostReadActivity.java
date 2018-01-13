@@ -83,7 +83,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         cc98APIInterface = MainApplication.getApiInterface();
 
 
-        String url=getString(R.string.postview_remote_template)+topicId;
+        String url = getString(R.string.postview_local_template) + topicId;
         actionBar=getSupportActionBar();
         if(actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
