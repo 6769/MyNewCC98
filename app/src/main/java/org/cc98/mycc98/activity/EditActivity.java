@@ -3,8 +3,11 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -55,6 +58,8 @@ public class EditActivity extends BaseSwipeBackActivity {
 
     private POSTTYPE postType;
 
+    @BindView(R.id.act_edit_title_container)
+     TextInputLayout titleContainer;
 
     @BindView(R.id.act_edit_content)
     EditText editContent;
@@ -71,6 +76,7 @@ public class EditActivity extends BaseSwipeBackActivity {
         @Override
         public void onCompleted() {
             mkToast(getString(R.string.editor_reply_topic_success));
+            //TODO: add a circling zone for bolck user operation,unless cancelled.
             finish();
         }
 
@@ -107,17 +113,24 @@ public class EditActivity extends BaseSwipeBackActivity {
         } else {
 
             postType = POSTTYPE.REPLY;
-            editTitle.setMaxLines(0);
-            editTitle.setFocusable(false);
+
+            titleContainer.setVisibility(View.GONE);
+
             editContent.setFocusable(true);
             title = getString(R.string.editor_reply_topic);
         }
 
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         if (postType == POSTTYPE.REPLY && !quoted.isEmpty()) {
             editContent.setText(quoted);
         }
+
+        editContent.addTextChangedListener(new EditTextWatcher());
 
 
     }
@@ -155,10 +168,17 @@ public class EditActivity extends BaseSwipeBackActivity {
         NewPostInfo newPostInfo;
         Observable<String> call = null;
         if (postType == POSTTYPE.NEWTOPIC) {
+            if (inputcontent.isEmpty()||inputtitle.isEmpty()){
+                return;
+                //the better way is textchange listener;
+            }
             newPostInfo = new NewPostInfo(inputtitle, inputcontent, contentType);
             call = iface.postTopicBoard(bid, newPostInfo);
         }
         if (postType == POSTTYPE.REPLY) {
+            if (inputcontent.isEmpty()){
+                return;
+            }
             newPostInfo = new NewPostInfo("", inputcontent, contentType);
             call = iface.postReplyTopic(tid, newPostInfo);
         }
@@ -169,6 +189,25 @@ public class EditActivity extends BaseSwipeBackActivity {
                     .subscribe(postObserver);
 
     }
+
+    protected class EditTextWatcher implements TextWatcher{
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    }
+
 }
 
 enum POSTTYPE {

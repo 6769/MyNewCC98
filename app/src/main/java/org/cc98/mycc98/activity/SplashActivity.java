@@ -47,6 +47,7 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void onError(Throwable e) {
             LoginActivity.startActivity(SplashActivity.this);
+            mkToast("登陆异常/网络异常");
             loge(e,"userLogin check failed,NewLogin");
             finish();
         }

@@ -26,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.ActivityCollector;
 import org.cc98.mycc98.activity.base.BaseActivity;
@@ -130,7 +133,18 @@ public class MainActivity extends BaseActivity
         UserInfo userInfo= UserConfig.getUserInfo();
         if (userInfo!=null ){
             userNameLabel.setText(userInfo.getName());
-            userIntroLabel.setText(userInfo.getIntroduction());
+            //userIntroLabel.setText(userInfo.getIntroduction());
+            String userpic=userInfo.getPortraitUrl();
+            try{
+                Glide.with(this)
+                        .load(userpic).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .crossFade()
+                        .centerCrop()
+                        .into(userLogo);
+            }catch (Exception e){
+                loge(e,"Glide load userpic failed");
+            }
+
         }
 
 
