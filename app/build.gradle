@@ -10,7 +10,7 @@ android {
         versionCode getSelfDefinedVersion("code")
         versionName getSelfDefinedVersion("name")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        resConfigs "en","zh"
+        resConfigs "zh"
     }
     buildTypes {
         release {
@@ -20,14 +20,10 @@ android {
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                //这里修改apk文件名
-                def fileName = "mycc98+_${defaultConfig.versionName}."+getGitBranch()+".apk"
-                output.outputFile = new File(outputFile.parent, fileName)
-            }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "myCC98+.${variant.name}-${variant.versionName}.apk"
         }
     }
     compileOptions {
@@ -73,7 +69,6 @@ dependencies {
 }
 
 
-
 def getSelfDefinedVersion(type) {
     int aa = 0
     int bb = 1
@@ -93,9 +88,10 @@ def getSelfDefinedVersion(type) {
         "$aa.$bb.$cccc.$today.$sha1"
     }
 }
-def getGitBranch(){
-    Process process="git symbolic-ref --short HEAD".execute()
+
+def getGitBranch() {
+    Process process = "git symbolic-ref --short HEAD".execute()
     process.waitFor()
-    String brachname=process.getText().trim()
+    String brachname = process.getText().trim()
     brachname
 }

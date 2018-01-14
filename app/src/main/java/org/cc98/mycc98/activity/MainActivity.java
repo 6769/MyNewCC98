@@ -3,8 +3,10 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,13 +20,17 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.adapter.MainFragmentPagerAdapter;
+import org.cc98.mycc98.config.UserConfig;
 import org.cc98.mycc98.fragment.BoardMapFragment;
 import org.cc98.mycc98.fragment.BoardViewPostFragment;
 import org.cc98.mycc98.fragment.HotTopicsFragment;
@@ -36,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import win.pipi.api.data.UserInfo;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +59,17 @@ public class MainActivity extends BaseActivity
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+
+    View headerView;
+    TextView userNameLabel;
+    TextView userIntroLabel;
+    ImageView userLogo;
+
+
+
+
+
 
 
     private AlertDialog alert;
@@ -76,13 +94,24 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        headerView=navigationView.inflateHeaderView(R.layout.nav_header_main);
+        /*
+        * Directly find view in drawerlayout will result in null ptr.
+        * Seems like the delay load view in naviheader;
+        * http://blog.csdn.net/fxlysm/article/details/52920749
+        * */
+
+
 
         tabLayout.setupWithViewPager(viewPager);
         Resources resources = getResources();
+        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
+
         List<String> main_tab_name = Arrays.asList(
                 resources.getStringArray(R.array.activity_main_tab_name));
         List<Fragment> main_tab_frag = new ArrayList<>();
-        main_tab_frag.add(BoardViewPostFragment.newInstance(152));
+        String myzone_bid=preferences.getString(getString(R.string.pref_myzone_sharekey),"152");
+        main_tab_frag.add(BoardViewPostFragment.newInstance(Integer.valueOf(myzone_bid)));
         main_tab_frag.add(new HotTopicsFragment());
         main_tab_frag.add(new BoardMapFragment());
         main_tab_frag.add(NewTopicsFragment.newInstance());
@@ -94,6 +123,15 @@ public class MainActivity extends BaseActivity
                 main_tab_frag,
                 main_tab_name));
 
+
+        userNameLabel=headerView.findViewById(R.id.mainact_tx_username);
+        userIntroLabel=headerView.findViewById(R.id.mainact_tx_userintro);
+        userLogo=headerView.findViewById(R.id.profile_image);
+        UserInfo userInfo= UserConfig.getUserInfo();
+        if (userInfo!=null ){
+            userNameLabel.setText(userInfo.getName());
+            userIntroLabel.setText(userInfo.getIntroduction());
+        }
 
         editText = new EditText(this);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
