@@ -69,11 +69,18 @@ public class LoginActivity extends BaseSwipeBackActivity {
         loginCC98 = MainApplication.getLoginCC98instance();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (loginType == LoginType.RELOGIN)
+        if (loginType == LoginType.RELOGIN){
             ActivityCollector.justKeepLast();
+            loginCC98.setSavedToken("faketoken_can_be_empty");
+            loginCC98.setPassword("");
+            loginCC98.setUsername("");
+            saveUserTokenPersist(loginCC98);
+        }
+
 
 
     }
@@ -91,9 +98,9 @@ public class LoginActivity extends BaseSwipeBackActivity {
             return;
         }
 
-
         loginCC98.setPassword(pass);
         loginCC98.setUsername(usrname);
+
 
         Observable<AccessTokenPayload> call = loginCC98.loginRx();
         call.subscribeOn(Schedulers.io())
@@ -113,6 +120,7 @@ public class LoginActivity extends BaseSwipeBackActivity {
                     @Override
                     public void onNext(AccessTokenPayload accessTokenPayload) {
                         mkToast("Login success");
+
                         loginCC98.setAccessTokenPayload(accessTokenPayload);
                         saveUserTokenPersist(loginCC98);
                         MainActivity.startActivity(LoginActivity.this);
@@ -137,7 +145,7 @@ public class LoginActivity extends BaseSwipeBackActivity {
                 Context.MODE_PRIVATE);
         ploginCC98.setUsername(sharedPreferences.getString(context.getString(R.string.pref_username), ""));
         ploginCC98.setPassword(sharedPreferences.getString(context.getString(R.string.pref_password), ""));
-        ploginCC98.setSavedToken(sharedPreferences.getString( context.getString(R.string.pref_userlast_token), ""));
+        ploginCC98.setSavedToken(sharedPreferences.getString(context.getString(R.string.pref_userlast_token), ""));
     }
 
 

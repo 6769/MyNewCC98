@@ -25,9 +25,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.activity.base.ActivityCollector;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.adapter.MainFragmentPagerAdapter;
 import org.cc98.mycc98.config.UserConfig;
@@ -133,32 +133,8 @@ public class MainActivity extends BaseActivity
             userIntroLabel.setText(userInfo.getIntroduction());
         }
 
-        editText = new EditText(this);
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        alertbuilder=new AlertDialog.Builder(this);
-        alert=alertbuilder.setTitle(R.string.main_activity_gotopic_title)
-                .setMessage(R.string.main_activity_gotopic_msg)
-                .setView(editText)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        logi("gotopic Canceled");
-                    }
-                })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String userInput=editText.getText().toString().trim();
-                        try{
-                            int topicId= Integer.valueOf(userInput);
-                            PostReadActivity.startActivity(MainActivity.this,topicId);
-                        }catch (Exception e){
-                            loge(e,"input Error");
-                        }
 
-                    }
-                }).create();
 
 
     }
@@ -219,9 +195,6 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_camera) {
             UserProfileActivity.startActivity(this, 517471);
 
-        } else if (id == R.id.nav_gallery) {
-            LoginActivity.startActivity(this);
-
         } else if (id == R.id.nav_slideshow) {
             EditActivity.startActivity(this);
 
@@ -232,9 +205,51 @@ public class MainActivity extends BaseActivity
             AboutActivity.startActivity(this);
 
         } else if (id == R.id.nav_gotopic) {
+
+            editText = new EditText(this); // possible dangerous memory leaks!!!
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            alertbuilder=new AlertDialog.Builder(this);
+            alert=alertbuilder.setTitle(R.string.main_activity_gotopic_title)
+                    .setMessage(R.string.main_activity_gotopic_msg)
+                    .setView(editText)
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            logi("gotopic Canceled");
+                        }
+                    })
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String userInput=editText.getText().toString().trim();
+                            try{
+                                int topicId= Integer.valueOf(userInput);
+                                PostReadActivity.startActivity(MainActivity.this,topicId);
+                            }catch (Exception e){
+                                loge(e,"input Error");
+                            }
+
+                        }
+                    }).create();
             alert.show();
 
 
+        } else if(id== R.id.nav_exit_app){
+
+            ActivityCollector.finishAll();
+
+        }else if (id==R.id.nav_loutout){
+            AlertDialog alertRelog = new AlertDialog.Builder(this).setTitle("LogOut")
+                    .setMessage("Are You Sure?")
+                    .setNegativeButton("Cancel",null)
+                    .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            LoginActivity.startActivity(MainActivity.this, LoginActivity.LoginType.RELOGIN);
+                            finish();
+                        }
+                    }).create();
+            alertRelog.show();
         }
 
         drawer.closeDrawer(GravityCompat.START);
