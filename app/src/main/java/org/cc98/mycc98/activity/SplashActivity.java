@@ -11,6 +11,7 @@ import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.config.UserConfig;
+import org.cc98.mycc98.service.VersionCheckService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +46,8 @@ public class SplashActivity extends BaseActivity {
         *
         * */
         StatService.start(this);
+        StatService.setDebugOn(true);
+
 
 
     }

@@ -1,0 +1,10 @@
+{
+  "latestVersion": "1.1",
+  "latestVersionCode": 139,
+  "url": "http://192.168.123.119:8080/update/myCC98.apk",
+   "releaseNotes": {
+   "title":"new version1",
+   "msgcontent":"content",
+   "extra":"lolo"
+   }
+}

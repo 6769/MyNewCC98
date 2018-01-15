@@ -69,4 +69,5 @@
     <string name="pref_password">password</string>
     <string name="pref_userlast_token">token</string>
     <string name="activity_splash_echo_title">MyCC98 for Android</string>
+    <string name="service_update_versionchecker_url">http://192.168.123.119:8080/update/update_info.json</string>
 </resources>

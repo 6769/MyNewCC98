@@ -38,6 +38,7 @@ import org.cc98.mycc98.fragment.BoardMapFragment;
 import org.cc98.mycc98.fragment.BoardViewPostFragment;
 import org.cc98.mycc98.fragment.HotTopicsFragment;
 import org.cc98.mycc98.fragment.NewTopicsFragment;
+import org.cc98.mycc98.service.VersionCheckService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -125,6 +126,9 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager(),
                 main_tab_frag,
                 main_tab_name));
+
+
+        VersionCheckService.initVersionCheckerService(getApplication());
 
 
         userNameLabel=headerView.findViewById(R.id.mainact_tx_username);

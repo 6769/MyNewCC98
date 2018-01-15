@@ -11,34 +11,16 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
-    <meta-data
-        android:name="BaiduMobAd_CHANNEL"
-        android:value="General" />
-    <meta-data
-        android:name="BaiduMobAd_STAT_ID"
-        android:value="1cb1b0961e" />
-    <meta-data
-        android:name="BaiduMobAd_SEND_STRATEGY"
-        android:value="APP_START" />
-    <meta-data
-        android:name="BaiduMobAd_ONLY_WIFI"
-        android:value="true" />
-    <meta-data
-        android:name="BaiduMobAd_CELL_LOCATION"
-        android:value="true" />
-    <meta-data
-        android:name="BaiduMobAd_EXCEPTION_LOG"
-        android:value="true" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <supports-screens android:anyDensity="true" />
 
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_mycc98"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -104,6 +86,29 @@
             android:name=".service.VersionCheckService"
             android:enabled="true"
             android:exported="true"></service>
+
+        <meta-data
+            android:name="BaiduMobAd_CHANNEL"
+            android:value="General" />
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="1cb1b0961e" />
+        <meta-data
+            android:name="BaiduMobAd_SEND_STRATEGY"
+            android:value="APP_START" />
+        <meta-data
+            android:name="BaiduMobAd_ONLY_WIFI"
+            android:value="true" />
+        <meta-data
+            android:name="BaiduMobAd_CELL_LOCATION"
+            android:value="true" />
+        <meta-data
+            android:name="BaiduMobAd_WIFI_LOCATION"
+            android:value="true" />
+
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
     </application>
 
 </manifest>
