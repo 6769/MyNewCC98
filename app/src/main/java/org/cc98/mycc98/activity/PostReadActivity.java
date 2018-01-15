@@ -112,6 +112,8 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         getMenuInflater().inflate(R.menu.menu_posts_read,menu);
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -123,6 +125,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
             case R.id.menu_postread_share:
                 break;
             case R.id.menu_postread_setting:
+                SettingActivity.startActivity(this);
                 break;
 
         }

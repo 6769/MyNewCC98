@@ -53,7 +53,7 @@ implements View.OnClickListener{
             bname=topicInfo.getBoardId()+"";
         }
         holder.newtopicBoardname.setText(bname);
-        holder.newtopicCreatetime.setText(topicInfo.getTime().substring(0,16));
+        holder.newtopicCreatetime.setText(topicInfo.getTime().substring(5,16));
 
         holder.newtopicBoardname.setOnClickListener(new View.OnClickListener() {
             @Override

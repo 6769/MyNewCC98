@@ -2,12 +2,15 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -56,7 +59,7 @@ public class EditActivity extends BaseSwipeBackActivity {
         context.startActivity(intent);
     }
 
-    private POSTTYPE postType;
+    private REPLYTYPE postType;
 
     @BindView(R.id.act_edit_title_container)
      TextInputLayout titleContainer;
@@ -109,10 +112,10 @@ public class EditActivity extends BaseSwipeBackActivity {
 
         if (bid > 0) {
             title = getString(R.string.editor_newtopic_title) + ForumConfig.getBoardNameViaId(bid);
-            postType = POSTTYPE.NEWTOPIC;
+            postType = REPLYTYPE.NEWTOPIC;
         } else {
 
-            postType = POSTTYPE.REPLY;
+            postType = REPLYTYPE.REPLY;
 
             titleContainer.setVisibility(View.GONE);
 
@@ -126,7 +129,7 @@ public class EditActivity extends BaseSwipeBackActivity {
         if(actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        if (postType == POSTTYPE.REPLY && !quoted.isEmpty()) {
+        if (postType == REPLYTYPE.REPLY && !quoted.isEmpty()) {
             editContent.setText(quoted);
         }
 
@@ -142,13 +145,24 @@ public class EditActivity extends BaseSwipeBackActivity {
         //load Config here
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_activity,menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        int id=item.getItemId();
+        switch (id){
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.menu_edit_go_setting:
+                SettingActivity.startActivity(this);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -164,10 +178,16 @@ public class EditActivity extends BaseSwipeBackActivity {
     protected void sendOutPosts(View view) {
         String inputtitle = editTitle.getText().toString().trim();
         String inputcontent = editContent.getText().toString().trim();
-        int contentType = 0;
+
+
+        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isMd = preferences.getBoolean(getString(R.string.pref_switchubb_md_key),false);
+        int contentType = isMd ? 1:0;
+
+
         NewPostInfo newPostInfo;
         Observable<String> call = null;
-        if (postType == POSTTYPE.NEWTOPIC) {
+        if (postType == REPLYTYPE.NEWTOPIC) {
             if (inputcontent.isEmpty()||inputtitle.isEmpty()){
                 return;
                 //the better way is textchange listener;
@@ -175,7 +195,7 @@ public class EditActivity extends BaseSwipeBackActivity {
             newPostInfo = new NewPostInfo(inputtitle, inputcontent, contentType);
             call = iface.postTopicBoard(bid, newPostInfo);
         }
-        if (postType == POSTTYPE.REPLY) {
+        if (postType == REPLYTYPE.REPLY) {
             if (inputcontent.isEmpty()){
                 return;
             }
@@ -189,6 +209,8 @@ public class EditActivity extends BaseSwipeBackActivity {
                     .subscribe(postObserver);
 
     }
+
+
 
     protected class EditTextWatcher implements TextWatcher{
         @Override
@@ -210,6 +232,6 @@ public class EditActivity extends BaseSwipeBackActivity {
 
 }
 
-enum POSTTYPE {
+enum REPLYTYPE {
     NEWTOPIC, REPLY
 }

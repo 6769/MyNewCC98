@@ -1,8 +1,10 @@
 package org.cc98.mycc98.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
+import com.baidu.mobstat.StatService;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.cc98.mycc98.MainApplication;
@@ -10,7 +12,8 @@ import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.config.UserConfig;
 
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,22 +23,33 @@ import win.pipi.api.network.CC98APIInterface;
 
 public class SplashActivity extends BaseActivity {
 
+    @BindView(R.id.activity_splash_image)
+    ImageView imageView;
+
     private CC98APIInterface iface;
-    private Gson gson=new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
 
-        iface= MainApplication.getApiInterface();
-        Observable<UserInfo> me=iface.getMe();
+        iface = MainApplication.getApiInterface();
+        Observable<UserInfo> me = iface.getMe();
         me.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new GetMeLogin());
+
+        /*
+        Init Baidu Statistical Services;
+        *
+        * */
+        StatService.start(this);
+
+
     }
 
-    protected class GetMeLogin implements Observer<UserInfo>{
+    protected class GetMeLogin implements Observer<UserInfo> {
 
         @Override
         public void onCompleted() {
@@ -48,7 +62,7 @@ public class SplashActivity extends BaseActivity {
         public void onError(Throwable e) {
             LoginActivity.startActivity(SplashActivity.this);
             mkToast("登陆异常/网络异常");
-            loge(e,"userLogin check failed,NewLogin");
+            loge(e, "userLogin check failed,NewLogin");
             finish();
         }
 
@@ -59,7 +73,6 @@ public class SplashActivity extends BaseActivity {
 
         }
     }
-
 
 
 }

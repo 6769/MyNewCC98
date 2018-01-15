@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -43,12 +44,15 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Logger.t(this.getClass().getSimpleName()).d( "onResume");
+
+        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Logger.t(this.getClass().getSimpleName()).d("onPause");
+        StatService.onPause(this);
     }
 
     @Override

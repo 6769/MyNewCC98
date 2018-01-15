@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 
+import com.baidu.mobstat.StatService;
 import com.just.agentweb.AgentWeb;
 import com.orhanobut.logger.Logger;
 
@@ -145,6 +146,7 @@ public class BaseWebViewActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void onPause() {
+        StatService.onPause(this);
         if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onPause();
         super.onPause();
@@ -153,6 +155,7 @@ public class BaseWebViewActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void onResume() {
+        StatService.onResume(this);
         if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onResume();
         super.onResume();

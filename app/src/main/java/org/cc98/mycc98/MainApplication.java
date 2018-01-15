@@ -10,6 +10,7 @@ import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.squareup.leakcanary.LeakCanary;
 
 import org.cc98.mycc98.activity.LoginActivity;
 
@@ -48,6 +49,8 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
+
 
         context=getApplicationContext();
 

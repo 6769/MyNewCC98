@@ -16,6 +16,15 @@
         android:singleLine="true"
         android:summary="@string/pref_myzone_label_summary"
         android:title="@string/pref_myzone_label" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_menu_manage"
+        android:key="@string/pref_switchubb_md_key"
+        android:summary="使用UBB/Markdown回复"
+        android:summaryOff="@string/pref_switchubb_md_ubb_summary"
+        android:summaryOn="@string/pref_switchubb_md_md_summary"
+        android:title="@string/pref_switchubb_md_title"
+        android:visibility="visible" />
     <PreferenceScreen
         android:icon="@mipmap/ic_launcher_round"
         android:summary="choose something to save"

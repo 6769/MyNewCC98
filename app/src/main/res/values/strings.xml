@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Setting</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -32,6 +32,11 @@
     <string name="pref_myzone_label">主页自定义版块</string>
     <string name="pref_myzone_label_summary">版块编号</string>
     <string name="pref_myzone_sharekey">pref_myzone_sharekey</string>
+
+    <string name="pref_switchubb_md_key">switch_reply_type</string>
+    <string name="pref_switchubb_md_title">回复使用类型</string>
+    <string name="pref_switchubb_md_ubb_summary">使用Ubb回复</string>
+    <string name="pref_switchubb_md_md_summary">使用Markdown回复</string>
     <string name="api_cc98_host_part">api-v2.cc98.org</string>
 
     <string name="searchview_board_hint">版面搜索</string>
@@ -63,4 +68,5 @@
     <string name="pref_username">username</string>
     <string name="pref_password">password</string>
     <string name="pref_userlast_token">token</string>
+    <string name="activity_splash_echo_title">MyCC98 for Android</string>
 </resources>
