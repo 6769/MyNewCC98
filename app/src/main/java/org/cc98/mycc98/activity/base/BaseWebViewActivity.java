@@ -39,7 +39,7 @@ import win.pipi.api.network.CC98APIManager;
  * Created by pipi6 on 2018/1/9.
  */
 
-public class BaseWebViewActivity extends BaseSwipeBackActivity {
+public class BaseWebViewActivity extends BaseActivity {
     public static final String UTF_8 = "utf-8";
     public static final String MEMI_TYPE="application/json";
     protected String urlToLoad;

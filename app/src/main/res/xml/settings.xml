@@ -6,16 +6,6 @@
     android:summary="">
 
 
-    <EditTextPreference
-        android:defaultValue="152"
-        android:dialogIcon="@drawable/ic_view_quilt_black_36dp"
-        android:icon="@drawable/ic_menu_manage"
-        android:key="@string/pref_myzone_sharekey"
-        android:numeric="integer"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:summary="@string/pref_myzone_label_summary"
-        android:title="@string/pref_myzone_label" />
     <SwitchPreference
         android:defaultValue="false"
         android:icon="@drawable/ic_menu_manage"
@@ -25,22 +15,33 @@
         android:summaryOn="@string/pref_switchubb_md_md_summary"
         android:title="@string/pref_switchubb_md_title"
         android:visibility="visible" />
-    <PreferenceScreen
-        android:icon="@mipmap/ic_launcher_round"
-        android:summary="choose something to save"
-        android:title="File storage">
-
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="switch_preference_logging_info"
-            android:summary=""
-            android:summaryOff="application debug info won't be saved"
-            android:summaryOn="application debug info will be saved"
-            android:title="Logging" />
-
-
-    </PreferenceScreen>
+    <EditTextPreference
+        android:defaultValue="152"
+        android:dialogIcon="@drawable/ic_view_quilt_black_36dp"
+        android:icon="@drawable/ic_menu_manage"
+        android:key="@string/pref_myzone_sharekey"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="@string/pref_myzone_label_summary"
+        android:title="@string/pref_myzone_label"
+        android:visibility="visible" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_menu_manage"
+        android:key="@string/pref_ubb_tail_switch_key"
+        android:summaryOff="停用"
+        android:summaryOn="启用"
+        android:title="控制小尾巴"
+        android:visibility="visible" />
+    <EditTextPreference
+        android:defaultValue="@string/pref_ubb_tail_default"
+        android:dialogIcon="@drawable/ic_view_quilt_black_36dp"
+        android:icon="@drawable/ic_menu_manage"
+        android:key="@string/pref_ubb_tail_key"
+        android:summary="填上你的小尾巴"
+        android:title="@string/pref_ubb_tail_title"
+         />
 
 
 </PreferenceScreen>

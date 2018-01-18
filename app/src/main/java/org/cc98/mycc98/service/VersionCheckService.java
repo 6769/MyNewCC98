@@ -53,7 +53,7 @@ public class VersionCheckService extends AVersionService {
         VersionParams.Builder builder = new VersionParams.Builder()
                 .setRequestUrl(application.getString(R.string.service_update_versionchecker_url))
                 .setDownloadAPKPath(application.getCacheDir().getAbsolutePath()+"/")
-                .setPauseRequestTime(60*1000) //every 60 seconds retry pull update info.
+                .setPauseRequestTime(300*1000) //every 300seconds retry pull update info.
                 .setService(VersionCheckService.class);
 
         AllenChecker.startVersionCheck(application, builder.build());

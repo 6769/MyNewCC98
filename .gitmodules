@@ -1,0 +1,3 @@
+[submodule "library/apicc98"]
+	path = library/apicc98
+	url = git@github.com:6769/ApiCC98.git

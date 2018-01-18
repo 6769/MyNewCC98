@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
@@ -35,6 +36,10 @@ public class EditActivity extends BaseSwipeBackActivity {
     public static final String POST_REFFER = "POST_REFFER";
     public static final String TARGET_USER = "TARGET_USER";
     public static final String BOARD_ID = "BOARD_ID";
+
+
+    @BindView(R.id.act_edit_ibtn_send)
+    ImageButton actEditIbtnSend;
 
     public static void startActivity(Context context) {
         startActivity(context, 0, 0, null);
@@ -62,7 +67,7 @@ public class EditActivity extends BaseSwipeBackActivity {
     private REPLYTYPE postType;
 
     @BindView(R.id.act_edit_title_container)
-     TextInputLayout titleContainer;
+    TextInputLayout titleContainer;
 
     @BindView(R.id.act_edit_content)
     EditText editContent;
@@ -79,13 +84,14 @@ public class EditActivity extends BaseSwipeBackActivity {
         @Override
         public void onCompleted() {
             mkToast(getString(R.string.editor_reply_topic_success));
+            actEditIbtnSend.setEnabled(true);
             //TODO: add a circling zone for bolck user operation,unless cancelled.
             finish();
         }
 
         @Override
         public void onError(Throwable e) {
-
+            actEditIbtnSend.setEnabled(true);
             mkToast(e.toString());
         }
 
@@ -125,8 +131,8 @@ public class EditActivity extends BaseSwipeBackActivity {
 
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         if (postType == REPLYTYPE.REPLY && !quoted.isEmpty()) {
@@ -145,16 +151,17 @@ public class EditActivity extends BaseSwipeBackActivity {
         //load Config here
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_activity,menu);
+        getMenuInflater().inflate(R.menu.menu_edit_activity, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        switch (id){
+        int id = item.getItemId();
+        switch (id) {
             case android.R.id.home:
                 finish();
                 break;
@@ -180,15 +187,15 @@ public class EditActivity extends BaseSwipeBackActivity {
         String inputcontent = editContent.getText().toString().trim();
 
 
-        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isMd = preferences.getBoolean(getString(R.string.pref_switchubb_md_key),false);
-        int contentType = isMd ? 1:0;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isMd = preferences.getBoolean(getString(R.string.pref_switchubb_md_key), false);
+        int contentType = isMd ? 1 : 0;
 
 
         NewPostInfo newPostInfo;
         Observable<String> call = null;
         if (postType == REPLYTYPE.NEWTOPIC) {
-            if (inputcontent.isEmpty()||inputtitle.isEmpty()){
+            if (inputcontent.isEmpty() || inputtitle.isEmpty()) {
                 return;
                 //the better way is textchange listener;
             }
@@ -196,23 +203,28 @@ public class EditActivity extends BaseSwipeBackActivity {
             call = iface.postTopicBoard(bid, newPostInfo);
         }
         if (postType == REPLYTYPE.REPLY) {
-            if (inputcontent.isEmpty()){
+            if (inputcontent.isEmpty()) {
                 return;
             }
             newPostInfo = new NewPostInfo("", inputcontent, contentType);
             call = iface.postReplyTopic(tid, newPostInfo);
         }
 
-        if (call != null)
+        if (call != null){
+
+            actEditIbtnSend.setEnabled(false);
+            //important in case user repeatedly click;
             call.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(postObserver);
+        }
+
+
 
     }
 
 
-
-    protected class EditTextWatcher implements TextWatcher{
+    protected class EditTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

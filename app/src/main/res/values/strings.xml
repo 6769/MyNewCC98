@@ -30,13 +30,19 @@
     <string name="postview_remote_template">http://192.168.123.119:3000/index.html?id=</string>
 
     <string name="pref_myzone_label">主页自定义版块</string>
-    <string name="pref_myzone_label_summary">版块编号</string>
+    <string name="pref_myzone_label_summary">填写版块编号，默认是缘分天空</string>
     <string name="pref_myzone_sharekey">pref_myzone_sharekey</string>
 
     <string name="pref_switchubb_md_key">switch_reply_type</string>
-    <string name="pref_switchubb_md_title">回复使用类型</string>
+    <string name="pref_switchubb_md_title">回复和发帖文本类型</string>
     <string name="pref_switchubb_md_ubb_summary">使用Ubb回复</string>
     <string name="pref_switchubb_md_md_summary">使用Markdown回复</string>
+
+
+    <string name="pref_ubb_tail_switch_key">pref_ubb_tail_switch</string>
+    <string name="pref_ubb_tail_key">pref_ubb_tail_key</string>
+    <string name="pref_ubb_tail_title">设置小尾巴</string>
+    <string name="pref_ubb_tail_default">via MyCC98+</string>
     <string name="api_cc98_host_part">api-v2.cc98.org</string>
 
     <string name="searchview_board_hint">版面搜索</string>
