@@ -3,6 +3,7 @@ package org.cc98.mycc98.activity.base;
 import android.annotation.TargetApi;
 import android.net.Uri;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.baidu.mobstat.StatService;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.ChromeClientCallbackManager;
 import com.orhanobut.logger.Logger;
 
 import org.cc98.mycc98.MainApplication;
@@ -39,18 +41,18 @@ import win.pipi.api.network.CC98APIManager;
  * Created by pipi6 on 2018/1/9.
  */
 
-public class BaseWebViewActivity extends BaseActivity {
+public class BaseWebViewActivity extends BaseActivity implements ChromeClientCallbackManager.ReceivedTitleCallback {
     public static final String UTF_8 = "utf-8";
-    public static final String MEMI_TYPE="application/json";
-    protected String urlToLoad;
 
+    protected String urlToLoad;
     protected String callBridge;
     protected AgentWeb agentWeb;
     protected WebView webView;
     protected LinearLayout mLinearLayout;
-    private OkHttpClient client=new OkHttpClient();
+
 
     protected void initWebView(String url) {
+        logi(url);
         urlToLoad = url;
 
         if (mLinearLayout == null) {
@@ -64,7 +66,7 @@ public class BaseWebViewActivity extends BaseActivity {
                 .useDefaultIndicator()// 使用默认进度条
 
                 .defaultProgressBarColor() // 使用默认进度条颜色
-                .setReceivedTitleCallback(null) //设置 Web 页面的 title 回调
+                .setReceivedTitleCallback(this) //设置 Web 页面的 title 回调
                 //.setWebViewClient(new ApiGrantedWebViewClient())
                 .createAgentWeb()  //
                 .ready()
@@ -77,43 +79,10 @@ public class BaseWebViewActivity extends BaseActivity {
 
     }
 
-    public class ApiGrantedWebViewClient extends WebViewClient {
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, final WebResourceRequest request) {
-            Uri uri=request.getUrl();
-            String url=uri.getHost();
-            final String API_HOST=getString(R.string.api_cc98_host_part);
-            if (url.contains(API_HOST)){
-                //logi("hook token "+uri.toString());
-                CC98APIManager apiManager=MainApplication.getCc98APIManager();
-                try {
-
-
-
-                    Request.Builder requestBuilder = new Request.Builder().url(uri.toString());
-                    Request request1=requestBuilder
-                            .addHeader(apiManager.AUTH_PARA_HEADER,apiManager.getHttpHeaderToken())
-                            .removeHeader("referer")
-                            .build();
-                    Call call=client.newCall(request1);
-                    Response response=call.execute();
-                    String datahook=response.body().string();
-                    InputStream responseInputStream = new ByteArrayInputStream(datahook.getBytes());
-
-
-                    return new WebResourceResponse(MEMI_TYPE,UTF_8 , responseInputStream);
-                }  catch (IOException e) {
-                    //return null to tell WebView we failed to fetch it WebView should try again.
-                    return null;
-                }  catch (Exception e){
-                    return null;
-                }
-            }
-            else return null;
-            //fuck call here,super finally get a null;
-        }
+    @Override
+    public void onReceivedTitle(WebView view, String title) {
+        setTitle(title);
     }
-
 
     protected WebSettings configWebSettings(WebSettings webSettings) {
         webSettings.setSupportZoom(true);
@@ -129,6 +98,10 @@ public class BaseWebViewActivity extends BaseActivity {
         webSettings.setMinimumFontSize(14);//设置 WebView 支持的最小字体大小，默认为 8
         webSettings.setUseWideViewPort(true);  //将图片调整到适合webview的大小
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+        webSettings.setDomStorageEnabled(true); // 开启 DOM storage API 功能
+        webSettings.setDatabaseEnabled(true);   //开启 database storage API 功能
+        webSettings.setAppCacheEnabled(true);//开启 Application Caches 功能
+
 
         webSettings.setCacheMode(android.webkit.WebSettings.LOAD_DEFAULT);
 
@@ -166,5 +139,19 @@ public class BaseWebViewActivity extends BaseActivity {
         if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                //WARNING:android.R.id   =.=
+                finish();
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -34,38 +34,41 @@ public class AboutActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.drawable.dummy_image)
                 .setDescription(getString(R.string.about_mycc98))
-                .addItem(new Element().setTitle(GetPackageInfomation.getPackageVersionName(this)))
+                .addGroup("Version")
+                .addItem(getVersionRow())
                 .addGroup("Connect with us")
-                .addEmail("5pipitk@gmail.com")
-                .addWebsite("https://github.com/6769")
-                .addItem(getOpenLibsElements())
-
-                .addGitHub("6769")
-                //.addItem(getCopyRightsElement())
+                .addEmail(getString(R.string.application_contact_email_addr))
+                .addWebsite(getString(R.string.application_github_website_url))
+                .addGitHub(getString(R.string.application_contact_github_user))
+                //.addItem(getReadMore())
                 .create();
 
         setContentView(aboutPage);
 
     }
 
-    private Element getOpenLibsElements() {
+    private Element getReadMore() {
         Element openlib = new Element();
-        openlib.setTitle("Open Projects").setIconDrawable(R.drawable.ic_view_quilt_black_36dp);
+        openlib.setTitle("More").setIconDrawable(R.drawable.ic_view_quilt_black_36dp);
         openlib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //OpenlibsActivity.startActivity(AboutActivity.this);
-                mkToast("Show some libs' licences");
 
 
             }
         });
         return openlib;
+    }
+
+    private Element getVersionRow() {
+        Element version = new Element();
+        version.setTitle(GetPackageInfomation.getPackageVersionName(this));
+        return version;
     }
 
 

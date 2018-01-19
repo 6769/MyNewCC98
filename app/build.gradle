@@ -55,7 +55,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     compile 'com.orhanobut:logger:2.1.1'
-    compile 'com.github.medyo:android-about-page:1.2'
+    compile 'com.github.medyo:android-about-page:1.2.2'
     compile 'com.mikepenz:aboutlibraries:5.9.6@aar'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jude:swipebackhelper:3.1.2'

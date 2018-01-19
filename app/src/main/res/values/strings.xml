@@ -20,7 +20,7 @@
         completions."
     </string>
 
-    <string name="about_mycc98">This is new MyCC98,rewritten by Pip5</string>
+    <string name="about_mycc98">This is new MyCC98, under experiment</string>
     <string name="title_activity_settings">Settings</string>
 
     <string name="moto_of_zju">诸位在校，有两个问题要自己问问，\n第一，来浙大做什么? \n第二，将来毕业后要做一个什么样的人?</string>
@@ -44,6 +44,7 @@
     <string name="pref_ubb_tail_title">设置小尾巴</string>
     <string name="pref_ubb_tail_default">via MyCC98+</string>
     <string name="api_cc98_host_part">api-v2.cc98.org</string>
+    <string name="bbs_cc98_host_part">www.cc98.org</string>
 
     <string name="searchview_board_hint">版面搜索</string>
     <string name="searchview_global_hint">全站搜索</string>
@@ -53,12 +54,17 @@
     <string name="user_profile_id_url">http://www.cc98.org/user/id/%d</string>
     <string name="user_profile_name_url">http://www.cc98.org/user/name/%s</string>
 
+
+    <string name="dialog_edit_sendpost_title">请稍等</string>
+    <string name="dialog_edit_sendpost_msg">正在发送...</string>
+
     <string name="menu_post_topic_share">分享</string>
     <string name="editor_newtopic_title">新话题: </string>
     <string name="editor_reply_topic">回复主题</string>
     <string name="editor_reply_topic_success">发帖成功</string>
     <string name="main_activity_gotopic_title">访问指定帖子</string>
     <string name="main_activity_gotopic_msg">帖子编号ID</string>
+    <string name="postread_refercontent_to_edit">以下是引用用户[ %s ]的发言:\n%s</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -75,5 +81,13 @@
     <string name="pref_password">password</string>
     <string name="pref_userlast_token">token</string>
     <string name="activity_splash_echo_title">MyCC98 for Android</string>
-    <string name="service_update_versionchecker_url">http://192.168.123.119:8080/update/update_info.json</string>
+    <string name="service_update_versionchecker_url">http://api.5pipi.win/mycc98/update.json</string>
+    <string name="application_github_website_url">https://github.com/6769/MyNewCC98</string>
+    <string name="application_contact_email_addr">5pipitk@gmail.com</string>
+    <string name="application_contact_github_user">6769</string>
+
+    <string name="share_content_text_title">Share cc98, share your life</string>
+
+    <string name="normal_webview_urlcopied">链接已复制~</string>
+    <string name="normal_webview_urlshare_template">[%s]: %s</string>
 </resources>

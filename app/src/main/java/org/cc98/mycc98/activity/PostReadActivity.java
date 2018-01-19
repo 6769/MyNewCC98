@@ -4,6 +4,7 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import com.google.gson.Gson;
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseWebViewActivity;
+import org.cc98.mycc98.utility.ImageProcess;
 import org.cc98.mycc98.webview.ObservableWebView;
 
 import java.io.IOException;
@@ -90,6 +93,10 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         }
 
         webView=findViewById(R.id.activity_post_read_webview);
+        super.webView = webView;
+        //register Goback Handle.
+
+
         fab=findViewById(R.id.activity_post_read_reply_btn);
         fab.setOnClickListener(this);
 
@@ -97,12 +104,45 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
 
         configWebSettings(webView.getSettings());
 
-        webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new PostReadWebClient());
+        webView.setWebChromeClient(new PostReadWebChromeClient());
         webView.addJavascriptInterface(new JavascriptApi(), BRIDGE_TOKEN);
         webView.loadUrl(url);
-        requestsNeedsData(0);
 
+
+    }
+
+    private class PostReadWebChromeClient extends WebChromeClient {
+
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            PostReadActivity.this.setTitle(title);
+
+            //setup in Javascript;
+        }
+    }
+
+    private class PostReadWebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+            Uri currentUri = Uri.parse(url);
+            if (ImageProcess.isPhotoUrl(url)) {//handle images' url;
+
+
+                return true;
+            }
+
+            if (currentUri.getHost().equals(getString(R.string.bbs_cc98_host_part))) {
+                return false;
+            } else {
+                NormalWebviewActivity.startActivity(PostReadActivity.this, url);
+                return true;
+            }
+
+
+        }
     }
 
 
@@ -118,10 +158,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
-                //WARNING:android.R.id   =.=
-                finish();
-                break;
+
             case R.id.menu_postread_share:
                 break;
             case R.id.menu_postread_setting:
@@ -245,7 +282,8 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         @JavascriptInterface
         public void replyHasRefers(String username,String contentRefer){
             logi(username+contentRefer);
-            EditActivity.startActivity(PostReadActivity.this,topicId,username+" "+contentRefer);
+            EditActivity.startActivity(PostReadActivity.this, topicId,
+                    String.format(getString(R.string.postread_refercontent_to_edit), username, contentRefer));
         }
 
         @JavascriptInterface

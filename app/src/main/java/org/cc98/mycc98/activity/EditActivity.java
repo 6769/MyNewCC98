@@ -1,5 +1,6 @@
 package org.cc98.mycc98.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,8 +39,7 @@ public class EditActivity extends BaseSwipeBackActivity {
     public static final String BOARD_ID = "BOARD_ID";
 
 
-    @BindView(R.id.act_edit_ibtn_send)
-    ImageButton actEditIbtnSend;
+
 
     public static void startActivity(Context context) {
         startActivity(context, 0, 0, null);
@@ -66,6 +66,8 @@ public class EditActivity extends BaseSwipeBackActivity {
 
     private REPLYTYPE postType;
 
+    @BindView(R.id.act_edit_ibtn_send)
+    ImageButton actEditIbtnSend;
     @BindView(R.id.act_edit_title_container)
     TextInputLayout titleContainer;
 
@@ -85,13 +87,14 @@ public class EditActivity extends BaseSwipeBackActivity {
         public void onCompleted() {
             mkToast(getString(R.string.editor_reply_topic_success));
             actEditIbtnSend.setEnabled(true);
-            //TODO: add a circling zone for bolck user operation,unless cancelled.
+            waitingDialog.dismiss();
             finish();
         }
 
         @Override
         public void onError(Throwable e) {
             actEditIbtnSend.setEnabled(true);
+            waitingDialog.dismiss();
             mkToast(e.toString());
         }
 
@@ -102,6 +105,7 @@ public class EditActivity extends BaseSwipeBackActivity {
         }
     };
     private CC98APIInterface iface;
+    private ProgressDialog waitingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,24 +198,35 @@ public class EditActivity extends BaseSwipeBackActivity {
 
         NewPostInfo newPostInfo;
         Observable<String> call = null;
-        if (postType == REPLYTYPE.NEWTOPIC) {
-            if (inputcontent.isEmpty() || inputtitle.isEmpty()) {
-                return;
-                //the better way is textchange listener;
-            }
-            newPostInfo = new NewPostInfo(inputtitle, inputcontent, contentType);
-            call = iface.postTopicBoard(bid, newPostInfo);
-        }
-        if (postType == REPLYTYPE.REPLY) {
-            if (inputcontent.isEmpty()) {
-                return;
-            }
-            newPostInfo = new NewPostInfo("", inputcontent, contentType);
-            call = iface.postReplyTopic(tid, newPostInfo);
+
+        if (inputcontent.isEmpty()) {
+            return;
         }
 
-        if (call != null){
 
+        switch (postType) {
+            case REPLY:
+                newPostInfo = new NewPostInfo("", inputcontent, contentType);
+                call = iface.postReplyTopic(tid, newPostInfo);
+                break;
+
+            case NEWTOPIC:
+                if (inputtitle.isEmpty()) {
+                    return;
+                }
+                newPostInfo = new NewPostInfo(inputtitle, inputcontent, contentType);
+                call = iface.postTopicBoard(bid, newPostInfo);
+                break;
+            default:
+                break;
+        }
+
+
+        if (call != null) {
+
+            waitingDialog = genADialog(getString(R.string.dialog_edit_sendpost_title),
+                    getString(R.string.dialog_edit_sendpost_msg));
+            waitingDialog.show();
             actEditIbtnSend.setEnabled(false);
             //important in case user repeatedly click;
             call.subscribeOn(Schedulers.io())
@@ -220,10 +235,21 @@ public class EditActivity extends BaseSwipeBackActivity {
         }
 
 
-
     }
 
+    protected ProgressDialog genADialog(String title, String msg) {
+        ProgressDialog waitingDialog = new ProgressDialog(this);
+        waitingDialog.setTitle(title);
+        waitingDialog.setMessage(msg);
+        waitingDialog.setIndeterminate(true);
+        waitingDialog.setCancelable(false);
 
+        return waitingDialog;
+    }
+
+    enum REPLYTYPE {
+        NEWTOPIC, REPLY
+    }
     protected class EditTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -244,6 +270,3 @@ public class EditActivity extends BaseSwipeBackActivity {
 
 }
 
-enum REPLYTYPE {
-    NEWTOPIC, REPLY
-}

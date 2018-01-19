@@ -36,7 +36,7 @@ public class VersionCheckService extends AVersionService {
             }
 
         } catch (Exception e) {
-            Log.e(TAG, "Package Error", e);
+            Log.e(TAG, "Update Package Error", e);
         }
 
 

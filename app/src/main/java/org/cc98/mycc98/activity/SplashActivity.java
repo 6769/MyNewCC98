@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
         *
         * */
         StatService.start(this);
-        StatService.setDebugOn(true);
+        //StatService.setDebugOn(true);
 
 
 
