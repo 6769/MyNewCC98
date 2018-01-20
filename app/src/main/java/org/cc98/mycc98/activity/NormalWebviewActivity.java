@@ -2,6 +2,7 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseWebViewActivity;
 import org.cc98.mycc98.utility.ClipBoard;
 import org.cc98.mycc98.utility.ShareContent;
+import org.cc98.mycc98.utility.StringProcess;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,13 +67,26 @@ public class NormalWebviewActivity extends BaseWebViewActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        String currentUrl=webView.getUrl();
         switch (id) {
+            case R.id.menu_normalweb_opensys:
+
+                //directly load page to another;
+                if(StringProcess.isValidUrl(urlToLoad)){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentUrl));
+                    startActivity(intent);
+                }else {
+                    mkToast(getString(R.string.normal_webview_urlerror));
+                }
+
+                break;
+
             case R.id.menu_normalweb_copylink:
-                ClipBoard.copyToClpBoard(this, urlToLoad);
+                ClipBoard.copyToClpBoard(this, currentUrl);
                 mkToast(getString(R.string.normal_webview_urlcopied));
                 break;
             case R.id.menu_normalweb_share:
-                String sharedText = String.format(getString(R.string.normal_webview_urlshare_template), getTitle(), urlToLoad);
+                String sharedText = String.format(getString(R.string.normal_webview_urlshare_template), getTitle(), currentUrl);
                 ShareContent.shareText(this, sharedText, getString(R.string.share_content_text_title));
                 break;
         }

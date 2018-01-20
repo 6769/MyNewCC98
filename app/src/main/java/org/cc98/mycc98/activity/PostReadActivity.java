@@ -51,18 +51,15 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
     private static final String BRIDGE_TOKEN = "nativeface";
     private int topicId;
 
-    private TopicInfo topicInfosave;
-    private int currentPageBlock;
+
 
     private ObservableWebView webView;
     private FloatingActionButton fab;
     private ActionBar actionBar;
 
-    private CC98APIInterface cc98APIInterface;
+
     private Resources resources;
-    private List<PostContent> postContentSave;
-    private List<BasicUserInfo>    userInfos;
-    private Gson gsonHandler = new Gson();
+
 
 
     public static void startActivity(Context context, int topicID) {
@@ -82,8 +79,6 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         resources = getResources();
         topicId = bundle.getInt(TOPIC_ID,
                 resources.getInteger(R.integer.default_bug_report_topicid));
-        postContentSave = new ArrayList<>();
-        cc98APIInterface = MainApplication.getApiInterface();
 
 
         String url = getString(R.string.postview_local_template) + topicId;
@@ -113,13 +108,9 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
     }
 
     private class PostReadWebChromeClient extends WebChromeClient {
-
-
         @Override
         public void onReceivedTitle(WebView view, String title) {
             PostReadActivity.this.setTitle(title);
-
-            //setup in Javascript;
         }
     }
 
@@ -129,8 +120,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
 
             Uri currentUri = Uri.parse(url);
             if (ImageProcess.isPhotoUrl(url)) {//handle images' url;
-
-
+                PhotoViewActivity.startActivity(PostReadActivity.this,url);
                 return true;
             }
 
@@ -141,7 +131,10 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
                 return true;
             }
 
-
+        }
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            //PostReadActivity.this.setTitle(view.getTitle());//onReceivedTitle has done;
         }
     }
 
@@ -158,29 +151,23 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-
             case R.id.menu_postread_share:
                 break;
             case R.id.menu_postread_setting:
                 SettingActivity.startActivity(this);
                 break;
-
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
-        logi("reply topic:"+topicId);
+        logi("reply topic: "+topicId);
         EditActivity.startActivity(this,topicId,"");
     }
 
     protected class ScrollChangeLisner implements ObservableWebView.OnScrollChangedCallback {
-
         //not implemented view action as we wanted.
-
         @Override
         public void onScroll(int dx, int dy) {
             if (dy>0){
@@ -193,80 +180,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         }
     }
 
-    @Deprecated
-    protected void requestsNeedsData(final int start) {
-        final int size=10;
 
-        Observable<TopicInfo> getTopicinfo = cc98APIInterface.getTopicInfo(topicId);
-        Observable<ArrayList<PostContent>> getTopicPosts = cc98APIInterface
-                .getTopicPost(topicId, start, size);
-
-        Observable<TopicAndPosts> level1Requests = Observable.zip(getTopicinfo, getTopicPosts,
-                new Func2<TopicInfo, ArrayList<PostContent>, TopicAndPosts>() {
-                    @Override
-                    public TopicAndPosts call(TopicInfo topicInfo, ArrayList<PostContent> postContents) {
-                        return new TopicAndPosts(topicInfo, postContents);
-                    }
-                });
-        level1Requests.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<TopicAndPosts>() {
-                    @Override
-                    public void onCompleted() {
-                        currentPageBlock=start/10;
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        loge(e, "Zipped Requests Error");
-
-                    }
-
-                    @Override
-                    public void onNext(TopicAndPosts topicAndPosts) {
-                        if (topicAndPosts.isTopicValid())
-
-                        {
-                            topicInfosave = topicAndPosts.getTopicInfo();
-                            PostReadActivity.this.setTitle(topicInfosave.getTitle());
-                        }
-                        if (topicAndPosts.isPostsValid())
-                            postContentSave = topicAndPosts.getPostContents();
-
-
-                    }
-                });
-
-
-    }
-
-
-    @Deprecated
-    public static class TopicAndPosts {
-        TopicInfo topicInfo;
-        List<PostContent> postContents;
-
-        public TopicAndPosts(TopicInfo topicInfo, List<PostContent> postContents) {
-            this.topicInfo = topicInfo;
-            this.postContents = postContents;
-        }
-
-        public TopicInfo getTopicInfo() {
-            return topicInfo;
-        }
-
-        public List<PostContent> getPostContents() {
-            return postContents;
-        }
-
-        public boolean isTopicValid() {
-            return topicInfo != null;
-        }
-
-        public boolean isPostsValid() {
-            return postContents.size() > 0;
-        }
-    }
 
     protected class JavascriptApi {
         @JavascriptInterface
@@ -288,25 +202,16 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
 
         @JavascriptInterface
         public void userMessageSend(int userId){
-            mkToast("userId"+userId);
+            mkToast("userId  "+userId);
         }
         @JavascriptInterface
         public void userProfileView(int userId){
-            if (userId>0){
-                UserProfileActivity.startActivity(PostReadActivity.this, userId);
-            }
+            UserProfileActivity.startActivity(PostReadActivity.this, userId);
         }
-
-
         @JavascriptInterface
         public String getUserToken(){
             return MainApplication.getCc98APIManager().getHttpHeaderToken();
         }
-
-
-
-
-
 
     }
 }

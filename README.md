@@ -14,10 +14,10 @@ pm view, search view, user view;
 ## Modules
 
 ### network
-use Retrofit to handle http requests, and the interface api.cc98.org should be easiser than html regex paser.
+use Retrofit to handle http requests, and the interface api-v2.cc98.org should be easiser than html regex paser.
 
 #### Authentication OAth
-in todo list...
+Apply web's authentication key and token way.
 
 ### activity
 just reference to old version
@@ -29,19 +29,20 @@ Another choice:
 UBB code seems not easy to parse in textview so far, but markdown code seems has [RxMarkdown](https://github.com/yydcdut/RxMarkdown) to use.
 
 #### UserProfile
-WebView to hold json info, local render it;
+Directly load into webview;
 
 #### PMView/Reply
 similar to topic view,their render system are the same;
 
 #### TopicView
-Must WebView,last to do;
+Use react and Typescript to write front part.
 
 ## Utilities
 Try to include some handy toolkits:
-- Share Topic to Another App.
-- PhotoView Save to SDCard.
+- Share Topic to Another App. Done.
+- PhotoView Save to SDCard.   Doing...
 - Topic to ScreenShot.
 - Funny emotion stickers.
 
-# Ends
+# How to Compile
+Under AndroidStudio 3.0.1 , Gradle 4.1;

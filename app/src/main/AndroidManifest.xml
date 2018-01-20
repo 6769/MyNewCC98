@@ -108,7 +108,8 @@
             android:name="BaiduMobAd_EXCEPTION_LOG"
             android:value="true" />
 
-        <activity android:name=".activity.NormalWebviewActivity"></activity>
+        <activity android:name=".activity.NormalWebviewActivity" />
+        <activity android:name=".activity.PhotoViewActivity"></activity>
     </application>
 
 </manifest>

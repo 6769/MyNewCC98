@@ -14,4 +14,9 @@
         android:title="复制链接"
         android:visible="true"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_normalweb_opensys"
+        android:title="在浏览器中打开"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

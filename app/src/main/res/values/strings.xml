@@ -89,5 +89,6 @@
     <string name="share_content_text_title">Share cc98, share your life</string>
 
     <string name="normal_webview_urlcopied">链接已复制~</string>
+    <string name="normal_webview_urlerror">链接异常，请复制查看</string>
     <string name="normal_webview_urlshare_template">[%s]: %s</string>
 </resources>
