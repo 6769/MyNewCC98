@@ -15,6 +15,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.orhanobut.logger.Logger;
 
@@ -32,6 +33,8 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class PhotoViewActivity extends BaseActivity {
     private static final String TAG = "PhotoViewActivity";
@@ -65,16 +68,16 @@ public class PhotoViewActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        setTitle("PhotoView");
+        setTitle(getString(R.string.activity_photo_view_title));
 
         try {
+            RequestOptions options = new RequestOptions()
+                    .fitCenter()
+                    .error(R.drawable.image_load_error);// 占位图片;
             Glide.with(this)
                     .load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .error(R.drawable.image_load_error)// 占位图片
-                    .crossFade(500)//淡入淡出动画500ms
-                    .fitCenter()
-                    .priority(Priority.LOW)// 当前线程的优先级
+                    .apply(options)//淡入淡出动画500ms
+                    .transition(withCrossFade())
                     .into(activityPhotoview);
         } catch (Exception e) {
             loge(e, "Glide load custom failed");

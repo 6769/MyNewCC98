@@ -5,11 +5,13 @@ import android.widget.ImageView;
 
 import com.baidu.mobstat.StatService;
 import com.bumptech.glide.Glide;
+import com.github.lazylibrary.util.AppUtils;
 import com.google.gson.Gson;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
+import org.cc98.mycc98.config.ApplicationConfig;
 import org.cc98.mycc98.config.UserConfig;
 import org.cc98.mycc98.service.VersionCheckService;
 
@@ -45,9 +47,9 @@ public class SplashActivity extends BaseActivity {
         Init Baidu Statistical Services;
         *
         * */
-        StatService.start(this);
-        //StatService.setDebugOn(true);
-
+        if(ApplicationConfig.getStatEnable()){
+            StatService.start(this);
+        }
 
 
     }

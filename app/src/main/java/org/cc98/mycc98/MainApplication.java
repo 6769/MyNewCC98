@@ -13,6 +13,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
 
 import org.cc98.mycc98.activity.LoginActivity;
+import org.cc98.mycc98.config.ApplicationConfig;
 
 import win.pipi.api.authorization.LoginCC98;
 import win.pipi.api.network.CC98APIInterface;
@@ -52,6 +53,7 @@ public class MainApplication extends Application {
         LeakCanary.install(this);
 
 
+        ApplicationConfig.init(this);
         context=getApplicationContext();
 
         cc98APIManager=new CC98APIManager();

@@ -22,9 +22,16 @@ import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
 import org.cc98.mycc98.config.ForumConfig;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,8 +44,10 @@ public class EditActivity extends BaseSwipeBackActivity {
     public static final String POST_REFFER = "POST_REFFER";
     public static final String TARGET_USER = "TARGET_USER";
     public static final String BOARD_ID = "BOARD_ID";
-
-
+    @BindView(R.id.act_edit_ibtn_camera)
+    ImageButton actEditIbtnCamera;
+    @BindView(R.id.act_edit_ibtn_gallery)
+    ImageButton actEditIbtnGallery;
 
 
     public static void startActivity(Context context) {
@@ -64,7 +73,7 @@ public class EditActivity extends BaseSwipeBackActivity {
         context.startActivity(intent);
     }
 
-    private REPLYTYPE postType;
+    private EditReplyType postType;
 
     @BindView(R.id.act_edit_ibtn_send)
     ImageButton actEditIbtnSend;
@@ -122,10 +131,10 @@ public class EditActivity extends BaseSwipeBackActivity {
 
         if (bid > 0) {
             title = getString(R.string.editor_newtopic_title) + ForumConfig.getBoardNameViaId(bid);
-            postType = REPLYTYPE.NEWTOPIC;
+            postType = EditReplyType.NEWTOPIC;
         } else {
 
-            postType = REPLYTYPE.REPLY;
+            postType = EditReplyType.REPLY;
 
             titleContainer.setVisibility(View.GONE);
 
@@ -139,7 +148,7 @@ public class EditActivity extends BaseSwipeBackActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        if (postType == REPLYTYPE.REPLY && !quoted.isEmpty()) {
+        if (postType == EditReplyType.REPLY && !quoted.isEmpty()) {
             editContent.setText(quoted);
         }
 
@@ -149,12 +158,7 @@ public class EditActivity extends BaseSwipeBackActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //load Config here
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -237,6 +241,81 @@ public class EditActivity extends BaseSwipeBackActivity {
 
     }
 
+    @OnLongClick(R.id.act_edit_ibtn_gallery)
+    protected boolean pickupDocFiles(){
+        FilePickerBuilder.getInstance()
+                .setMaxCount(1)
+                .setSelectedFiles(null)
+                .setActivityTheme(R.style.AppTheme)
+                .pickFile(this);
+        return true;
+    }
+
+
+    private List<String> mCurrentFiles =new ArrayList<>();
+    private File mCurrentPhotoFile;
+
+
+
+    @OnClick(R.id.act_edit_ibtn_gallery)
+    protected void takePhotoFromGallery(){
+
+    }
+
+    @OnClick(R.id.act_edit_ibtn_camera)
+    protected void takePhotoFromCamera(){
+        /*File PHOTO_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(getString(R.string.editor_photo_name_template), Locale.CHINA);
+        mCurrentPhotoFile = new File(PHOTO_DIR, dateFormat.format(date));
+
+        try{
+            boolean ret= mCurrentPhotoFile.createNewFile();
+        }catch (IOException e){
+            loge(e,"Take photo failed");
+            return;
+        }
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(mCurrentPhotoFile));
+        startActivityForResult(intent, EditRetCode.CAM.getValue());*/
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EditRetCode[] retList = EditRetCode.values();
+        EditRetCode reqCode=EditRetCode.FAIL;
+        for(EditRetCode i:retList){
+            if (requestCode==i.getValue()){
+                reqCode=i;
+                break;
+            }
+        }
+
+
+
+        switch (reqCode){
+            case CAM:
+                logi(mCurrentPhotoFile.toString());
+                break;
+            case GALLERY:
+
+                break;
+            case FILE:
+                mCurrentFiles.clear();
+                mCurrentFiles.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
+                break;
+            case FAIL:
+                break;
+        }
+
+    }
+
     protected ProgressDialog genADialog(String title, String msg) {
         ProgressDialog waitingDialog = new ProgressDialog(this);
         waitingDialog.setTitle(title);
@@ -247,9 +326,31 @@ public class EditActivity extends BaseSwipeBackActivity {
         return waitingDialog;
     }
 
-    enum REPLYTYPE {
+    enum EditReplyType {
         NEWTOPIC, REPLY
     }
+
+
+
+    enum EditRetCode {
+        CAM(1001),
+        GALLERY(FilePickerConst.REQUEST_CODE_PHOTO),
+        FILE(FilePickerConst.REQUEST_CODE_DOC),
+        FAIL(1);
+
+        private EditRetCode(int v){
+            this.value=v;
+        }
+
+        public int value;
+        public int getValue(){
+            return value;
+        }
+
+
+    }
+
+
     protected class EditTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

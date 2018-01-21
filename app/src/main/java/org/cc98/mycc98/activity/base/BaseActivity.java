@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.baidu.mobstat.StatService;
 import com.orhanobut.logger.Logger;
 
+import org.cc98.mycc98.config.ApplicationConfig;
+
 /**
  * Created by pip on 2017/7/11.
  */
@@ -45,14 +47,20 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
         Logger.t(this.getClass().getSimpleName()).d( "onResume");
 
-        StatService.onResume(this);
+        if(ApplicationConfig.getStatEnable()){
+            StatService.onResume(this);
+        }
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Logger.t(this.getClass().getSimpleName()).d("onPause");
-        StatService.onPause(this);
+        if(ApplicationConfig.getStatEnable()){
+            StatService.onPause(this);
+        }
+
     }
 
     @Override

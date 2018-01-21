@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.ActivityCollector;
@@ -47,6 +48,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import win.pipi.api.data.UserInfo;
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -140,10 +142,12 @@ public class MainActivity extends BaseActivity
             //userIntroLabel.setText(userInfo.getIntroduction());
             String userpic=userInfo.getPortraitUrl();
             try{
-                Glide.with(this)
-                        .load(userpic).diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .crossFade()
+                RequestOptions options = new RequestOptions()
                         .centerCrop()
+                        .dontAnimate();
+                Glide.with(this)
+                        .load(userpic)
+                        .apply(options)
                         .into(userLogo);
             }catch (Exception e){
                 loge(e,"Glide load userpic failed");
