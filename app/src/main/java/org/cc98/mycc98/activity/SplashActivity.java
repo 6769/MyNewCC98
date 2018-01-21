@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.baidu.mobstat.StatService;
 import com.bumptech.glide.Glide;
-import com.github.lazylibrary.util.AppUtils;
+
 import com.google.gson.Gson;
 
 import org.cc98.mycc98.MainApplication;

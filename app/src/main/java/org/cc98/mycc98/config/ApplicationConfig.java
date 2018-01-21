@@ -2,7 +2,6 @@ package org.cc98.mycc98.config;
 
 import android.content.Context;
 
-import com.github.lazylibrary.util.AppUtils;
 
 import org.cc98.mycc98.MainApplication;
 
@@ -33,7 +32,7 @@ public class ApplicationConfig {
 
 
     public static void init(Context context){
-        isDebugMode=AppUtils.isDebuggable(context);
+        isDebugMode=true;
         statEnable=false;
     }
 }

@@ -15,6 +15,17 @@ public class ForumConfig {
     private static Map<String,Integer> boardToId=new HashMap<>();
     private static Map<Integer,String> idToBoard=new HashMap<>();
 
+    public static int getUploadMaxSize() {
+        return UPLOADMAXSIZE;
+    }
+    public static int getInputtextMax(){
+        return INPUTTEXTMAXSIZE;
+    }
+
+    private static final int UPLOADMAXSIZE= 4*1024*1024 ;//byte
+    private static final int INPUTTEXTMAXSIZE = 6000;
+    public static final String FILEUPLOAD_HEAD="files";
+
     public static void setBoardMap(List<GroupBoardInfo> boardmap){
         for (GroupBoardInfo agroup :boardmap) {
             for(GroupBoardInfo.BoardsBean aboard:agroup.getBoards()){

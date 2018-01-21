@@ -149,7 +149,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/act_edit_guideline_btn"
                 app:layout_constraintVertical_bias="0.5"
-                app:srcCompat="@drawable/ic_send_black_36dp" />
+                app:srcCompat="@drawable/ic_more_black_36dp" />
 
 
         </android.support.constraint.ConstraintLayout>
