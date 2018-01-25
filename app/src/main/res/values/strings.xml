@@ -100,5 +100,5 @@
     <string name="normal_webview_urlshare_template">[%s]: %s</string>
 
     <string name="activity_photo_view_title">PhotoView</string>
-    <string name="emotion_group_folder">postread/image</string>
+    <string name="emotion_group_folder">postread/images</string>
 </resources>

@@ -72,12 +72,15 @@ public class NormalWebviewActivity extends BaseWebViewActivity {
             case R.id.menu_normalweb_opensys:
 
                 //directly load page to another;
-                if(StringProcess.isValidUrl(urlToLoad)){
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentUrl));
-                    startActivity(intent);
-                }else {
+                try{
+                    if(StringProcess.isValidUrl(urlToLoad)){
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentUrl));
+                        startActivity(intent);
+                    }
+                }catch (Exception e){
                     mkToast(getString(R.string.normal_webview_urlerror));
                 }
+
 
                 break;
 

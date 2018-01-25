@@ -65,7 +65,7 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
                 xRefreshView.stopRefresh();
                 xRefreshView.stopLoadMore();
                 //mkToast(e.toString());
-                Logger.e(e, "error");
+                Logger.e(e, "e");
             }
 
             @Override

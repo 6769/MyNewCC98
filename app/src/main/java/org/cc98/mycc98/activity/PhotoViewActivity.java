@@ -126,7 +126,7 @@ public class PhotoViewActivity extends BaseActivity {
 
         @Override
         public void onError(Throwable e) {
-            Logger.t(TAG).e(e, "Filesaver error");
+            Logger.t(TAG).e(e, "Filesaver e");
             menuItem.setEnabled(true);
             mkToast("保存失败");
         }

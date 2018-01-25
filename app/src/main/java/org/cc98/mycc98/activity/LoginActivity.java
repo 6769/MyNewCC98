@@ -113,7 +113,7 @@ public class LoginActivity extends BaseSwipeBackActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e(e, "Login error");
+                        Logger.e(e, "Login e");
                         mkToast("Login Failed");
                     }
 

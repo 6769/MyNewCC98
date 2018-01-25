@@ -3,6 +3,7 @@ package org.cc98.mycc98.utility;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
 
 import org.cc98.mycc98.R;
@@ -38,30 +39,57 @@ public class ImageProcess {
 
     }
 
+
+    private static List<EmotionGroup> emotionGroupListCache;
     public static List<EmotionGroup> loadEmotionsFromAssets(Context context,String assetsFolder){
+        if(emotionGroupListCache!=null){
+            return emotionGroupListCache;
+        }
+
+        //TODO: use more reasonable data structure to contain emotions;
         List<EmotionGroup> emotionGroups=new ArrayList<>();
         AssetManager manager =context.getAssets();
         try{
             for(String agroupfolder:manager.list(assetsFolder)){
+                if(agroupfolder.length()>2){//very simple and stupid way to exclude the wired emotions
+                    continue;
+                }
                 File afolder=new File(assetsFolder,agroupfolder);
                 List<OneEmotion> oneEmotionList=new ArrayList<>();
                 for(String idimg:manager.list(afolder.getPath())){
-                    File imgf=new File(afolder,idimg);
-                    String textPrep=String.format("[%s%s]",agroupfolder.trim(),imgf.getName());
-                    OneEmotion oe=new OneEmotion(imgf.toString(),textPrep);
+                    File img =new File(afolder.getPath(),idimg);
+                    String fullpath=StringProcess.ASSETS_FOLDER+ img.toString();
+                    String textPrep=getEmotionLabel(agroupfolder,idimg);
+                    OneEmotion oe=new OneEmotion(fullpath, textPrep);
                     oneEmotionList.add(oe);
                 }
                 emotionGroups.add(new EmotionGroup(agroupfolder,oneEmotionList));
 
             }
-            return emotionGroups;
+
         }catch (IOException e){
             e.printStackTrace();
-            return null;
+            emotionGroups.clear();
         }
+        emotionGroupListCache=emotionGroups;
+        return emotionGroups;
+
+
+    }
 
 
 
+    public static String getEmotionLabel(String folder,String filename){
+        String namePart=StringProcess.getNamePart(filename);
+        String formation=StringProcess.EMPTY;
+        switch (folder){
+            case "ac":formation="[ac%s]"; break;
+            case "tb":
+            case "em":formation="[%s]"; break;
+            default:break;
+        }
+        String textPrep=String.format(formation,namePart);
+        return textPrep;
     }
 
 
