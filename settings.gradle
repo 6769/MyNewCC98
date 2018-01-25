@@ -1,1 +1,1 @@
-include ':app', ':library:apicc98'
+include ':app', ':library:apicc98', ':library:SwiftEmotion:swiftemotionboard'

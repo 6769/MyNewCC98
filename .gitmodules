@@ -1,3 +1,6 @@
 [submodule "library/apicc98"]
 	path = library/apicc98
 	url = git@github.com:6769/ApiCC98.git
+[submodule "library/SwiftEmotion"]
+	path = library/SwiftEmotion
+	url = git@github.com:6769/SwiftEmotion.git

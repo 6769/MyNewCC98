@@ -46,3 +46,10 @@ Try to include some handy toolkits:
 
 # How to Compile
 Under AndroidStudio 3.0.1 , Gradle 4.1;
+
+be careful about the submodule git repos;
+```
+ git submodule update --init --recursive
+ 
+ git clone https://github.com/6769/MyNewCC98.git  --recursive
+```
