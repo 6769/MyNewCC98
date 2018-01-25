@@ -41,7 +41,8 @@ configurations {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':library:apicc98')
+    implementation project(':library:apicc98')
+    implementation project(':library:SwiftEmotion:swiftemotionboard')
     compile 'com.just.agentweb:agentweb:3.0.0'
     compile 'com.diegodobelo.expandingview:expanding-view:0.9.4'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'

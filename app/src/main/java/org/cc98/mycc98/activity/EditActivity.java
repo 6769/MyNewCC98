@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -18,7 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
@@ -31,12 +34,8 @@ import org.cc98.mycc98.utility.DialogStore;
 import org.cc98.mycc98.utility.ImageProcess;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,15 +49,17 @@ import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import top.zibin.luban.Luban;
 import win.pipi.api.data.NewPostInfo;
 import win.pipi.api.network.CC98APIInterface;
+import win.pipi.swiftemotionboard.controller.EmotionKeyboard;
+import win.pipi.swiftemotionboard.fragment.Communicator;
+import win.pipi.swiftemotionboard.fragment.EmotionMainFragment;
 
-public class EditActivity extends BaseImagePickActivity {
-    public static final String TAG="EditActivity";
+public class EditActivity extends BaseImagePickActivity implements Communicator {
+    public static final String TAG = "EditActivity";
     public static final String TOPIC_ID = "TOPIC_ID";
     public static final String POST_REFFER = "POST_REFFER";
     public static final String TARGET_USER = "TARGET_USER";
@@ -80,6 +81,12 @@ public class EditActivity extends BaseImagePickActivity {
 
     @BindView(R.id.act_edit_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.act_edit_ibtn_facefelling)
+    ImageButton actEditIbtnFacefelling;
+    @BindView(R.id.activity_post_write_scroll_view)
+    ScrollView activityPostWriteScrollView;
+    @BindView(R.id.emotion_position_upper_linearlayout)
+    LinearLayout emotionPositionUpperLinearlayout;
 
     private EditReplyType postType;
     private int bid, tid;
@@ -110,7 +117,7 @@ public class EditActivity extends BaseImagePickActivity {
         }
     };
 
-    private Observer<List<String>> uploadObserver =new Observer<List<String>>() {
+    private Observer<List<String>> uploadObserver = new Observer<List<String>>() {
         @Override
         public void onCompleted() {
             waitingDialog.dismiss();
@@ -120,17 +127,17 @@ public class EditActivity extends BaseImagePickActivity {
         public void onError(Throwable e) {
             waitingDialog.dismiss();
             mkToast(e.toString());
-            loge(e,"upload Error");
+            loge(e, "upload Error");
         }
 
         @Override
         public void onNext(List<String> strings) {
 
-            StringBuilder cacheString=new StringBuilder(editContent.getText());
-            for(String i:strings){
-                if(i.isEmpty())
+            StringBuilder cacheString = new StringBuilder(editContent.getText());
+            for (String i : strings) {
+                if (i.isEmpty())
                     continue;
-                String aInsertText=String.format(uploadFormation,i);
+                String aInsertText = String.format(uploadFormation, i);
                 cacheString.append(aInsertText);
             }
             editContent.setText(cacheString);
@@ -139,7 +146,6 @@ public class EditActivity extends BaseImagePickActivity {
 
     private CC98APIInterface iface;
     private ProgressDialog waitingDialog;
-
 
 
     public static void startActivity(Context context) {
@@ -202,7 +208,7 @@ public class EditActivity extends BaseImagePickActivity {
         }
 
         editContent.addTextChangedListener(new EditTextWatcher());
-
+        initEmotionKeyBoard();
 
     }
 
@@ -210,8 +216,8 @@ public class EditActivity extends BaseImagePickActivity {
     protected void onResume() {
         super.onResume();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        isMd= preferences.getBoolean(getString(R.string.pref_switchubb_md_key), false);
-        uploadFormation=isMd?getString(R.string.editor_upload_md_urltemplate):getString(R.string.editor_upload_ubb_urltemplate);
+        isMd = preferences.getBoolean(getString(R.string.pref_switchubb_md_key), false);
+        uploadFormation = isMd ? getString(R.string.editor_upload_md_urltemplate) : getString(R.string.editor_upload_ubb_urltemplate);
     }
 
     @Override
@@ -290,7 +296,7 @@ public class EditActivity extends BaseImagePickActivity {
     }
 
     @OnLongClick(R.id.act_edit_ibtn_gallery)
-    protected boolean pickupDocFiles(){
+    protected boolean pickupDocFiles() {
         FilePickerBuilder.getInstance()
                 .setMaxCount(1)
                 .setSelectedFiles(null)
@@ -301,19 +307,18 @@ public class EditActivity extends BaseImagePickActivity {
     }
 
 
-    private List<String> mCurrentFiles =new ArrayList<>();
+    private List<String> mCurrentFiles = new ArrayList<>();
     private File mCurrentFile;
 
 
-
     @OnClick(R.id.act_edit_ibtn_gallery)
-    protected void takePhotoFromGallery(){
+    protected void takePhotoFromGallery() {
         //constrain to Pick One file;
         takePhoto.onPickFromGallery();
     }
 
     @OnClick(R.id.act_edit_ibtn_camera)
-    protected void takePhotoFromCamera(){
+    protected void takePhotoFromCamera() {
 
         mCurrentFile = ImageProcess.getDCIMNewImageFile(this);
 
@@ -323,16 +328,16 @@ public class EditActivity extends BaseImagePickActivity {
             loge(e,"Take photo failed");
             return;
         }*/
-        Uri current=Uri.fromFile(mCurrentFile);
+        Uri current = Uri.fromFile(mCurrentFile);
         takePhoto.onPickFromCapture(current);
 
     }
 
     @Override
     public void takeSuccess(TResult result) {
-        TImage ret=result.getImage();
+        TImage ret = result.getImage();
         //never use takephoto's image compress function. Too slow.
-        mCurrentFile=new File(ret.getOriginalPath());
+        mCurrentFile = new File(ret.getOriginalPath());
         uploadImageFile(mCurrentFile);
     }
 
@@ -350,17 +355,17 @@ public class EditActivity extends BaseImagePickActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
+        if (data == null) {
             return;
         }
-        EditRetCode reqCode=EditRetCode.find(requestCode);
-        switch (reqCode){
+        EditRetCode reqCode = EditRetCode.find(requestCode);
+        switch (reqCode) {
             case FILE:
-                List<String> tmpList=data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
-                if (tmpList!=null){
+                List<String> tmpList = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
+                if (tmpList != null) {
                     mCurrentFiles.clear();
                     mCurrentFiles.addAll(tmpList);
-                    mCurrentFile=new File(mCurrentFiles.get(0));
+                    mCurrentFile = new File(mCurrentFiles.get(0));
                     uploadNormalFile(mCurrentFile);
                 }
                 break;
@@ -369,8 +374,9 @@ public class EditActivity extends BaseImagePickActivity {
         }
 
     }
-    private void uploadNormalFile(File file){
-        if(file.length()>ForumConfig.getUploadMaxSize()){
+
+    private void uploadNormalFile(File file) {
+        if (file.length() > ForumConfig.getUploadMaxSize()) {
             mkToast(getString(R.string.editor_upload_size_overflow));
             return;
         }
@@ -380,7 +386,7 @@ public class EditActivity extends BaseImagePickActivity {
                 .subscribe(uploadObserver);
     }
 
-    private void uploadImageFile(File file){
+    private void uploadImageFile(File file) {
         /*if(file.length()<ForumConfig.getUploadMaxSize()){
             createFileUpObservable(file).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -397,11 +403,11 @@ public class EditActivity extends BaseImagePickActivity {
                 .flatMap(new Func1<File, Observable<List<String>>>() {
                     @Override
                     public Observable<List<String>> call(File file) {
-                        try{
-                            List<File> files=Luban.with(EditActivity.this)
+                        try {
+                            List<File> files = Luban.with(EditActivity.this)
                                     .load(file).ignoreBy(1024).get();
                             return createFileUpObservable(files.get(0));
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             return Observable.error(e);
                         }
                     }
@@ -412,15 +418,46 @@ public class EditActivity extends BaseImagePickActivity {
     }
 
 
-    protected Observable<List<String>> createFileUpObservable(File file){
-        RequestBody requestFile =RequestBody.create(MediaType.parse("image/png"), file);
-        MultipartBody.Part body =MultipartBody.Part.createFormData(ForumConfig.FILEUPLOAD_HEAD,
+    private EmotionKeyboard emotionKeyboard;
+
+    @Override
+    public void setText(String clicked) {
+        StringBuilder builder=new StringBuilder(editContent.getText());
+        builder.append(clicked);
+        editContent.setText(builder);
+    }
+
+    private void initEmotionKeyBoard() {
+        FragmentManager  manager=getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        EmotionMainFragment fragment = EmotionMainFragment.newInstance();
+        fragment.setupTextEmotionBlocks(
+                ImageProcess.loadEmotionsFromAssets(this,getString(R.string.emotion_group_folder)),
+                this);
+
+        transaction.replace(R.id.emotion_position, fragment);
+
+        transaction.commit();
+
+
+        emotionKeyboard = EmotionKeyboard.with(this)
+                .setEmotionView(emotionPositionUpperLinearlayout)
+                .bindToContent(activityPostWriteScrollView)
+                .bindToEmotionButton(actEditIbtnFacefelling)
+                .bindToEditText(editContent).build();
+
+    }
+
+
+    protected Observable<List<String>> createFileUpObservable(File file) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/png"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData(ForumConfig.FILEUPLOAD_HEAD,
                 file.getName(), requestFile);
         return iface.uploadFile(body);
     }
 
-    private ProgressDialog initDialog(){
-        waitingDialog = DialogStore.genProcessDialog(this,getString(R.string.dialog_edit_sendpost_title),
+    private ProgressDialog initDialog() {
+        waitingDialog = DialogStore.genProcessDialog(this, getString(R.string.dialog_edit_sendpost_title),
                 getString(R.string.dialog_edit_sendpost_msg));
         waitingDialog.show();
         return waitingDialog;
@@ -437,17 +474,19 @@ public class EditActivity extends BaseImagePickActivity {
         FAIL(2),
         NOTFOUD(1);
 
-        private EditRetCode(int v){
-            this.value=v;
+        private EditRetCode(int v) {
+            this.value = v;
         }
 
         public int value;
-        public int getValue(){
+
+        public int getValue() {
             return value;
         }
-        public static EditRetCode find(int value){
-            for(EditRetCode i:EditRetCode.values()){
-                if (value==i.getValue()){
+
+        public static EditRetCode find(int value) {
+            for (EditRetCode i : EditRetCode.values()) {
+                if (value == i.getValue()) {
                     return i;
                 }
             }
@@ -473,18 +512,18 @@ public class EditActivity extends BaseImagePickActivity {
         @Override
         public void afterTextChanged(Editable s) {
 
-            int size=s.length();
-            if (size==0){
+            int size = s.length();
+            if (size == 0) {
                 //mkToast(getString(R.string.editor_text_content_null));
                 //actEditIbtnSend.setEnabled(false);
                 actEditIbtnSend.setImageResource(R.drawable.ic_more_black_36dp);
 
-            }else if(size>=ForumConfig.getInputtextMax()){
+            } else if (size >= ForumConfig.getInputtextMax()) {
                 mkToast(getString(R.string.editor_text_size_overflow));
                 actEditIbtnSend.setEnabled(false);
                 actEditIbtnSend.setImageResource(R.drawable.ic_more_black_36dp);
 
-            }else {
+            } else {
                 actEditIbtnSend.setEnabled(true);
                 actEditIbtnSend.setImageResource(R.drawable.ic_send_black_36dp);
             }
