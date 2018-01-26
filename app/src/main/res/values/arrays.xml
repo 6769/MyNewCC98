@@ -7,6 +7,16 @@
         <item>Borads</item>
         <item>Newest</item>
     </string-array>
+
+
+    <string-array name="editor_upload_ubb_urltemplate">
+        <item>[upload]%s[/upload]</item>
+        <item>[img]%s[/img]</item>
+    </string-array>
+    <string-array name="editor_upload_md_urltemplate">
+        <item>[file](%s)</item>
+        <item>![img](%s)</item>
+    </string-array>
     <integer name="default_bug_report_topicid">4744263</integer>
     <integer name="default_board_helppart">184</integer>
     <integer name="window_duration_time">1000</integer>

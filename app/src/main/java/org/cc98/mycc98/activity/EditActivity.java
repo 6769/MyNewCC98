@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -92,8 +93,9 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     private int bid, tid;
     private String quoted;
     private boolean isMd;
-    private String uploadFormation;
-
+    private String[] uploadFormation;
+    private SharedPreferences preferences;
+    private Resources resources;
     private Observer<String> postObserver = new Observer<String>() {
         @Override
         public void onCompleted() {
@@ -137,7 +139,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
             for (String i : strings) {
                 if (i.isEmpty())
                     continue;
-                String aInsertText = String.format(uploadFormation, i);
+                String aInsertText = String.format(uploadFormation[uploadFileType], i);
                 cacheString.append(aInsertText);
             }
             editContent.setText(cacheString);
@@ -146,6 +148,8 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
 
     private CC98APIInterface iface;
     private ProgressDialog waitingDialog;
+    private String title;
+    private int uploadFileType=0;
 
 
     public static void startActivity(Context context) {
@@ -176,23 +180,21 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_write);
         ButterKnife.bind(this);
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        resources=getResources();
         iface = MainApplication.getApiInterface();
         Bundle bundle = getIntent().getExtras();
         bid = bundle.getInt(BOARD_ID);
         tid = bundle.getInt(TOPIC_ID);
         quoted = bundle.getString(POST_REFFER, "");
-        String title;
+
 
         if (bid > 0) {
             title = getString(R.string.editor_newtopic_title) + ForumConfig.getBoardNameViaId(bid);
             postType = EditReplyType.NEWTOPIC;
         } else {
-
             postType = EditReplyType.REPLY;
-
             titleContainer.setVisibility(View.GONE);
-
             editContent.setFocusable(true);
             title = getString(R.string.editor_reply_topic);
         }
@@ -203,9 +205,21 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        if (postType == EditReplyType.REPLY && !quoted.isEmpty()) {
-            editContent.setText(quoted);
+
+
+        //init quote text if it has;
+        isMd = preferences.getBoolean(getString(R.string.pref_switchubb_md_key), false);
+        String setupText=quoted;
+        if(quoted!=null && !quoted.isEmpty()){
+            if(postType==EditReplyType.REPLY){
+                if(!isMd){
+                    setupText=String.format(getString(R.string.editor_text_quote_template),quoted);
+                }
+                editContent.setText(setupText);
+            }
         }
+
+
 
         editContent.addTextChangedListener(new EditTextWatcher());
         initEmotionKeyBoard();
@@ -215,9 +229,9 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         isMd = preferences.getBoolean(getString(R.string.pref_switchubb_md_key), false);
-        uploadFormation = isMd ? getString(R.string.editor_upload_md_urltemplate) : getString(R.string.editor_upload_ubb_urltemplate);
+
+        uploadFormation = isMd ? resources.getStringArray(R.array.editor_upload_md_urltemplate) : resources.getStringArray(R.array.editor_upload_ubb_urltemplate);
     }
 
     @Override
@@ -381,6 +395,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
             mkToast(getString(R.string.editor_upload_size_overflow));
             return;
         }
+        uploadFileType=0;
         initDialog();
         createFileUpObservable(file).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -388,7 +403,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     }
 
     private void uploadImageFile(File file) {
-
+        uploadFileType=1;
         initDialog();
         Observable.just(file)
                 .subscribeOn(Schedulers.io())
@@ -408,9 +423,6 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
                 .subscribe(uploadObserver);
     }
 
-
-    private EmotionKeyboard emotionKeyboard;
-
     @Override
     public void setText(String clicked) {
         StringBuilder builder=new StringBuilder(editContent.getText());
@@ -418,7 +430,8 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         editContent.setText(builder);
         editContent.setSelection(builder.length());//reset curser postion;
     }
-
+    
+    private EmotionKeyboard emotionKeyboard;
     private void initEmotionKeyBoard() {
         FragmentManager  manager=getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

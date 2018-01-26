@@ -2,24 +2,14 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
-
-import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.mikepenz.aboutlibraries.ui.LibsFragment;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
 import org.cc98.mycc98.utility.AppInfo;
+import org.cc98.mycc98.utility.ShareContent;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
@@ -38,7 +28,7 @@ public class AboutActivity extends BaseSwipeBackActivity {
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setImage(R.drawable.dummy_image)
+                .setImage(R.mipmap.ic_launcher98)
                 .setDescription(getString(R.string.about_mycc98))
                 .addGroup("Version")
                 .addItem(getVersionRow())
@@ -46,24 +36,28 @@ public class AboutActivity extends BaseSwipeBackActivity {
                 .addEmail(getString(R.string.application_contact_email_addr))
                 .addWebsite(getString(R.string.application_github_website_url))
                 .addGitHub(getString(R.string.application_contact_github_user))
-                //.addItem(getReadMore())
+                .addItem(getShareAppRow())
                 .create();
 
         setContentView(aboutPage);
 
     }
 
-    private Element getReadMore() {
-        Element openlib = new Element();
-        openlib.setTitle("More").setIconDrawable(R.drawable.ic_view_quilt_black_36dp);
-        openlib.setOnClickListener(new View.OnClickListener() {
+    private Element getShareAppRow() {
+        Element row = new Element();
+        String title=getString(R.string.application_share_to_download_title);
+        String downloadUrl=getString(R.string.application_share_to_download_url);
+
+        String messageTemplate=getString(R.string.application_share_to_download_template);
+        String text=String.format(messageTemplate,downloadUrl,getString(R.string.app_name));
+        row.setTitle(title).setIconDrawable(R.drawable.ic_share_black_24dp);
+        row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                ShareContent.shareText(AboutActivity.this, text, title);
             }
         });
-        return openlib;
+        return row;
     }
 
     private Element getVersionRow() {

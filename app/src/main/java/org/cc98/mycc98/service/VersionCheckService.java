@@ -13,6 +13,7 @@ import com.allenliu.versionchecklib.core.VersionParams;
 import com.google.gson.Gson;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.utility.InternetUtil;
 
 public class VersionCheckService extends AVersionService {
     public static final String TAG = "VersionCheckService";
@@ -50,6 +51,9 @@ public class VersionCheckService extends AVersionService {
 
     public static void initVersionCheckerService(Application application) {
 
+        if (InternetUtil.getNetworkState(application)!=InternetUtil.NETWORN_WIFI){
+            return;
+        }
         VersionParams.Builder builder = new VersionParams.Builder()
                 .setRequestUrl(application.getString(R.string.service_update_versionchecker_url))
                 .setDownloadAPKPath(application.getCacheDir().getAbsolutePath()+"/")

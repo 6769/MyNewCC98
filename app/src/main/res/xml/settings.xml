@@ -26,14 +26,14 @@
         android:summary="@string/pref_myzone_label_summary"
         android:title="@string/pref_myzone_label"
         android:visibility="visible" />
-    <SwitchPreference
+    <!--<SwitchPreference
         android:defaultValue="false"
         android:icon="@drawable/ic_menu_manage"
         android:key="@string/pref_ubb_tail_switch_key"
         android:summaryOff="停用"
         android:summaryOn="启用"
         android:title="控制小尾巴"
-        android:visibility="visible" />
+        android:visibility="invisible" />
     <EditTextPreference
         android:defaultValue="@string/pref_ubb_tail_default"
         android:dialogIcon="@drawable/ic_view_quilt_black_36dp"
@@ -41,7 +41,7 @@
         android:key="@string/pref_ubb_tail_key"
         android:summary="填上你的小尾巴"
         android:title="@string/pref_ubb_tail_title"
-         />
+        android:visibility="invisible" />-->
 
 
 </PreferenceScreen>

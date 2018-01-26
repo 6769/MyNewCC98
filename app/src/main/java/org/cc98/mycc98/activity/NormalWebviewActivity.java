@@ -90,7 +90,7 @@ public class NormalWebviewActivity extends BaseWebViewActivity {
                 break;
             case R.id.menu_normalweb_share:
                 String sharedText = String.format(getString(R.string.normal_webview_urlshare_template), getTitle(), currentUrl);
-                ShareContent.shareText(this, sharedText, getString(R.string.share_content_text_title));
+                ShareContent.shareTextDefaultTitle(this, sharedText);
                 break;
         }
 

@@ -72,8 +72,7 @@
     <string name="editor_text_size_overflow">文字数量超出限制</string>
     <string name="editor_text_content_null">输入为空</string>
     <string name="editor_text_title_null">标题为空</string>
-    <string name="editor_upload_ubb_urltemplate"> [upload]%s[/upload] </string>
-    <string name="editor_upload_md_urltemplate">  ![afile](%s)</string>
+    <string name="editor_text_quote_template">[quote] %s [quote]\n</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toast_tips_ok">刷新完成</string>
@@ -92,6 +91,9 @@
     <string name="application_github_website_url">https://github.com/6769/MyNewCC98</string>
     <string name="application_contact_email_addr">5pipitk@gmail.com</string>
     <string name="application_contact_github_user">6769</string>
+    <string name="application_share_to_download_title">Share this App</string>
+    <string name="application_share_to_download_template">访问[ %s ]下载应用%s.</string>
+    <string name="application_share_to_download_url">https://github.com/6769/MyNewCC98/releases</string>
 
     <string name="share_content_text_title">Share cc98, share your life</string>
 

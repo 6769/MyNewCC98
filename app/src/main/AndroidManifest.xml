@@ -17,7 +17,7 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_mycc98"
+        android:icon="@mipmap/ic_launcher98"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
