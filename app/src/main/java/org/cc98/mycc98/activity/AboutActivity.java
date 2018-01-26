@@ -19,6 +19,7 @@ import com.mikepenz.aboutlibraries.ui.LibsFragment;
 
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
+import org.cc98.mycc98.utility.AppInfo;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
@@ -67,32 +68,9 @@ public class AboutActivity extends BaseSwipeBackActivity {
 
     private Element getVersionRow() {
         Element version = new Element();
-        version.setTitle(GetPackageInfomation.getPackageVersionName(this));
+        version.setTitle(AppInfo.getPackageVersionName(this));
         return version;
     }
 
-
-    public static class GetPackageInfomation {
-        public static String name;
-        public static final String ERRORNAME = "VersionName Error";
-
-        public static String getPackageVersionName(Context context) {
-
-            PackageManager pm = context.getPackageManager();
-
-            try {
-                PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-                //getPackageName()是你当前类的包名，0代表是获取版本信息
-                name = pi.versionName;
-                //int code = pi.versionCode;
-
-            } catch (PackageManager.NameNotFoundException e) {
-                //Logg.e(TAG,ERRORNAME,e);
-                name = ERRORNAME;
-            }
-            return name;
-
-        }
-    }
 
 }

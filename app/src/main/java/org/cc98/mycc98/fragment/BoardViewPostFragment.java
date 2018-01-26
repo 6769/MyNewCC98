@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.jakewharton.rxbinding.view.RxView;
+
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.ABoardViewActivity;
 import org.cc98.mycc98.activity.EditActivity;
@@ -15,6 +17,7 @@ import org.cc98.mycc98.fragment.base.BasePullPushSwipeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,13 +57,21 @@ public class BoardViewPostFragment extends BasePullPushSwipeFragment<TopicInfo>
     @Override
     protected void initUI() {
         adapter = new NormalTopicRecyclerViewAdapter(mList, this);
-        floatingActionButton.setOnClickListener(this);
+
+        RxView.clicks(floatingActionButton).throttleFirst(resources.getInteger(R.integer.window_duration_time), TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        onClick(null);
+                    }
+                });
+        //floatingActionButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         Log.i(TAG, "onClick: newTopic to"+boardId);
-        EditActivity.startActivity(this.getContext(), boardId);
+        EditActivity.startActivity(getActivity(), boardId);
     }
 
     @Override

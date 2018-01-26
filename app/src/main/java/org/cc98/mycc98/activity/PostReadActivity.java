@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.gson.Gson;
+import com.jakewharton.rxbinding.view.RxView;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
@@ -31,11 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 import win.pipi.api.data.BasicUserInfo;
@@ -93,7 +96,13 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
 
 
         fab=findViewById(R.id.activity_post_read_reply_btn);
-        fab.setOnClickListener(this);
+        RxView.clicks(fab).throttleFirst(resources.getInteger(R.integer.window_duration_time), TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        onClick(null);
+                    }
+                });
 
         webView.setOnScrollChangedCallback(new ScrollChangeLisner());
 
@@ -133,9 +142,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
 
         }
         @Override
-        public void onPageFinished(WebView view, String url) {
-            //PostReadActivity.this.setTitle(view.getTitle());//onReceivedTitle has done;
-        }
+        public void onPageFinished(WebView view, String url) {}
     }
 
 

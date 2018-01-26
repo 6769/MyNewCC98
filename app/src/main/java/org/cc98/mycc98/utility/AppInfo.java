@@ -14,7 +14,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class AppInfo {
 
-    public static final String DEBUG_SIGN="c3cfb855fbf9c54cb60b0773d782ff81";
+    public static final String DEBUG_SIGN = "c3cfb855fbf9c54cb60b0773d782ff81";
+    public static String name;
+    public static final String ERRORNAME = "VersionName Error";
+
     /**
      * 获取app签名md5值
      */
@@ -30,12 +33,33 @@ public class AppInfo {
             * packages namespace error;
             * */
         } catch (PackageManager.NameNotFoundException e) {
-            LogUtil.e(e,"getMd5SignString");
+            LogUtil.e(e, "getMd5SignString");
             return "";
         }
 
     }
-    public static boolean isDebugMd5Sign(String sig){
+
+    public static boolean isDebugMd5Sign(String sig) {
         return DEBUG_SIGN.equalsIgnoreCase(sig);
+    }
+
+
+
+    public static String getPackageVersionName(Context context) {
+
+        PackageManager pm = context.getPackageManager();
+
+        try {
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            //getPackageName()是你当前类的包名，0代表是获取版本信息
+            name = pi.versionName;
+            //int code = pi.versionCode;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            //Logg.e(TAG,ERRORNAME,e);
+            name = ERRORNAME;
+        }
+        return name;
+
     }
 }

@@ -9,4 +9,5 @@
     </string-array>
     <integer name="default_bug_report_topicid">4744263</integer>
     <integer name="default_board_helppart">184</integer>
+    <integer name="window_duration_time">1000</integer>
 </resources>

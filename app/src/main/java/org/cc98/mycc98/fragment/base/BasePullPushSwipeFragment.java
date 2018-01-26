@@ -1,6 +1,7 @@
 package org.cc98.mycc98.fragment.base;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
     protected int boardId = 0;
 
     protected boolean isNetworking = false;
+    protected Resources resources;
     protected CC98APIInterface iface;
     protected RecyclerView mrecyclerView;
     protected XRefreshView xRefreshView;
@@ -53,6 +55,7 @@ public abstract class BasePullPushSwipeFragment<T> extends BaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         iface = MainApplication.getApiInterface();
+        resources=getResources();
         listSubscriber = new Observer<List<T>>() {
             @Override
             public void onCompleted() {

@@ -221,6 +221,14 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     }
 
     @Override
+    public void onBackPressed() {
+        if(!emotionKeyboard.interceptBackPress()){
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_activity, menu);
         return true;
@@ -321,13 +329,6 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     protected void takePhotoFromCamera() {
 
         mCurrentFile = ImageProcess.getDCIMNewImageFile(this);
-
-        /*try{
-            boolean ret= mCurrentFile.createNewFile();
-        }catch (IOException e){
-            loge(e,"Take photo failed");
-            return;
-        }*/
         Uri current = Uri.fromFile(mCurrentFile);
         takePhoto.onPickFromCapture(current);
 
@@ -387,15 +388,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     }
 
     private void uploadImageFile(File file) {
-        /*if(file.length()<ForumConfig.getUploadMaxSize()){
-            createFileUpObservable(file).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(uploadObserver);
-        }else {
 
-
-
-        }*/
         initDialog();
         Observable.just(file)
                 .subscribeOn(Schedulers.io())
@@ -413,8 +406,6 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(uploadObserver);
-
-
     }
 
 
@@ -425,6 +416,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         StringBuilder builder=new StringBuilder(editContent.getText());
         builder.append(clicked);
         editContent.setText(builder);
+        editContent.setSelection(builder.length());//reset curser postion;
     }
 
     private void initEmotionKeyBoard() {
