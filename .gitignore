@@ -17,3 +17,5 @@ update/
 output.json
 
 *release/*
+
+*.log

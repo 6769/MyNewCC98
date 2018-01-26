@@ -40,9 +40,9 @@ Use react and Typescript to write front part.
 ## Utilities
 Try to include some handy toolkits:
 - Share Topic to Another App. Done.
-- PhotoView Save to SDCard.   Doing...
+- PhotoView Save to SDCard.   Done.
 - Topic to ScreenShot.
-- Funny emotion stickers.
+- Funny emotion stickers.      Done;
 
 # How to Compile
 Under AndroidStudio 3.0.1 , Gradle 4.1;
@@ -53,3 +53,6 @@ be careful about the submodule git repos;
  
  git clone https://github.com/6769/MyNewCC98.git  --recursive
 ```
+
+## Imcompability
+- Fast click any clickable views under LinageOS Dev 7.1, return to desktop;MIUI didn't;
