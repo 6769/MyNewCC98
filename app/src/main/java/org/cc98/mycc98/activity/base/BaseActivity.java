@@ -1,8 +1,10 @@
 package org.cc98.mycc98.activity.base;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.mobstat.StatService;
@@ -81,7 +83,14 @@ public class BaseActivity extends AppCompatActivity {
         super.onRestart();
         Logger.t(this.getClass().getSimpleName()).d("onRestart");
     }
-    protected void loge(Throwable e,String msg){
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.i(this.getClass().getSimpleName(), "onConfigurationChanged: "+newConfig.toString());
+    }
+
+    protected void loge(Throwable e, String msg){
         Logger.t(this.getClass().getSimpleName()).e(e,msg);
     }
 

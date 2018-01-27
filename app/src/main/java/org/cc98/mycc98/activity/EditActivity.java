@@ -430,7 +430,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         editContent.setText(builder);
         editContent.setSelection(builder.length());//reset curser postion;
     }
-    
+
     private EmotionKeyboard emotionKeyboard;
     private void initEmotionKeyBoard() {
         FragmentManager  manager=getSupportFragmentManager();
