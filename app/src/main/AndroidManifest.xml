@@ -20,7 +20,8 @@
         android:icon="@mipmap/ic_launcher98"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true">
         <activity
             android:screenOrientation="fullSensor"
             android:name=".activity.MainActivity"
@@ -67,10 +68,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:hardwareAccelerated="true"
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:name=".activity.PostReadActivity" />
         <activity
+            android:hardwareAccelerated="true"
             android:name=".activity.UserProfileActivity"
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -105,6 +108,7 @@
         </activity>
 
         <activity
+
             android:name=".activity.NormalWebviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"/>

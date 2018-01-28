@@ -13,6 +13,7 @@ import com.allenliu.versionchecklib.core.VersionParams;
 import com.google.gson.Gson;
 
 import org.cc98.mycc98.R;
+import org.cc98.mycc98.config.ApplicationConfig;
 import org.cc98.mycc98.utility.InternetUtil;
 
 public class VersionCheckService extends AVersionService {
@@ -25,6 +26,9 @@ public class VersionCheckService extends AVersionService {
     @Override
     public void onResponses(AVersionService service, String response) {
         Log.i(TAG, response);
+        if (InternetUtil.getNetworkState(this)!=InternetUtil.NETWORN_WIFI){
+            return;
+        }
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
             int currentVersionCode = pInfo.versionCode;
@@ -51,7 +55,7 @@ public class VersionCheckService extends AVersionService {
 
     public static void initVersionCheckerService(Application application) {
 
-        if (InternetUtil.getNetworkState(application)!=InternetUtil.NETWORN_WIFI){
+        if(ApplicationConfig.getIsDebugMode()){
             return;
         }
         VersionParams.Builder builder = new VersionParams.Builder()

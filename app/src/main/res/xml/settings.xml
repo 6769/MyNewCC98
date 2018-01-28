@@ -42,6 +42,14 @@
         android:summary="填上你的小尾巴"
         android:title="@string/pref_ubb_tail_title"
         android:visibility="invisible" />-->
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:key="@string/pref_debug_mode_key"
+        android:summaryOff="调试关闭"
+        android:summaryOn="调试开启"
+        android:title="调试模式"
+        android:visibility="visible" />
 
 
 </PreferenceScreen>

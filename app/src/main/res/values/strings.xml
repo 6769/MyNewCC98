@@ -72,7 +72,7 @@
     <string name="editor_text_size_overflow">文字数量超出限制</string>
     <string name="editor_text_content_null">输入为空</string>
     <string name="editor_text_title_null">标题为空</string>
-    <string name="editor_text_quote_template">[quote] %s [quote]\n</string>
+    <string name="editor_text_quote_template">[quote] %s [/quote]\n</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toast_tips_ok">刷新完成</string>
@@ -86,6 +86,8 @@
     <string name="pref_username">username</string>
     <string name="pref_password">password</string>
     <string name="pref_userlast_token">token</string>
+    <string name="pref_debug_mode_key">pref_debug_mode_key</string>
+
     <string name="activity_splash_echo_title">MyCC98 for Android</string>
     <string name="service_update_versionchecker_url">http://api.5pipi.win/mycc98/update.json</string>
     <string name="application_github_website_url">https://github.com/6769/MyNewCC98</string>

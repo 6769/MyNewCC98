@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
 
         android:cropToPadding="false"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:visibility="visible"
         app:srcCompat="@drawable/default_splash_img" />
 

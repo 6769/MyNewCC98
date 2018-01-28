@@ -40,7 +40,7 @@ configurations {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library:apicc98')
     implementation project(':library:SwiftEmotion:swiftemotionboard')
     compile 'com.just.agentweb:agentweb:3.0.0'
@@ -57,10 +57,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     implementation 'com.orhanobut:logger:2.1.1'
-    compile 'com.github.medyo:android-about-page:1.2.2'
-    compile 'com.mikepenz:aboutlibraries:5.9.6@aar'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.jude:swipebackhelper:3.1.2'
+    implementation 'com.github.medyo:android-about-page:1.2.2'
+    //implementation 'com.mikepenz:aboutlibraries:5.9.6@aar'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.jude:swipebackhelper:3.1.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
@@ -78,8 +78,8 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.11'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation   'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
 

@@ -3,10 +3,13 @@ package org.cc98.mycc98.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
@@ -24,6 +27,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseWebViewActivity;
+import org.cc98.mycc98.config.ApplicationConfig;
 import org.cc98.mycc98.utility.ImageProcess;
 import org.cc98.mycc98.webview.ObservableWebView;
 
@@ -83,8 +87,11 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         topicId = bundle.getInt(TOPIC_ID,
                 resources.getInteger(R.integer.default_bug_report_topicid));
 
+        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
+        boolean localSettingDebug=preferences.getBoolean(getString(R.string.pref_debug_mode_key),false);
+        String urlTemplate= ApplicationConfig.getIsDebugMode() && localSettingDebug ? getString(R.string.postview_remote_template) :getString(R.string.postview_local_template);
 
-        String url = getString(R.string.postview_local_template) + topicId;
+        String url = urlTemplate + topicId;
         actionBar=getSupportActionBar();
         if(actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);

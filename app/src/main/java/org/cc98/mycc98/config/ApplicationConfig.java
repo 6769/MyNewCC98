@@ -22,7 +22,7 @@ public class ApplicationConfig {
         ApplicationConfig.isDebugMode = isDebugMode;
     }
 
-    private static Boolean isDebugMode;
+    private static Boolean isDebugMode=false;
 
     public static Boolean getStatEnable() {
         return statEnable;
