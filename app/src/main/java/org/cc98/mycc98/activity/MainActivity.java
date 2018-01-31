@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.ActivityCollector;
 import org.cc98.mycc98.activity.base.BaseActivity;
@@ -47,7 +48,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import win.pipi.api.data.UserInfo;
+import win.pipi.api.network.CC98APIInterface;
+
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class MainActivity extends BaseActivity
@@ -71,7 +77,7 @@ public class MainActivity extends BaseActivity
     TextView userNameLabel;
     TextView userIntroLabel;
     ImageView userLogo;
-
+    private CC98APIInterface iface;
 
 
 
@@ -92,6 +98,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        iface= MainApplication.getApiInterface();
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,7 +113,9 @@ public class MainActivity extends BaseActivity
         * Seems like the delay load view in naviheader;
         * http://blog.csdn.net/fxlysm/article/details/52920749
         * */
-
+        userNameLabel=headerView.findViewById(R.id.mainact_tx_username);
+        userIntroLabel=headerView.findViewById(R.id.mainact_tx_userintro);
+        userLogo=headerView.findViewById(R.id.profile_image);
 
 
         tabLayout.setupWithViewPager(viewPager);
@@ -131,35 +140,10 @@ public class MainActivity extends BaseActivity
 
 
         VersionCheckService.initVersionCheckerService(getApplication());
-
-
-        userNameLabel=headerView.findViewById(R.id.mainact_tx_username);
-        userIntroLabel=headerView.findViewById(R.id.mainact_tx_userintro);
-        userLogo=headerView.findViewById(R.id.profile_image);
-        UserInfo userInfo= UserConfig.getUserInfo();
-        if (userInfo!=null ){
-            userNameLabel.setText(userInfo.getName());
-            //userIntroLabel.setText(userInfo.getIntroduction());
-            String userpic=userInfo.getPortraitUrl();
-            try{
-                RequestOptions options = new RequestOptions()
-                        .centerCrop()
-                        .dontAnimate();
-                Glide.with(this)
-                        .load(userpic)
-                        .apply(options)
-                        .into(userLogo);
-            }catch (Exception e){
-                loge(e,"Glide load userpic failed");
-            }
-
-        }
-
-
-
-
-
+        setupUserLogo();
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -276,6 +260,29 @@ public class MainActivity extends BaseActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    private void setupUserLogo(){
+        UserInfo userInfo= UserConfig.getUserInfo();
+        if (userInfo!=null ){
+            userNameLabel.setText(userInfo.getName());
+            //userIntroLabel.setText(userInfo.getIntroduction());
+            String userpic=userInfo.getPortraitUrl();
+            try{
+                RequestOptions options = new RequestOptions()
+                        .centerCrop()
+                        .dontAnimate();
+                Glide.with(this)
+                        .load(userpic)
+                        .apply(options)
+                        .into(userLogo);
+            }catch (Exception e){
+                loge(e,"Glide load userpic failed");
+            }
+
+        }
     }
 }
 

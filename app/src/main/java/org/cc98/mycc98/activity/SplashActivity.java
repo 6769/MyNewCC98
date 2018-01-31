@@ -55,12 +55,10 @@ public class SplashActivity extends BaseActivity {
     }
 
     protected class GetMeLogin implements Observer<UserInfo> {
-
         @Override
         public void onCompleted() {
             MainActivity.startActivity(SplashActivity.this);
             finish();
-
         }
 
         @Override

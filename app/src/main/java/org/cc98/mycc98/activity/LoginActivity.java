@@ -11,21 +11,26 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.orhanobut.logger.Logger;
+import com.squareup.haha.perflib.Main;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.ActivityCollector;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
+import org.cc98.mycc98.config.UserConfig;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import win.pipi.api.authorization.LoginCC98;
 import win.pipi.api.authorization.beans.AccessTokenPayload;
+import win.pipi.api.data.UserInfo;
 
 /**
  * Created by pip on 2017/7/12.
@@ -81,8 +86,6 @@ public class LoginActivity extends BaseSwipeBackActivity {
             saveUserTokenPersist(loginCC98);
         }
 
-
-
     }
 
     String usrname;
@@ -104,8 +107,17 @@ public class LoginActivity extends BaseSwipeBackActivity {
 
         Observable<AccessTokenPayload> call = loginCC98.loginRx();
         call.subscribeOn(Schedulers.io())
+                .flatMap(new Func1<AccessTokenPayload, Observable<UserInfo>>() {
+                    @Override
+                    public Observable<UserInfo> call(AccessTokenPayload accessTokenPayload) {
+                        loginCC98.setAccessTokenPayload(accessTokenPayload);
+                        saveUserTokenPersist(loginCC98);
+
+                        return MainApplication.getApiInterface().getMe();
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AccessTokenPayload>() {
+                .subscribe(new Observer<UserInfo>() {
                     @Override
                     public void onCompleted() {
 
@@ -113,16 +125,14 @@ public class LoginActivity extends BaseSwipeBackActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e(e, "Login e");
+                        Logger.e(e, "Login error");
                         mkToast("Login Failed");
                     }
 
                     @Override
-                    public void onNext(AccessTokenPayload accessTokenPayload) {
+                    public void onNext(UserInfo userInfo) {
+                        UserConfig.setUserInfo(userInfo);
                         mkToast("Login success");
-
-                        loginCC98.setAccessTokenPayload(accessTokenPayload);
-                        saveUserTokenPersist(loginCC98);
                         MainActivity.startActivity(LoginActivity.this);
                         finish();
                     }
