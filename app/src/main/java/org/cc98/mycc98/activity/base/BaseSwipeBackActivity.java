@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.baidu.mobstat.StatService;
 import com.jude.swipbackhelper.SwipeBackHelper;
+import com.jude.swipbackhelper.SwipeBackPage;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -29,6 +30,9 @@ public class BaseSwipeBackActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         SwipeBackHelper.onCreate(this);
+        SwipeBackHelper.getCurrentPage(this)
+                .setSwipeEdge(30)
+                .setClosePercent(0.8f);//close activity when swipe over this ;
     }
 
     @Override

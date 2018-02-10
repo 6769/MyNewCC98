@@ -36,9 +36,8 @@ import rx.schedulers.Schedulers;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public class PhotoViewActivity extends BaseActivity {
+public class PhotoViewActivity extends BaseSwipeBackActivity {
     private static final String TAG = "PhotoViewActivity";
-
     public static final String URL_KEY = "URL_KEY";
 
     public static void startActivity(Context context, String url) {

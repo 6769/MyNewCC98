@@ -22,7 +22,7 @@ import org.cc98.mycc98.config.ForumConfig;
  * Created by pipi6 on 2018/1/21.
  */
 
-public abstract class BaseImagePickActivity extends BaseActivity
+public abstract class BaseImagePickActivity extends BaseSwipeBackActivity
         implements TakePhoto.TakeResultListener,InvokeListener {
 
 

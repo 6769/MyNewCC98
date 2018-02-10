@@ -78,6 +78,7 @@ public class NormalWebviewActivity extends BaseWebViewActivity {
                         startActivity(intent);
                     }
                 }catch (Exception e){
+                    ClipBoard.copyToClpBoard(this, currentUrl);
                     mkToast(getString(R.string.normal_webview_urlerror));
                 }
 

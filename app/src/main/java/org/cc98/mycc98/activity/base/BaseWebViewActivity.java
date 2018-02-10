@@ -41,7 +41,7 @@ import win.pipi.api.network.CC98APIManager;
  * Created by pipi6 on 2018/1/9.
  */
 
-public class BaseWebViewActivity extends BaseActivity implements ChromeClientCallbackManager.ReceivedTitleCallback {
+public class BaseWebViewActivity extends BaseSwipeBackActivity implements ChromeClientCallbackManager.ReceivedTitleCallback {
     public static final String UTF_8 = "utf-8";
 
     protected String urlToLoad;
@@ -59,12 +59,10 @@ public class BaseWebViewActivity extends BaseActivity implements ChromeClientCal
             Logger.w("Must Initialze Webview container");
             return;
         }
-
         agentWeb = AgentWeb.with(this)//传入Activity or Fragment
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
                 //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
                 .useDefaultIndicator()// 使用默认进度条
-
                 .defaultProgressBarColor() // 使用默认进度条颜色
                 .setReceivedTitleCallback(this) //设置 Web 页面的 title 回调
                 //.setWebViewClient(new ApiGrantedWebViewClient())
@@ -72,9 +70,6 @@ public class BaseWebViewActivity extends BaseActivity implements ChromeClientCal
                 .ready()
                 .go(urlToLoad);
         webView = agentWeb.getWebCreator().get();
-
-
-
         configWebSettings(agentWeb.getAgentWebSettings().getWebSettings());
 
     }
@@ -119,16 +114,13 @@ public class BaseWebViewActivity extends BaseActivity implements ChromeClientCal
 
     @Override
     protected void onPause() {
-        StatService.onPause(this);
         if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onPause();
         super.onPause();
-
     }
 
     @Override
     protected void onResume() {
-        StatService.onResume(this);
         if (agentWeb!=null)
         agentWeb.getWebLifeCycle().onResume();
         super.onResume();
@@ -150,8 +142,6 @@ public class BaseWebViewActivity extends BaseActivity implements ChromeClientCal
                 finish();
                 break;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 }
