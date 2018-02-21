@@ -34,6 +34,7 @@ public class AboutActivity extends BaseSwipeBackActivity {
                 .addItem(getVersionRow())
                 .addGroup("Connect with us")
                 .addEmail(getString(R.string.application_contact_email_addr))
+                .addItem(getOpenSources())
                 .addWebsite(getString(R.string.application_github_website_url))
                 .addGitHub(getString(R.string.application_contact_github_user))
                 .addItem(getShareAppRow())
@@ -64,6 +65,18 @@ public class AboutActivity extends BaseSwipeBackActivity {
         Element version = new Element();
         version.setTitle(AppInfo.getPackageVersionName(this));
         return version;
+    }
+
+    private Element getOpenSources(){
+        Element opensrc=new Element();
+        opensrc.setTitle(getString(R.string.application_opensources_license)).setIconDrawable(R.drawable.ic_info_outline_black_24dp);
+        opensrc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenSrcActivity.startActivity(AboutActivity.this);
+            }
+        });
+        return opensrc;
     }
 
 

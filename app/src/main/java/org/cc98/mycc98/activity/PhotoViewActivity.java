@@ -113,7 +113,7 @@ public class PhotoViewActivity extends BaseSwipeBackActivity {
     }
 
 
-    class FilesaveObserver implements Observer<String> {
+    protected class FilesaveObserver implements Observer<String> {
         public FilesaveObserver(MenuItem menuItem) {
             this.menuItem = menuItem;
         }
