@@ -114,7 +114,9 @@
         <activity
             android:name=".activity.PhotoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="fullUser"></activity>
+            android:screenOrientation="fullUser">
+
+        </activity>
 
         <service
             android:name=".service.VersionCheckService"

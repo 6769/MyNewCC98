@@ -413,7 +413,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
                     public Observable<List<String>> call(File file) {
                         try {
                             List<File> files = Luban.with(EditActivity.this)
-                                    .load(file).ignoreBy(1024).get();
+                                    .load(file).ignoreBy(1024*4).get();//ignore 4mb;
                             return createFileUpObservable(files.get(0));
                         } catch (Exception e) {
                             return Observable.error(e);

@@ -29,6 +29,7 @@ import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseWebViewActivity;
 import org.cc98.mycc98.config.ApplicationConfig;
 import org.cc98.mycc98.utility.ImageProcess;
+import org.cc98.mycc98.utility.ShareContent;
 import org.cc98.mycc98.webview.ObservableWebView;
 
 import java.io.IOException;
@@ -166,6 +167,9 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_postread_share:
+                String fmt=getString(R.string.cc98topic_urlshare_template);
+                ShareContent.shareTextDefaultTitle(this,
+                        String.format(fmt,getTitle(),String.valueOf(topicId)));
                 break;
             case R.id.menu_postread_setting:
                 SettingActivity.startActivity(this);

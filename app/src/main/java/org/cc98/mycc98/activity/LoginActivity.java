@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.orhanobut.logger.Logger;
-import com.squareup.haha.perflib.Main;
+
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
