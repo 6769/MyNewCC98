@@ -114,7 +114,9 @@
         <activity
             android:name=".activity.PhotoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="fullUser" />
+            android:screenOrientation="fullUser">
+
+        </activity>
 
         <service
             android:name=".service.VersionCheckService"
@@ -143,8 +145,7 @@
             android:name="BaiduMobAd_EXCEPTION_LOG"
             android:value="true" />
 
-        <activity android:name=".activity.OpenSrcActivity" />
-        <activity android:name=".activity.PmChatsActivity"></activity>
+        <activity android:name=".activity.OpenSrcActivity"></activity>
     </application>
 
 </manifest>
