@@ -90,11 +90,11 @@ public class BaseActivity extends AppCompatActivity {
         Log.i(this.getClass().getSimpleName(), "onConfigurationChanged: "+newConfig.toString());
     }
 
-    protected void loge(Throwable e, String msg){
+    protected void error(Throwable e, String msg){
         Logger.t(this.getClass().getSimpleName()).e(e,msg);
     }
 
-    protected void logi(String msg){
+    protected void info(String msg){
         Logger.t(this.getClass().getSimpleName()).i(msg);
     }
 }

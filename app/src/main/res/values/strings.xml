@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Setting</string>
+    <string name="action_settings">设置</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -107,4 +107,6 @@
 
     <string name="activity_photo_view_title">PhotoView</string>
     <string name="emotion_group_folder">postread/images</string>
+    <string name="menu_postread_long_screen_capture">长截图</string>
+    <string name="menu_postread_short_screen_capture">截图</string>
 </resources>

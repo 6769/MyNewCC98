@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -32,7 +31,7 @@ import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseImagePickActivity;
 import org.cc98.mycc98.config.ForumConfig;
 import org.cc98.mycc98.utility.DialogStore;
-import org.cc98.mycc98.utility.ImageProcess;
+import org.cc98.mycc98.utility.ImageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -114,7 +113,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
 
         @Override
         public void onNext(String s) {
-            logi(s);
+            info(s);
 
         }
     };
@@ -129,7 +128,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         public void onError(Throwable e) {
             waitingDialog.dismiss();
             mkToast(e.toString());
-            loge(e, "upload Error");
+            error(e, "upload Error");
         }
 
         @Override
@@ -342,7 +341,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     @OnClick(R.id.act_edit_ibtn_camera)
     protected void takePhotoFromCamera() {
 
-        mCurrentFile = ImageProcess.getDCIMNewImageFile(this);
+        mCurrentFile = ImageUtil.getDCIMNewImageFile(this);
         Uri current = Uri.fromFile(mCurrentFile);
         takePhoto.onPickFromCapture(current);
 
@@ -358,7 +357,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
 
     @Override
     public void takeFail(TResult result, String msg) {
-        logi(msg);
+        info(msg);
         mkToast(getString(R.string.editor_photo_error));
     }
 
@@ -437,7 +436,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
         FragmentTransaction transaction = manager.beginTransaction();
         EmotionMainFragment fragment = EmotionMainFragment.newInstance();
         fragment.setupTextEmotionBlocks(
-                ImageProcess.loadEmotionsFromAssets(this,getString(R.string.emotion_group_folder)),
+                ImageUtil.loadEmotionsFromAssets(this,getString(R.string.emotion_group_folder)),
                 this);
 
         transaction.replace(R.id.emotion_position, fragment);
@@ -462,7 +461,7 @@ public class EditActivity extends BaseImagePickActivity implements Communicator 
     }
 
     private ProgressDialog initDialog() {
-        waitingDialog = DialogStore.genProcessDialog(this, getString(R.string.dialog_edit_sendpost_title),
+        waitingDialog = DialogStore.createProcessDialog(this, getString(R.string.dialog_edit_sendpost_title),
                 getString(R.string.dialog_edit_sendpost_msg));
         waitingDialog.show();
         return waitingDialog;

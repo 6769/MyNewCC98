@@ -39,13 +39,13 @@ Use react and Typescript to write front part.
 
 ## Utilities
 Try to include some handy toolkits:
-- Share Topic to Another App. Done.
-- PhotoView Save to SDCard.   Done.
-- Topic to ScreenShot.
-- Funny emotion stickers.      Done;
+- Share Topic to Another App. 	Done.
+- PhotoView Save to SDCard.  	Done.
+- Topic to ScreenShot.		Partial
+- Funny emotion stickers.      	Done;
 
 # How to Compile
-Under AndroidStudio 3.0.1 , Gradle 4.1;
+Under AndroidStudio 3.1.1 , Gradle 4.4;
 
 be careful about the submodule git repos;
 ```

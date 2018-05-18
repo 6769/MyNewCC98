@@ -7,9 +7,19 @@
         android:icon="@drawable/ic_share_white_24dp"
         android:title="@string/menu_post_topic_share"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_postread_short_screen_capture"
+        android:title="@string/menu_postread_short_screen_capture"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menu_postread_long_screen_capture"
+        android:title="@string/menu_postread_long_screen_capture"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_postread_setting"
-        android:title="Setting"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
 
 </menu>

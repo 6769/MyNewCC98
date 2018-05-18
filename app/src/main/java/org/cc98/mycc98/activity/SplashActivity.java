@@ -4,16 +4,12 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.baidu.mobstat.StatService;
-import com.bumptech.glide.Glide;
-
-import com.google.gson.Gson;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
 import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.config.ApplicationConfig;
 import org.cc98.mycc98.config.UserConfig;
-import org.cc98.mycc98.service.VersionCheckService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +61,7 @@ public class SplashActivity extends BaseActivity {
         public void onError(Throwable e) {
             LoginActivity.startActivity(SplashActivity.this);
             mkToast("登陆异常/网络异常");
-            loge(e, "userLogin check failed,NewLogin");
+            error(e, "userLogin check failed,NewLogin");
             finish();
         }
 

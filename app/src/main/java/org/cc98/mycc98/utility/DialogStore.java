@@ -8,7 +8,7 @@ import android.content.Context;
  */
 
 public class DialogStore {
-    public static ProgressDialog genProcessDialog(Context context, String title, String msg) {
+    public static ProgressDialog createProcessDialog(Context context, String title, String msg) {
         ProgressDialog waitingDialog = new ProgressDialog(context);
         waitingDialog.setTitle(title);
         waitingDialog.setMessage(msg);

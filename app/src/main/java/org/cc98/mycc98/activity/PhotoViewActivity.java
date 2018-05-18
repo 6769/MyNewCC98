@@ -3,7 +3,6 @@ package org.cc98.mycc98.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -13,14 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.orhanobut.logger.Logger;
-
+import org.cc98.mycc98.utility.ScreenCapture;
 import org.cc98.mycc98.R;
-import org.cc98.mycc98.activity.base.BaseActivity;
 import org.cc98.mycc98.activity.base.BaseSwipeBackActivity;
 
 import java.io.File;
@@ -35,6 +31,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
+
 
 public class PhotoViewActivity extends BaseSwipeBackActivity {
     private static final String TAG = "PhotoViewActivity";
@@ -79,7 +77,7 @@ public class PhotoViewActivity extends BaseSwipeBackActivity {
                     .transition(withCrossFade())
                     .into(activityPhotoview);
         } catch (Exception e) {
-            loge(e, "Glide load custom failed");
+            error(e, "Glide load custom failed");
         }
 
 
@@ -101,7 +99,7 @@ public class PhotoViewActivity extends BaseSwipeBackActivity {
             case R.id.menu_photo_view_save:
 
                 item.setEnabled(false);
-                Observable.create(new FileSaver(getViewBitMap(activityPhotoview)))
+                Observable.create(new FileSaver(ScreenCapture.getViewBitmap(activityPhotoview)))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new FilesaveObserver(item));
@@ -138,13 +136,7 @@ public class PhotoViewActivity extends BaseSwipeBackActivity {
     }
 
 
-    private Bitmap getViewBitMap(View view) {
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();  //启用DrawingCache并创建位图
-        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache()); //创建一个DrawingCache的拷贝，因为DrawingCache得到的位图在禁用后会被回收
-        view.setDrawingCacheEnabled(false);
-        return bitmap;
-    }
+
 
     protected class FileSaver implements Observable.OnSubscribe<String> {
         private static final String TAG = "FileSaver";

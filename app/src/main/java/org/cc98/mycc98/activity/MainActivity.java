@@ -27,7 +27,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.cc98.mycc98.MainApplication;
@@ -48,9 +47,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import win.pipi.api.data.UserInfo;
 import win.pipi.api.network.CC98APIInterface;
 
@@ -221,7 +217,7 @@ public class MainActivity extends BaseActivity
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            logi("gotopic Canceled");
+                            info("gotopic Canceled");
                         }
                     })
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -232,7 +228,7 @@ public class MainActivity extends BaseActivity
                                 int topicId= Integer.valueOf(userInput);
                                 PostReadActivity.startActivity(MainActivity.this,topicId);
                             }catch (Exception e){
-                                loge(e,"input Error");
+                                error(e,"input Error");
                             }
 
                         }
@@ -279,7 +275,7 @@ public class MainActivity extends BaseActivity
                         .apply(options)
                         .into(userLogo);
             }catch (Exception e){
-                loge(e,"Glide load userpic failed");
+                error(e,"Glide load userpic failed");
             }
 
         }

@@ -14,8 +14,9 @@ postread/
 update/
 
 *.apk
-output.json
 
 *release/*
 
 *.log
+*.json
+

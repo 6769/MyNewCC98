@@ -1,41 +1,15 @@
 package org.cc98.mycc98.activity.base;
 
-import android.annotation.TargetApi;
-import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 
-import com.baidu.mobstat.StatService;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.ChromeClientCallbackManager;
 import com.orhanobut.logger.Logger;
-
-import org.cc98.mycc98.MainApplication;
-import org.cc98.mycc98.R;
-import org.cc98.mycc98.activity.UserProfileActivity;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
-import okhttp3.Response;
-import win.pipi.api.network.CC98APIInterface;
-import win.pipi.api.network.CC98APIManager;
 
 /**
  * Created by pipi6 on 2018/1/9.
@@ -52,7 +26,7 @@ public class BaseWebViewActivity extends BaseSwipeBackActivity implements Chrome
 
 
     protected void initWebView(String url) {
-        logi(url);
+        info(url);
         urlToLoad = url;
 
         if (mLinearLayout == null) {
