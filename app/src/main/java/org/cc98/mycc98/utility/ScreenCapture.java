@@ -22,13 +22,10 @@ public class ScreenCapture {
         }
         v.setDrawingCacheEnabled(true);
         v.buildDrawingCache();
-        if (Build.VERSION.SDK_INT >= 11) {
-            v.measure(View.MeasureSpec.makeMeasureSpec(v.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(v.getHeight(), View.MeasureSpec.EXACTLY));
-            v.layout((int) v.getX(), (int) v.getY(), (int) v.getX() + v.getMeasuredWidth(), (int) v.getY() + v.getMeasuredHeight());
-        } else {
-            v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
-        }
+
+        v.measure(View.MeasureSpec.makeMeasureSpec(v.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(v.getHeight(), View.MeasureSpec.EXACTLY));
+        v.layout((int) v.getX(), (int) v.getY(), (int) v.getX() + v.getMeasuredWidth(), (int) v.getY() + v.getMeasuredHeight());
+
         Bitmap bp = Bitmap.createBitmap(v.getDrawingCache(), 0, 0, v.getMeasuredWidth(), v.getMeasuredHeight() - v.getPaddingBottom());
         v.setDrawingCacheEnabled(false);
         v.destroyDrawingCache();
@@ -41,13 +38,9 @@ public class ScreenCapture {
         }
         v.setDrawingCacheEnabled(true);
         v.buildDrawingCache();
-        if (Build.VERSION.SDK_INT >= 11) {
-            v.measure(View.MeasureSpec.makeMeasureSpec(v.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(v.getHeight(), View.MeasureSpec.EXACTLY));
-            v.layout((int) v.getX(), (int) v.getY(), (int) v.getX() + v.getMeasuredWidth(), (int) v.getY() + v.getMeasuredHeight());
-        } else {
-            v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
-        }
+        v.measure(View.MeasureSpec.makeMeasureSpec(v.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(v.getHeight(), View.MeasureSpec.EXACTLY));
+        v.layout((int) v.getX(), (int) v.getY(), (int) v.getX() + v.getMeasuredWidth(), (int) v.getY() + v.getMeasuredHeight());
+
         Bitmap b = Bitmap.createBitmap(v.getDrawingCache(), 0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         v.setDrawingCacheEnabled(false);
         v.destroyDrawingCache();
@@ -60,6 +53,14 @@ public class ScreenCapture {
      * @param view
      * @return
      */
+    protected static int LONGCAPTURE_LIMITS=11;
+
+    public static boolean isSaftHeightSize(WebView view){
+        int visualH=view.getHeight();
+        int realH=(int)(view.getContentHeight()*view.getScale());
+        return realH/visualH <=LONGCAPTURE_LIMITS;
+    }
+
     public static Bitmap getWebViewBitmap(Context context, WebView view) {
         if (null == view) return null;
         view.scrollTo(0, 0);
@@ -71,11 +72,13 @@ public class ScreenCapture {
         int vh = view.getHeight();
         // 容器内容实际高度
         int th = (int)(view.getContentHeight()*view.getScale());
-        Bitmap temp = null;
+        Bitmap temp;
+        int count=0;
         if (th > vh) {
             int w = getScreenWidth(context);
             int absVh = vh - view.getPaddingTop() - view.getPaddingBottom();
             do {
+                count++;
                 int restHeight = th - vh;
                 if (restHeight <= absVh) {
                     view.scrollBy(0, restHeight);
@@ -87,7 +90,7 @@ public class ScreenCapture {
                     temp = getViewBitmapWithoutBottom(view);
                 }
                 bitmap = mergeBitmap(vh, w, temp, 0, view.getScrollY(), bitmap, 0, 0);
-            } while (vh < th);
+            } while (vh < th );
         }
         // 回滚到顶部
         view.scrollTo(0, 0);
@@ -127,13 +130,9 @@ public class ScreenCapture {
      */
     public static int getScreenWidth(Context ctx) {
         int w = 0;
-        if (Build.VERSION.SDK_INT > 13) {
-            Point p = new Point();
-            ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(p);
-            w = p.x;
-        } else {
-            w = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
-        }
+        Point p = new Point();
+        ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(p);
+        w = p.x;
         return w;
     }
 

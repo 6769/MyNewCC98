@@ -109,4 +109,5 @@
     <string name="emotion_group_folder">postread/images</string>
     <string name="menu_postread_long_screen_capture">长截图</string>
     <string name="menu_postread_short_screen_capture">截图</string>
+    <string name="menu_postread_long_screen_capture_failed_msg">图像太长，无法截图</string>
 </resources>

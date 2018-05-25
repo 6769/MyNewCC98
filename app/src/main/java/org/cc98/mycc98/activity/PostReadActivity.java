@@ -1,6 +1,7 @@
 package org.cc98.mycc98.activity;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.cc98.mycc98.MainApplication;
 import org.cc98.mycc98.R;
@@ -31,9 +33,11 @@ import org.cc98.mycc98.utility.ShareContent;
 import org.cc98.mycc98.webview.ObservableWebView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Observer;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -52,6 +56,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
     private FloatingActionButton fab;
     private ActionBar actionBar;
 
+    private RxPermissions rxPermissions ;
 
     private Resources resources;
     private File captureFileToSave;
@@ -98,6 +103,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
                         onClick(null);
                     }
                 });
+        rxPermissions = new RxPermissions(this);
 
         webView.setOnScrollChangedCallback(new ScrollChangeLisner());
 
@@ -161,12 +167,12 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
                 break;
 
             case R.id.menu_postread_long_screen_capture:
-
+                createScreenCapture(true);
                 break;
 
                 
             case R.id.menu_postread_short_screen_capture:
-                createScreenCapture();
+                createScreenCapture(false);
                 break;
 
             case R.id.menu_postread_setting:
@@ -189,32 +195,62 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
     * the following codes has hazardous for OOM;
     * */
 
-    protected void createScreenCapture() {
+    protected void createScreenCapture(final boolean islong) {
         captureFileToSave = ImageUtil.getDCIMNewImageFile(this);
-        info("creating: captureFileToSave" + captureFileToSave);
+        info("creating: captureFileToSave:" + captureFileToSave);
 
-        Observable.just(webView)
+        Observable.just(null).compose(rxPermissions.ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<ObservableWebView, Observable<Bitmap>>() {
+                .flatMap(new Func1<Boolean, Observable<Bitmap>>() {
                     @Override
-                    public Observable<Bitmap> call(ObservableWebView observableWebView) {
-                        //Bitmap bitmap = ScreenCapture.getWebViewBitmap(PostReadActivity.this, observableWebView);
-                        Bitmap bitmap=ScreenCapture.getViewBitmap(observableWebView);
+                    public Observable<Bitmap> call(Boolean aBoolean) {
+                        //has granted
+                        if(!aBoolean){
+                            return Observable.error(new FileNotFoundException("User not granted=="));
+                        }
+
+                        //size is limited
+                        if(!ScreenCapture.isSaftHeightSize(webView)){
+                            String msg=getString(R.string.menu_postread_long_screen_capture_failed_msg);
+                            mkToast(msg);
+                            return Observable.error(new Exception(msg));
+                        }
+
+
+                        Bitmap bitmap;
+                        if(islong){
+                            bitmap= ScreenCapture.getWebViewBitmap(PostReadActivity.this, webView);
+                        }else {
+                            bitmap= ScreenCapture.getViewBitmap(webView);
+                        }
                         return Observable.just(bitmap);
+
                     }
                 })
                 .observeOn(Schedulers.io())
-                .map(new Func1<Bitmap, Object>() {
+                .map(new Func1<Bitmap, File>() {
                     @Override
-                    public Object call(Bitmap bitmap) {
+                    public File call(Bitmap bitmap) {
                         ImageUtil.saveBitmapToFile(PostReadActivity.this, bitmap, captureFileToSave);
                         return captureFileToSave;
                     }
                 })
-                .subscribe(new Action1<Object>() {
+                .subscribe(new Observer<File>() {
                     @Override
-                    public void call(Object o) {
-                        info(o.toString());
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        error(e,"screen capture");
+                    }
+
+                    @Override
+                    public void onNext(File file) {
+                        info(file.toString());
+                        ShareContent.sharePhoto(PostReadActivity.this ,Uri.fromFile(file));
                     }
                 });
 

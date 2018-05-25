@@ -133,10 +133,12 @@ public class ImageUtil {
      * @return
      */
     public static boolean saveBitmapToFile(Context context, @NonNull Bitmap bitmap, File fileToSave) {
+        return saveBitmapToFile(context,bitmap,fileToSave,90);
+    }
 
+
+    public static boolean saveBitmapToFile(Context context, @NonNull Bitmap bitmap, File fileToSave, int quality){
         Bitmap.CompressFormat format= Bitmap.CompressFormat.PNG;
-        int quality = 80;
-
         if (fileToSave.exists() && !fileToSave.delete())
             return false;
         try {
