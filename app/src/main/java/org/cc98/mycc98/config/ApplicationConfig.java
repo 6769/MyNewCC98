@@ -14,7 +14,7 @@ public class ApplicationConfig {
     private static ApplicationConfig instance;
 
 
-    public static Boolean getIsDebugMode() {
+    public static Boolean isDebugMode() {
         return isDebugMode;
     }
 
@@ -35,7 +35,7 @@ public class ApplicationConfig {
     public static void init(Context context){
         String md5sig=AppInfo.getMd5SignString(context);
         LogUtil.i(md5sig);
-        isDebugMode=AppInfo.isDebugMd5Sign(md5sig);
+        isDebugMode=AppInfo.isDebugMd5Sign(context,md5sig);
 
         //isDebugMode=true;
         statEnable=!isDebugMode;

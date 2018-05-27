@@ -91,6 +91,7 @@
     <string name="activity_splash_echo_title">MyCC98 for Android</string>
     <string name="application_opensources_license">Open sources</string>
     <string name="service_update_versionchecker_url">http://api.5pipi.win/mycc98/update.json</string>
+    <string name="service_update_versionchecker_url_local">http://192.168.123.119:8080/update.json</string>
     <string name="application_github_website_url">https://github.com/6769/MyNewCC98</string>
     <string name="application_contact_email_addr">5pipitk@gmail.com</string>
     <string name="application_contact_github_user">6769</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.net.Uri;
@@ -11,6 +12,8 @@ import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -112,7 +115,7 @@ public class ScreenCapture {
      * @param foreY
      * @return
      */
-    private static Bitmap mergeBitmap(int newImageH, int newImageW, Bitmap background, float backX, float backY, Bitmap foreground, float foreX, float foreY) {
+    public static Bitmap mergeBitmap(int newImageH, int newImageW, Bitmap background, float backX, float backY, Bitmap foreground, float foreX, float foreY) {
         if (null == background || null == foreground) {
             return null;
         }
@@ -134,6 +137,48 @@ public class ScreenCapture {
         ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(p);
         w = p.x;
         return w;
+    }
+
+    /**
+     * 截取scrollview的屏幕
+     **/
+    public static Bitmap getScrollViewBitmap(ScrollView scrollView) {
+        int h = 0;
+        Bitmap bitmap;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            h += scrollView.getChildAt(i).getHeight();
+        }
+        // 创建对应大小的bitmap
+
+        bitmap = Bitmap.createBitmap(getScreenWidth(scrollView.getContext()), h,
+                Bitmap.Config.ARGB_4444);
+        final Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.parseColor("#f2f7fa"));
+        scrollView.draw(canvas);
+        return bitmap;
+    }
+
+    /**
+     * 生成某个LinearLayout的图片
+     *
+     * @author gengqiquan
+     * @date 2017/3/20 上午10:34
+     */
+    public static Bitmap getLinearLayoutBitmap(LinearLayout linearLayout) {
+        int h = 0;
+        // 获取LinearLayout实际高度
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            linearLayout.getChildAt(i).measure(0, 0);
+            h += linearLayout.getChildAt(i).getMeasuredHeight();
+        }
+        linearLayout.measure(0, 0);
+        // 创建对应大小的bitmap
+        Bitmap bitmap = Bitmap.createBitmap(linearLayout.getMeasuredWidth(), h,
+                Bitmap.Config.RGB_565);
+        final Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        linearLayout.draw(canvas);
+        return bitmap;
     }
 
 

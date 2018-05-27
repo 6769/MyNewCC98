@@ -4,9 +4,14 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.util.Log;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created by pipi6 on 2018/1/26.
@@ -14,7 +19,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class AppInfo {
 
-    public static final String DEBUG_SIGN = "c3cfb855fbf9c54cb60b0773d782ff81";
+    public static final String TAG=AppInfo.class.getSimpleName();
+    private static final String LICENSE_PATH ="hash/license";
     public static String name;
     public static final String ERRORNAME = "VersionName Error";
 
@@ -39,8 +45,23 @@ public class AppInfo {
 
     }
 
-    public static boolean isDebugMd5Sign(String sig) {
-        return DEBUG_SIGN.equalsIgnoreCase(sig);
+    public static boolean isDebugMd5Sign(Context context,String sig) {
+
+        try {
+            InputStream stream=context.getAssets().open(LICENSE_PATH);//release key hash
+            BufferedReader reader=new BufferedReader(new InputStreamReader(stream));
+            String savedMd5=reader.readLine().trim();
+            reader.close();
+            stream.close();
+            Log.d(TAG,savedMd5+" "+sig);
+            return !savedMd5.equalsIgnoreCase(sig);
+
+
+
+        }catch (Exception e){
+            LogUtil.e(e,"assets");
+            return true;
+        }
     }
 
 

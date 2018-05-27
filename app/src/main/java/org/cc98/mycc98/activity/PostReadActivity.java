@@ -38,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Observer;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -82,7 +81,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean localSettingDebug = preferences.getBoolean(getString(R.string.pref_debug_mode_key), false);
-        String urlTemplate = ApplicationConfig.getIsDebugMode() && localSettingDebug ? getString(R.string.postview_remote_template) : getString(R.string.postview_local_template);
+        String urlTemplate = ApplicationConfig.isDebugMode() && localSettingDebug ? getString(R.string.postview_remote_template) : getString(R.string.postview_local_template);
 
         String url = urlTemplate + topicId;
         actionBar = getSupportActionBar();
@@ -209,6 +208,7 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
                             return Observable.error(new FileNotFoundException("User not granted=="));
                         }
 
+
                         //size is limited
                         if(!ScreenCapture.isSaftHeightSize(webView)){
                             String msg=getString(R.string.menu_postread_long_screen_capture_failed_msg);
@@ -231,6 +231,10 @@ public class PostReadActivity extends BaseWebViewActivity implements View.OnClic
                 .map(new Func1<Bitmap, File>() {
                     @Override
                     public File call(Bitmap bitmap) {
+                        File parent=captureFileToSave.getParentFile();
+                        if(!parent.exists()){
+                            parent.mkdirs();
+                        }
                         ImageUtil.saveBitmapToFile(PostReadActivity.this, bitmap, captureFileToSave);
                         return captureFileToSave;
                     }

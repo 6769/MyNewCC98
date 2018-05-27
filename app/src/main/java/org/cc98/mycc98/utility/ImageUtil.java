@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -102,10 +103,13 @@ public class ImageUtil {
 
 
     public static File getDCIMNewImageFile(Context context) {
-        File PHOTO_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        String[] appnames=context.getPackageName().split(".");
+        String foldername=appnames[appnames.length-1];
+        File folder=new File(directory,foldername);
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat(context.getString(R.string.editor_photo_name_template), Locale.CHINA);
-        return new File(PHOTO_DIR, dateFormat.format(date));
+        return new File(folder, dateFormat.format(date));
     }
 
     @Deprecated
@@ -153,5 +157,42 @@ public class ImageUtil {
             LogUtil.e(e,"saveBitmapToFile failed");
             return false;
         }
+    }
+
+    public static Bitmap appendBitmapToTail(Bitmap major,Bitmap tail){
+        int h1=major.getHeight();
+        int w1=major.getWidth();
+        int h2=tail.getHeight();
+        int w2=tail.getWidth();
+        Bitmap bitmap=tail;
+        if(w2>w1){
+            bitmap=scaleBitmap(tail,w1*1.0f/w2);
+            w2=w1;
+        }
+
+        return ScreenCapture.mergeBitmap(h1+h2,w1,major,0,0,bitmap,h1,w1-w2);
+    }
+
+    /**
+     * 按比例缩放图片
+     *
+     * @param origin 原图
+     * @param ratio  比例
+     * @return 新的bitmap
+     */
+    public static Bitmap scaleBitmap(Bitmap origin, float ratio) {
+        if (origin == null) {
+            return null;
+        }
+        int width = origin.getWidth();
+        int height = origin.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.preScale(ratio, ratio);
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (newBM.equals(origin)) {
+            return newBM;
+        }
+        origin.recycle();
+        return newBM;
     }
 }

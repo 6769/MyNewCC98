@@ -3,7 +3,6 @@ package org.cc98.mycc98.service;
 import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -17,7 +16,7 @@ import org.cc98.mycc98.config.ApplicationConfig;
 import org.cc98.mycc98.utility.InternetUtil;
 
 public class VersionCheckService extends AVersionService {
-    public static final String TAG = "VersionCheckService";
+    public static final String TAG = VersionCheckService.class.getSimpleName();
 
 
     public VersionCheckService() {
@@ -49,17 +48,17 @@ public class VersionCheckService extends AVersionService {
 
     @Override
     public IBinder onBind(Intent intent) {
-
         return null;
     }
 
     public static void initVersionCheckerService(Application application) {
 
-        if(ApplicationConfig.getIsDebugMode()){
-            return;
-        }
+
+        String url= ApplicationConfig.isDebugMode() ?
+                application.getString(R.string.service_update_versionchecker_url_local)
+                :application.getString(R.string.service_update_versionchecker_url);
         VersionParams.Builder builder = new VersionParams.Builder()
-                .setRequestUrl(application.getString(R.string.service_update_versionchecker_url))
+                .setRequestUrl(url)
                 .setDownloadAPKPath(application.getCacheDir().getAbsolutePath()+"/")
                 .setPauseRequestTime(300*1000) //every 300seconds retry pull update i.
                 .setService(VersionCheckService.class);

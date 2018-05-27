@@ -41,7 +41,7 @@ Use react and Typescript to write front part.
 Try to include some handy toolkits:
 - Share Topic to Another App. 	Done.
 - PhotoView Save to SDCard.  	Done.
-- Topic to ScreenShot.		Partial
+- Topic to ScreenShot.		    Done.
 - Funny emotion stickers.      	Done;
 
 # How to Compile
