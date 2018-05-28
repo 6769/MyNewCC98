@@ -104,7 +104,7 @@ public class ImageUtil {
 
     public static File getDCIMNewImageFile(Context context) {
         File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        String[] appnames=context.getPackageName().split(".");
+        String[] appnames=context.getPackageName().split("\\.");
         String foldername=appnames[appnames.length-1];
         File folder=new File(directory,foldername);
         Date date = new Date();
